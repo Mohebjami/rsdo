@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1046325775468",
+    "project_id": "rsdo-database",
+    "storage_bucket": "rsdo-database.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1046325775468:android:e139410e767b06eb75dc49",
+        "android_client_info": {
+          "package_name": "com.example.rsdo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1046325775468-pu5c7oiu2vjo7o5nu8fti0f87v19viqm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAncFHkQyLz4dwzshRLkqffjWT-7siDYOY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1046325775468-pu5c7oiu2vjo7o5nu8fti0f87v19viqm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
