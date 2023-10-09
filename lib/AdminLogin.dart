@@ -1,6 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+<<<<<<< HEAD
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+=======
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:overlay_support/overlay_support.dart';
+>>>>>>> 70a235f (Second commit)
 
 class AdminLogin extends StatefulWidget {
   const AdminLogin({super.key});
@@ -12,10 +19,16 @@ class AdminLogin extends StatefulWidget {
 class _AdminLoginState extends State<AdminLogin> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
+<<<<<<< HEAD
 
   String myEmail = "moheb";
   String pass = "123";
 
+=======
+  bool hasInternet = false;
+  int press = 0;
+  late bool _isLoding;
+>>>>>>> 70a235f (Second commit)
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -101,6 +114,7 @@ class _AdminLoginState extends State<AdminLogin> {
                       backgroundColor: const Color(0xff4c505b),
                       child: IconButton(
                         color: Colors.white,
+<<<<<<< HEAD
                         onPressed: () {
                           // if (myEmail == email.text && pass == password.text) {
                             Navigator.pushNamed(context, "export");
@@ -113,6 +127,84 @@ class _AdminLoginState extends State<AdminLogin> {
                           //     duration: Duration(seconds: 2),
                           //   ));
                           // }
+=======
+                        onPressed: () async{
+                          setState(() {
+                            showDialog(context: context, builder: (context){
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            });
+                          });
+                            hasInternet = await InternetConnectionChecker().hasConnection;
+                          Navigator.of(context).pop();
+                            if(!hasInternet){
+                              return showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: const Text('No Internet' , style: TextStyle(color: Colors.red),),
+                                      icon: const Icon(Icons.error),
+                                      iconColor: Colors.red,
+                                      content: const Text('Please connect to internet'),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          child: const Text('Done'),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  }
+                              );
+                            }
+                            else{
+                              var data;
+                              int i = 0;
+                              press++;
+                              setState(() {
+                                showDialog(context: context, builder: (context){
+                                  return Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                });
+                              });
+                              final QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('Accounts').get();
+                              Navigator.of(context).pop();
+                              while (i < snapshot.docs.length) {
+                                data = snapshot.docs[i].data() as Map<String, dynamic>;
+                                if (data['Email'] == email.text && data['Password'] == password.text) {
+                                  Navigator.pushNamed(context, "export");
+                                  break;
+                                }
+                                else if (press > 3) {
+                                  press = 0;
+                                  setState(() {
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(const SnackBar(
+                                      content: Text(
+                                          'If you forget you Email or password connect to admin'),
+                                      backgroundColor: Color.fromRGBO(47, 47, 94, 1),
+                                      showCloseIcon: true,
+                                      duration: Duration(seconds: 2),
+                                    ));
+                                  });
+                                } else {
+                                  setState(() {
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(const SnackBar(
+                                      content: Text('Wrong username or password'),
+                                      backgroundColor: Color.fromRGBO(47, 47, 94, 1),
+                                      showCloseIcon: true,
+                                      duration: Duration(seconds: 2),
+                                    ));
+                                  });
+                                }
+                                i++;
+                              }
+                            }
+>>>>>>> 70a235f (Second commit)
                         },
                         icon: const Icon(
                           Icons.arrow_forward,
@@ -125,6 +217,7 @@ class _AdminLoginState extends State<AdminLogin> {
                 const SizedBox(
                   height: 40,
                 ),
+<<<<<<< HEAD
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -142,6 +235,8 @@ class _AdminLoginState extends State<AdminLogin> {
                         ))
                   ],
                 )
+=======
+>>>>>>> 70a235f (Second commit)
               ],
             ),
           ),
@@ -149,6 +244,7 @@ class _AdminLoginState extends State<AdminLogin> {
       ],
     );
   }
+<<<<<<< HEAD
 
 
   // late var client,id,clients,data;
@@ -206,3 +302,6 @@ class _AdminLoginState extends State<AdminLogin> {
 //     print('End');
 //   }
 // }
+=======
+}
+>>>>>>> 70a235f (Second commit)

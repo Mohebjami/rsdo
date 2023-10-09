@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rsdo/AdminLogin.dart';
-import 'package:rsdo/Sarvear.dart';
+import 'package:rsdo/Surveyor.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({Key? key}) : super(key: key);
@@ -38,7 +38,7 @@ class _WelcomePageState extends State<WelcomePage> {
             ),
           ),
           backgroundColor: Colors.transparent,
-          body: TabBarView(
+          body: const TabBarView(
             children: [
               AdminLogin(),
               Sarvear(),
