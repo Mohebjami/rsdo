@@ -1,19 +1,16 @@
-import 'package:cloud_firestore/cloud_firestore.dart' ;
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
-class FetchData extends StatefulWidget {
-  final data;
-  const FetchData({super.key, required this.data});
+class FetchDataAdmin extends StatefulWidget {
+  const FetchDataAdmin({super.key});
 
   @override
-  State<FetchData> createState() => _FetchDataState();
+  State<FetchDataAdmin> createState() => _FetchDataAdminState();
 }
 
-
-
-class _FetchDataState extends State<FetchData> {
+class _FetchDataAdminState extends State<FetchDataAdmin> {
   late var client, id, clients, data, data2;
   bool isPaid = true;
   var name = "";
@@ -23,7 +20,7 @@ class _FetchDataState extends State<FetchData> {
     double fullScreenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        title: Text("${widget.data}"),
+        title: const Text("Search Clients"),
         backgroundColor: const Color.fromRGBO(47, 47, 94, 1),
       ),
       body: Container(
@@ -65,14 +62,10 @@ class _FetchDataState extends State<FetchData> {
           StreamBuilder<QuerySnapshot>(
               stream:
                   FirebaseFirestore.instance.collection('Clients').snapshots(),
-
               builder: (context, snapshots) {
                 return (snapshots.connectionState == ConnectionState.waiting)
                     ? const Center(
-                        child: CircularProgressIndicator(
-                          color: Colors.white,
-                          backgroundColor: Colors.grey,
-                        ),
+                        child: CircularProgressIndicator(),
                       )
                     : Padding(
                         padding: const EdgeInsets.only(top: 65.0),
@@ -81,7 +74,8 @@ class _FetchDataState extends State<FetchData> {
                           child: ListView.builder(
                             itemCount: snapshots.data!.docs.length,
                             itemBuilder: (context, index) {
-                              data = snapshots.data!.docs[index].data() as Map<String, dynamic>;
+                              data = snapshots.data!.docs[index].data()
+                                  as Map<String, dynamic>;
                               clients = snapshots.data?.docs.reversed.toList();
                               if (name.isEmpty) {
                                 return ListTile(
@@ -91,11 +85,22 @@ class _FetchDataState extends State<FetchData> {
                                   subtitle: Text(
                                     data['Father Name'],
                                   ),
+
                                 );
                               }
-                              if (data['Household Name Code'].toString().toLowerCase().startsWith(name.toLowerCase()) || data['Mobile Number'].toString().toLowerCase().startsWith(name.toLowerCase())) {
-                                data2 = snapshots.data!.docs[index].data() as Map<String, dynamic>;
-                                final CollectionReference client = FirebaseFirestore.instance.collection("Paid");
+                              if (data['Household Name Code']
+                                      .toString()
+                                      .toLowerCase()
+                                      .startsWith(name.toLowerCase()) ||
+                                  data['Mobile Number']
+                                      .toString()
+                                      .toLowerCase()
+                                      .startsWith(name.toLowerCase())) {
+                                data2 = snapshots.data!.docs[index].data()
+                                    as Map<String, dynamic>;
+                                final CollectionReference client =
+                                    FirebaseFirestore.instance
+                                        .collection("Paid");
                                 return Slidable(
                                   enabled: isPaid,
                                   closeOnScroll: true,
@@ -103,52 +108,47 @@ class _FetchDataState extends State<FetchData> {
                                       motion: const StretchMotion(),
                                       children: [
                                         SlidableAction(
-                                          backgroundColor: Colors.red,
-                                          icon: Icons.check,
-                                          label: 'Paid',
-                                          onPressed: (context) async {
-                                                    try {
-                                                      var record = {
-                                                        'S/N': data2['SN'],
-                                                        'Household ID': data2['Household ID'],
-                                                        'Household Name Code': data2['Household Name Code'],
-                                                        'Recipient Name': data2['Recipient Name'],
-                                                        'Recipient Last Name': data2['Recipient Last Name'],
-                                                        'Father Name': data2['Father Name'],
-                                                        'Recipient Gender': data2['Recipient Gender'],
-                                                        'Recipient Document List': data2['Recipient Document List'],
-                                                        'Phone Number': data2['Phone Number'],
-                                                        'Mobile Number': data2['Mobile Number'],
-                                                        'Account Number': data2['Account Number'],
-                                                        'Alternate Recipient': data2['Alternate Recipient'],
-                                                        'Address': data2['Address'],
-                                                        'Region': data2['Region'],
-                                                        'province': data2['province'],
-                                                        'District': data2['District'],
-                                                        'Amount': data2['Amount'],
-                                                        'Store Name': "${widget.data}",
-                                                      };
-                                                      client.add(record);
-                                                      ScaffoldMessenger.of(context)
-                                                          .showSnackBar(const SnackBar(
-                                                        content: Text('Paid'),
-                                                        backgroundColor: Color.fromRGBO(
-                                                            47, 47, 94, 1),
-                                                        showCloseIcon: true,
-                                                        duration: Duration(seconds: 2),
-                                                      ));
-                                                    } catch (err) {
-                                                      ScaffoldMessenger.of(context)
-                                                          .showSnackBar( SnackBar(
-                                                        content: Text("$err"),
-                                                        backgroundColor: const Color.fromRGBO(
-                                                            47, 47, 94, 1),
-                                                        showCloseIcon: true,
-                                                        duration: const Duration(seconds: 2),
-                                                      ));
-                                                    }
-                                            }
-                                        )
+                                            backgroundColor: Colors.red,
+                                            icon: Icons.check,
+                                            label: 'Paid',
+                                            onPressed: (context) async {
+                                              try {
+                                                var record = {
+                                                  'S/N': data2['SN'],
+                                                  'Household ID': data2['Household ID'],
+                                                  'Household Name Code': data2['Household Name Code'],
+                                                  'Recipient Name': data2['Recipient Name'],
+                                                  'Recipient Last Name': data2['Recipient Last Name'],
+                                                  'Father Name': data2['Father Name'],
+                                                  'Recipient Gender': data2['Recipient Gender'],
+                                                  'Recipient Document List': data2['Recipient Document List'],
+                                                  'Phone Number': data2['Phone Number'],
+                                                  'Mobile Number': data2['Mobile Number'],
+                                                  'Account Number': data2['Account Number'],
+                                                  'Alternate Recipient': data2['Alternate Recipient'],
+                                                  'Address': data2['Address'],
+                                                  'Region': data2['Region'],
+                                                  'province': data2['province'],
+                                                  'District': data2['District'],
+                                                  'Amount': data2['Amount'],
+                                                  'Store Name': "Paid with Admin",
+                                                };
+                                                client.add(record);
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                        const SnackBar(
+                                                  content: Text('Paid'),
+                                                  backgroundColor:
+                                                      Color.fromRGBO(
+                                                          47, 47, 94, 1),
+                                                  showCloseIcon: true,
+                                                  duration:
+                                                      Duration(seconds: 2),
+                                                ));
+                                              } catch (err) {
+                                                print(err);
+                                              }
+                                            })
                                       ]),
                                   child: ListTile(
                                     title: Text(
@@ -169,9 +169,11 @@ class _FetchDataState extends State<FetchData> {
         ]),
       ),
       floatingActionButton: MaterialButton(
-        onPressed: () async{
+        onPressed: () async {
+          //
           // Call the function to check for duplicate data
           final isDuplicate = await checkForDuplicateData(name);
+
           // If duplicate data is found, disable the paid button
           if (isDuplicate) {
             // Disable the paid button
@@ -181,7 +183,7 @@ class _FetchDataState extends State<FetchData> {
                   builder: (BuildContext context) {
                     return AlertDialog(
                       title: const Text('duplicate'),
-                      content:  const Text("This data is duplicate"),
+                      content: const Text("This data is duplicate"),
                       actions: <Widget>[
                         TextButton(
                           child: const Text('Done'),
@@ -191,8 +193,7 @@ class _FetchDataState extends State<FetchData> {
                         ),
                       ],
                     );
-                  }
-              );
+                  });
             });
             setState(() {
               isPaid = false;
@@ -215,17 +216,19 @@ class _FetchDataState extends State<FetchData> {
                         ),
                       ],
                     );
-                  }
-              );
+                  });
             });
             setState(() {
               isPaid = true;
             });
           }
         },
-        color:  const Color.fromRGBO(13, 110, 253, 1),
+        color: const Color.fromRGBO(13, 110, 253, 1),
         hoverColor: const Color.fromRGBO(153, 217, 234, 0.2),
-        child: const Text("Cheek duplicate", style: TextStyle(color: Colors.white),),
+        child: const Text(
+          "Cheek duplicate",
+          style: TextStyle(color: Colors.white),
+        ),
       ),
     );
   }
@@ -240,8 +243,10 @@ Future<bool> checkForDuplicateData(String clientId) async {
   final table2Ref = FirebaseFirestore.instance.collection('Paid');
 
   // Query the tables for data with the specified clientId
-  final table1Snapshot = await table1Ref.where('Household Name Code', isEqualTo: clientId).get();
-  final table2Snapshot = await table2Ref.where('Household Name Code', isEqualTo: clientId).get();
+  final table1Snapshot =
+      await table1Ref.where('Household Name Code', isEqualTo: clientId).get();
+  final table2Snapshot =
+      await table2Ref.where('Household Name Code', isEqualTo: clientId).get();
 
   // Check if data was found in both tables
   if (table1Snapshot.docs.isNotEmpty && table2Snapshot.docs.isNotEmpty) {
@@ -251,5 +256,3 @@ Future<bool> checkForDuplicateData(String clientId) async {
   // Return the result
   return isDuplicate;
 }
-
-

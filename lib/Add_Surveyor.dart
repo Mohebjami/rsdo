@@ -40,7 +40,7 @@ class _Add_SarverState extends State<Add_Sarver> {
                         fontFamily: "RobotoSlab"
                     ),
                   ),Text(
-                    ' Sarver',
+                    ' Surveyor',
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
@@ -130,6 +130,9 @@ class _Add_SarverState extends State<Add_Sarver> {
                             color: Colors.white,
                             onPressed: () {
                               exportData();
+                              user.clear();
+                              email.clear();
+                              password.clear();
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(const SnackBar(
                                 content: Text('Successfully added'),
@@ -156,9 +159,9 @@ class _Add_SarverState extends State<Add_Sarver> {
 
   void exportData() async {
     try {
-      CollectionReference collRef = FirebaseFirestore.instance.collection('Sarvers');
+      CollectionReference collRef = FirebaseFirestore.instance.collection('Surveyor');
       collRef.add({
-        'User name': user.text,
+        'Surveyor': user.text,
         'Email': email.text,
         'Password': password.text,
       });

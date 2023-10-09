@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -11,13 +10,9 @@ class Add_Admin extends StatefulWidget {
 }
 
 class _Add_AdminState extends State<Add_Admin> {
-
   TextEditingController user = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
-
-  String myEmail = "moheb@gmail.com";
-  String pass = "123";
 
   @override
   Widget build(BuildContext context) {

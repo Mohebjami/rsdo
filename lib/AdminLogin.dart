@@ -1,10 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:overlay_support/overlay_support.dart';
 
 class AdminLogin extends StatefulWidget {
   const AdminLogin({super.key});
@@ -16,7 +13,11 @@ class AdminLogin extends StatefulWidget {
 class _AdminLoginState extends State<AdminLogin> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
+  String myEmail = "moheb@moheb.com";
+  String pass = "1moheb@296";
+  late var test_data;
   bool hasInternet = false;
+  bool isCorrect = false;
   int press = 0;
   late bool _isLoding;
   @override
@@ -108,11 +109,32 @@ class _AdminLoginState extends State<AdminLogin> {
                           setState(() {
                             showDialog(context: context, builder: (context){
                               return const Center(
-                                child: CircularProgressIndicator(),
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                  backgroundColor: Colors.grey,
+                                ),
                               );
                             });
                           });
+                          try{
                             hasInternet = await InternetConnectionChecker().hasConnection;
+                          }catch (_) {
+                            // Handle exception
+                             AlertDialog(
+                              title: const Text('No Internet' , style: TextStyle(color: Colors.red),),
+                              icon: Image(image: AssetImage("assets/no-wifi.png"), width: 35,height: 35,),
+                              iconColor: Colors.red,
+                              content: const Text('Problem is on Internet connection' , style: TextStyle(color: Colors.red)),
+                              actions: <Widget>[
+                                TextButton(
+                                  child: const Text('Done'),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            );
+                          }
                           Navigator.of(context).pop();
                             if(!hasInternet){
                               return showDialog(
@@ -120,9 +142,9 @@ class _AdminLoginState extends State<AdminLogin> {
                                   builder: (BuildContext context) {
                                     return AlertDialog(
                                       title: const Text('No Internet' , style: TextStyle(color: Colors.red),),
-                                      icon: const Icon(Icons.error),
+                                      icon: Image(image: AssetImage("assets/no-wifi.png"), width: 35,height: 35,),
                                       iconColor: Colors.red,
-                                      content: const Text('Please connect to internet'),
+                                      content: const Text('Problem is on Internet connection' , style: TextStyle(color: Colors.red)),
                                       actions: <Widget>[
                                         TextButton(
                                           child: const Text('Done'),
@@ -142,7 +164,10 @@ class _AdminLoginState extends State<AdminLogin> {
                               setState(() {
                                 showDialog(context: context, builder: (context){
                                   return const Center(
-                                    child: CircularProgressIndicator(),
+                                    child: CircularProgressIndicator(
+                                      color: Colors.white,
+                                      backgroundColor: Colors.grey,
+                                    ),
                                   );
                                 });
                               });
@@ -150,34 +175,39 @@ class _AdminLoginState extends State<AdminLogin> {
                               Navigator.of(context).pop();
                               while (i < snapshot.docs.length) {
                                 data = snapshot.docs[i].data() as Map<String, dynamic>;
+                                print("---------------${data['Email']}");
+                                print("---------------${data['[Password]']}");
                                 if (data['Email'] == email.text && data['Password'] == password.text) {
-                                  Navigator.pushNamed(context, "export");
-                                  break;
-                                }
-                                else if (press > 3) {
-                                  press = 0;
                                   setState(() {
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(const SnackBar(
-                                      content: Text(
-                                          'If you forget you Email or password connect to admin'),
-                                      backgroundColor: Color.fromRGBO(47, 47, 94, 1),
-                                      showCloseIcon: true,
-                                      duration: Duration(seconds: 2),
-                                    ));
+                                    isCorrect = true;
                                   });
-                                } else {
-                                  setState(() {
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(const SnackBar(
-                                      content: Text('Wrong username or password'),
-                                      backgroundColor: Color.fromRGBO(47, 47, 94, 1),
-                                      showCloseIcon: true,
-                                      duration: Duration(seconds: 2),
-                                    ));
-                                  });
+                                  Navigator.of(context).pushReplacementNamed("export");
                                 }
                                 i++;
+                              }
+                              if(isCorrect == false){
+                                setState(() {
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(const SnackBar(
+                                    content: Text('Your username or password wrong'),
+                                    backgroundColor: Color.fromRGBO(47, 47, 94, 1),
+                                    showCloseIcon: true,
+                                    duration: Duration(seconds: 2),
+                                  ));
+                                });
+                              }
+                              if (press > 3) {
+                                press = 0;
+                                setState(() {
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(const SnackBar(
+                                    content: Text(
+                                        'If you forget you Email or password connect to admin'),
+                                    backgroundColor: Color.fromRGBO(47, 47, 94, 1),
+                                    showCloseIcon: true,
+                                    duration: Duration(seconds: 2),
+                                  ));
+                                });
                               }
                             }
                         },
@@ -192,23 +222,6 @@ class _AdminLoginState extends State<AdminLogin> {
                 const SizedBox(
                   height: 40,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    TextButton(
-                        onPressed: () {
-                          // getData();
-                        },
-                        child: const Text(
-                          'Forgot Password',
-                          style: TextStyle(
-                              decoration: TextDecoration.underline,
-                              fontSize: 18,
-                              color: Color.fromRGBO(255, 255, 255, 0.9),
-                              fontFamily: "RobotoSlab"),
-                        ))
-                  ],
-                )
               ],
             ),
           ),
