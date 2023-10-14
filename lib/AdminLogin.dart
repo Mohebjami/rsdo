@@ -1,13 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-<<<<<<< HEAD
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-=======
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:overlay_support/overlay_support.dart';
->>>>>>> 70a235f (Second commit)
 
 class AdminLogin extends StatefulWidget {
   const AdminLogin({super.key});
@@ -19,16 +16,9 @@ class AdminLogin extends StatefulWidget {
 class _AdminLoginState extends State<AdminLogin> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
-<<<<<<< HEAD
-
-  String myEmail = "moheb";
-  String pass = "123";
-
-=======
   bool hasInternet = false;
   int press = 0;
   late bool _isLoding;
->>>>>>> 70a235f (Second commit)
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -114,24 +104,10 @@ class _AdminLoginState extends State<AdminLogin> {
                       backgroundColor: const Color(0xff4c505b),
                       child: IconButton(
                         color: Colors.white,
-<<<<<<< HEAD
-                        onPressed: () {
-                          // if (myEmail == email.text && pass == password.text) {
-                            Navigator.pushNamed(context, "export");
-                          // } else {
-                          //   ScaffoldMessenger.of(context)
-                          //       .showSnackBar(const SnackBar(
-                          //     content: Text('Wrong username or password'),
-                          //     backgroundColor: Color.fromRGBO(47, 47, 94, 1),
-                          //     showCloseIcon: true,
-                          //     duration: Duration(seconds: 2),
-                          //   ));
-                          // }
-=======
                         onPressed: () async{
                           setState(() {
                             showDialog(context: context, builder: (context){
-                              return Center(
+                              return const Center(
                                 child: CircularProgressIndicator(),
                               );
                             });
@@ -165,7 +141,7 @@ class _AdminLoginState extends State<AdminLogin> {
                               press++;
                               setState(() {
                                 showDialog(context: context, builder: (context){
-                                  return Center(
+                                  return const Center(
                                     child: CircularProgressIndicator(),
                                   );
                                 });
@@ -204,7 +180,6 @@ class _AdminLoginState extends State<AdminLogin> {
                                 i++;
                               }
                             }
->>>>>>> 70a235f (Second commit)
                         },
                         icon: const Icon(
                           Icons.arrow_forward,
@@ -217,7 +192,6 @@ class _AdminLoginState extends State<AdminLogin> {
                 const SizedBox(
                   height: 40,
                 ),
-<<<<<<< HEAD
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -235,8 +209,6 @@ class _AdminLoginState extends State<AdminLogin> {
                         ))
                   ],
                 )
-=======
->>>>>>> 70a235f (Second commit)
               ],
             ),
           ),
@@ -244,64 +216,4 @@ class _AdminLoginState extends State<AdminLogin> {
       ],
     );
   }
-<<<<<<< HEAD
-
-
-  // late var client,id,clients,data;
-  // String name = "";
-  // void getData(){
-  //   print("1");
-  //   var data = FirebaseFirestore.instance.collection('Accounts').snapshots();
-  //   (context, snapshots) {
-  //     data = snapshots.data!.data() as Stream<QuerySnapshot<Map<String, dynamic>>>;
-  //     clients = snapshots.data?.docs.reversed.toList();
-  //     if(name.isEmpty){
-  //       print(data['Email']);
-  //     }
-  //     if(data['Recipient Name'].toString().toLowerCase().startsWith(name.toLowerCase())){
-  //       return ListTile(
-  //         title: Text(
-  //           data['Recipient Name'],
-  //         ),
-  //         subtitle: Text(
-  //           data['Father Name'],
-  //         ),
-  //       );
-  //     }
-  //     return Container();
-  //   },
-  // }
-
-
-
 }
-
-//   void getData() {
-//     print('1');
-//     StreamBuilder<QuerySnapshot>(
-//         stream: FirebaseFirestore.instance.collection('Accounts').snapshots(),
-//         builder: (context, snapshots) {
-//           List<Row> clientWidgets = [];
-//           if (snapshots.hasData) {
-//             final clients = snapshots.data?.docs.reversed.toList();
-//             for (var client in clients!) {
-//               print(client['Email']);
-//             }
-//           } else {
-//             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-//               content: Text('Empty'),
-//               backgroundColor: Color.fromRGBO(47, 47, 94, 1),
-//               showCloseIcon: true,
-//               duration: Duration(seconds: 2),
-//             ));
-//           }
-//           return Expanded(
-//             child: ListView(children: clientWidgets),
-//           );
-//         });
-//     print('End');
-//   }
-// }
-=======
-}
->>>>>>> 70a235f (Second commit)
