@@ -45,6 +45,7 @@ dependencies:
   percent_indicator: ^4.2.3
   syncfusion_flutter_xlsio:
   path_provider:
+  shared_preferences: ^2.2.2
 
 
 
@@ -88,7 +89,13 @@ flutter:
    - assets/trash.png
    - assets/download.png
    - assets/no-wifi.png
+   - assets/Clinet.png
+   - assets/senddata.png
    - assets/paid.png
+   - assets/analytics.png
+   - assets/surveyr.png
+   - assets/recycle-bin.png
+   - assets/user.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

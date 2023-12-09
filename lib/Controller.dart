@@ -3,7 +3,7 @@ import 'package:android_path_provider/android_path_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:csv/csv.dart';
-import 'package:syncfusion_flutter_xlsio/xlsio.dart' hide Column;
+import 'package:syncfusion_flutter_xlsio/xlsio.dart' hide Column, Row;
 import 'package:flutter/material.dart';
 
 class Export extends StatefulWidget {
@@ -22,559 +22,1044 @@ class _ExportState extends State<Export> {
   Widget build(BuildContext context) {
     double fullScreenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      body: ListView(
-        padding: EdgeInsets.zero,
-        children: [
-          Container(
-            width: fullScreenWidth,
-            decoration: const BoxDecoration(
-                color: Color.fromRGBO(47, 47, 94, 1),
-                borderRadius: BorderRadius.only(
-                  bottomRight: Radius.circular(60),
-                )),
-            child: const Column(
+      backgroundColor: const Color.fromRGBO(80, 201, 255, 1),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+              height: 40,
+            ),
+            Container(
+              width: fullScreenWidth,
+              decoration: const BoxDecoration(
+                color: Colors.deepOrange,
+                  borderRadius: BorderRadius.only(
+                    bottomRight: Radius.circular(40),
+                    topLeft: Radius.circular(40),
+                  )
+              ),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20.0),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 90, // specify the width
+                          height: 90, // specify the height
+                          child: Image(
+                            image: AssetImage("assets/logo.png"),
+                            color: Colors.white,
+                          ),
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "RSDO",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 30,
+                                  fontFamily: "RobotoSlab"),
+                            ),
+                            Text(
+                              "Good Morning",
+                              style: TextStyle(
+                                  color: Colors.white, fontFamily: "RobotoSlab"),
+                            ),
+                          ],
+                        )
+
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            Row(
               children: [
-                SizedBox(
-                  height: 50,
-                ),
-                ListTile(
-                  title: Text(
-                    "RSDO",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 25,
-                        fontFamily: "RobotoSlab"),
+                // new buttons
+                Padding(
+                  padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                  child: Container(
+                    height: 230,
+                    width: 170,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(30),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 1.0,
+                          blurRadius: 12,
+                          offset: const Offset(
+                              3.0, 2.0), // changes position of shadow
+                        ),
+                        const BoxShadow(
+                          color: Colors.white,
+                          offset: Offset(-4.0, -4.0),
+                          blurRadius: 15,
+                          spreadRadius: 1.0,
+                        )
+                      ],
+                    ),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(18.0),
+                          child: Container(
+                            width: 120,
+                            decoration: BoxDecoration(
+                              color: Colors.grey,
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius: 12,
+                                    blurRadius: 20,
+                                    offset: const Offset(-0, 0),
+                                    blurStyle: BlurStyle
+                                        .inner // changes position of shadow
+                                    ),
+                              ],
+                            ),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.grey,
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(1),
+                                    spreadRadius: 1.0,
+                                    blurRadius: 12,
+                                    offset: const Offset(
+                                        3.0, 2.0), // changes position of shadow
+                                  ),
+                                  const BoxShadow(
+                                    color: Colors.white,
+                                    offset: Offset(-3.0, -3.0),
+                                    blurRadius: 15,
+                                    spreadRadius: 1.0,
+                                  )
+                                ],
+                              ),
+                              width: 50,
+                              child: const CircleAvatar(
+                                backgroundColor: Colors.white,
+                                radius: 50,
+                                child: Image(
+                                  image: AssetImage("assets/senddata.png"),
+                                  width: 80,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const Text("Export Data"),
+                        ElevatedButton(
+                          onPressed: () async {
+                            final result = await FilePicker.platform.pickFiles(
+                                type: FileType.custom,
+                                allowedExtensions: ['csv']);
+                            if (result != null) {
+                              setState(() {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return const Center(
+                                        child: CircularProgressIndicator(
+                                          color: Colors.white,
+                                          backgroundColor: Colors.grey,
+                                        ),
+                                      );
+                                    });
+                              });
+                              final file = File(result.files.single.path!);
+                              final contents = await file.readAsString();
+                              try {
+                                final List<List<dynamic>> rowsAsListOfValues =
+                                    const CsvToListConverter()
+                                        .convert(contents);
+                                FirebaseFirestore.instance;
+                                final firestoreInstance =
+                                    FirebaseFirestore.instance;
+                                for (final row in rowsAsListOfValues) {
+                                  await firestoreInstance
+                                      .collection("Clients")
+                                      .doc()
+                                      .set({
+                                    'SN': row[0],
+                                    'Household ID': row[1],
+                                    'Household Name Code': row[2],
+                                    'Recipient Name': row[3],
+                                    'Recipient Last Name': row[4],
+                                    'Father Name': row[5],
+                                    'Recipient Gender': row[6],
+                                    'Recipient Document List': row[7],
+                                    'Phone Number': row[8],
+                                    'Mobile Number': row[9],
+                                    'Account Number': row[10],
+                                    'Alternate Recipient': row[11],
+                                    'Address': row[12],
+                                    'Region': row[13],
+                                    'province': row[14],
+                                    'District': row[15],
+                                    'Amount': row[16],
+                                    // Add more fields as needed
+                                  });
+                                }
+
+                                Navigator.pop(context);
+                                setState(() {
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: const Text('Inserted'),
+                                          content: const Text(
+                                              'All data inserted successfully'),
+                                          actions: <Widget>[
+                                            TextButton(
+                                              child: const Text('Done'),
+                                              onPressed: () {
+                                                setState(() {
+                                                  shouldAbsorb = true;
+                                                });
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                          ],
+                                        );
+                                      });
+                                });
+                              } catch (err) {
+                                print(err);
+                              }
+                            }
+                          },
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                                Colors.deepOrangeAccent),
+                            shape: MaterialStateProperty.all<
+                                    RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    side: const BorderSide(color: Colors.red))),
+                          ),
+                          child: const Text('Select File'),
+                        )
+                      ],
+                    ),
                   ),
-                  subtitle: Text(
-                    "Good Morning",
-                    style: TextStyle(
-                        color: Colors.white, fontFamily: "RobotoSlab"),
-                  ),
-                  trailing: CircleAvatar(
-                      backgroundColor: Colors.transparent,
-                      radius: 50,
-                      child: Image(
-                        image: AssetImage("assets/logo.png"),
-                        color: Colors.white,
-                      )),
                 ),
-                SizedBox(
-                  height: 20,
+                Padding(
+                  padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                  child: Container(
+                    height: 230,
+                    width: 170,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(30),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 1.0,
+                          blurRadius: 12,
+                          offset: const Offset(
+                              3.0, 2.0), // changes position of shadow
+                        ),
+                        const BoxShadow(
+                          color: Colors.white,
+                          offset: Offset(-4.0, -4.0),
+                          blurRadius: 15,
+                          spreadRadius: 1.0,
+                        )
+                      ],
+                    ),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(18.0),
+                          child: Container(
+                            width: 120,
+                            decoration: BoxDecoration(
+                              color: Colors.grey,
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius: 12,
+                                    blurRadius: 20,
+                                    offset: const Offset(-0, 0),
+                                    blurStyle: BlurStyle
+                                        .inner // changes position of shadow
+                                    ),
+                              ],
+                            ),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.grey,
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(1),
+                                    spreadRadius: 1.0,
+                                    blurRadius: 12,
+                                    offset: const Offset(
+                                        3.0, 2.0), // changes position of shadow
+                                  ),
+                                  const BoxShadow(
+                                    color: Colors.white,
+                                    offset: Offset(-3.0, -3.0),
+                                    blurRadius: 15,
+                                    spreadRadius: 1.0,
+                                  )
+                                ],
+                              ),
+                              width: 50,
+                              child: const CircleAvatar(
+                                backgroundColor: Colors.white,
+                                radius: 50,
+                                child: Image(
+                                  image: AssetImage("assets/analytics.png"),
+                                  width: 80,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const Text("Report"),
+                        ElevatedButton(
+                          onPressed: () {
+                            createExcel();
+                          },
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                                Colors.deepOrangeAccent),
+                            shape: MaterialStateProperty.all<
+                                    RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    side: const BorderSide(color: Colors.red))),
+                          ),
+                          child: const Text('Download'),
+                        )
+                      ],
+                    ),
+                  ),
                 ),
               ],
             ),
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-            child: AbsorbPointer(
-              absorbing: shouldAbsorb,
-              child: GestureDetector(
-                onTap: () async {
-                  final result = await FilePicker.platform.pickFiles(
-                      type: FileType.custom, allowedExtensions: ['csv']);
-                  setState(() {
-                    showDialog(context: context, builder: (context){
-                      return const Center(
-                        child: CircularProgressIndicator(
-                          color: Colors.white,
-                          backgroundColor: Colors.grey,
+            const SizedBox(
+              height: 30,
+            ),
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                  child: Container(
+                    height: 230,
+                    width: 170,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(30),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 1.0,
+                          blurRadius: 12,
+                          offset: const Offset(
+                              3.0, 2.0), // changes position of shadow
                         ),
-                      );
-                    });
-                  });
-                  if (result != null) {
-                    final file = File(result.files.single.path!);
-                    final contents = await file.readAsString();
-                    try {
-                      final List<List<dynamic>> rowsAsListOfValues = const CsvToListConverter().convert(contents);
-                      FirebaseFirestore.instance;
-                       final firestoreInstance = FirebaseFirestore.instance;
-                      for (final row in rowsAsListOfValues) {
-                       await firestoreInstance.collection("Clients").doc().set({
-                          'SN': row[0],
-                          'Household ID': row[1],
-                          'Household Name Code': row[2],
-                          'Recipient Name': row[3],
-                          'Recipient Last Name': row[4],
-                          'Father Name': row[5],
-                          'Recipient Gender': row[6],
-                          'Recipient Document List': row[7],
-                          'Phone Number': row[8],
-                          'Mobile Number': row[9],
-                          'Account Number': row[10],
-                          'Alternate Recipient': row[11],
-                          'Address': row[12],
-                          'Region': row[13],
-                          'province': row[14],
-                          'District': row[15],
-                          'Amount': row[16],
-                          // Add more fields as needed
-                        });
-                      }
-                      Navigator.pop(context);
-                      setState(() {
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: const Text('Inserted'),
-                                content: const Text(
-                                    'All data inserted successfully'),
-                                actions: <Widget>[
-                                  TextButton(
-                                    child: const Text('Done'),
-                                    onPressed: () {
-                                      setState(() {
-                                        shouldAbsorb = true;
-                                      });
-                                      Navigator.of(context).pop();
-                                    },
+                        const BoxShadow(
+                          color: Colors.white,
+                          offset: Offset(-4.0, -4.0),
+                          blurRadius: 15,
+                          spreadRadius: 1.0,
+                        )
+                      ],
+                    ),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(18.0),
+                          child: Container(
+                            width: 120,
+                            decoration: BoxDecoration(
+                              color: Colors.grey,
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius: 12,
+                                    blurRadius: 20,
+                                    offset: const Offset(-0, 0),
+                                    blurStyle: BlurStyle
+                                        .inner // changes position of shadow
+                                    ),
+                              ],
+                            ),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.grey,
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(1),
+                                    spreadRadius: 1.0,
+                                    blurRadius: 12,
+                                    offset: const Offset(
+                                        3.0, 2.0), // changes position of shadow
                                   ),
+                                  const BoxShadow(
+                                    color: Colors.white,
+                                    offset: Offset(-3.0, -3.0),
+                                    blurRadius: 15,
+                                    spreadRadius: 1.0,
+                                  )
                                 ],
-                              );
-                            });
-                      });
-                    } catch (err) {
-                      print(err);
-                    }
-                  }
-                },
-                child: Container(
-                  height: 100,
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [
-                          Colors.blue,
-                          Color.fromRGBO(47, 47, 94, 1),
-                        ]),
-                    borderRadius: BorderRadius.circular(15),
+                              ),
+                              width: 50,
+                              child: const CircleAvatar(
+                                backgroundColor: Colors.white,
+                                radius: 50,
+                                child: Image(
+                                  image: AssetImage("assets/Clinet.png"),
+                                  width: 80,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const Text("Clients"),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, 'show');
+                          },
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                                Colors.deepOrangeAccent),
+                            shape: MaterialStateProperty.all<
+                                    RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    side: const BorderSide(color: Colors.red))),
+                          ),
+                          child: const Text('Search Clients'),
+                        )
+                      ],
+                    ),
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 12.0),
-                    child: ListTile(
-                        title: const Text(
-                          "Export Data",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontFamily: "RobotoSlab"),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                  child: Container(
+                    height: 230,
+                    width: 170,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(30),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 1.0,
+                          blurRadius: 12,
+                          offset: const Offset(
+                              3.0, 2.0), // changes position of shadow
                         ),
-                        subtitle: const Text(
-                          "Send CSV file",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        // set border for button
-                        trailing: Image.asset(
-                          "assets/upload.png",
-                          width: 50,
+                        const BoxShadow(
                           color: Colors.white,
-                        )),
+                          offset: Offset(-4.0, -4.0),
+                          blurRadius: 15,
+                          spreadRadius: 1.0,
+                        )
+                      ],
+                    ),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(18.0),
+                          child: Container(
+                            width: 120,
+                            decoration: BoxDecoration(
+                              color: Colors.grey,
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius: 12,
+                                    blurRadius: 20,
+                                    offset: const Offset(-0, 0),
+                                    blurStyle: BlurStyle
+                                        .inner // changes position of shadow
+                                    ),
+                              ],
+                            ),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.grey,
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(1),
+                                    spreadRadius: 1.0,
+                                    blurRadius: 12,
+                                    offset: const Offset(
+                                        3.0, 2.0), // changes position of shadow
+                                  ),
+                                  const BoxShadow(
+                                    color: Colors.white,
+                                    offset: Offset(-3.0, -3.0),
+                                    blurRadius: 15,
+                                    spreadRadius: 1.0,
+                                  )
+                                ],
+                              ),
+                              width: 50,
+                              child: const CircleAvatar(
+                                backgroundColor: Colors.white,
+                                radius: 50,
+                                child: Image(
+                                  image: AssetImage("assets/paid.png"),
+                                  width: 80,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const Text("Paid ones"),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, 'FetchPaidData');
+                          },
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                                Colors.deepOrangeAccent),
+                            shape: MaterialStateProperty.all<
+                                    RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    side: const BorderSide(color: Colors.red))),
+                          ),
+                          child: const Text('Search'),
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              ),
+              ],
             ),
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-            child: GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, 'show');
-              },
-              child: Container(
-                height: 100,
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [
-                        Color.fromRGBO(47, 47, 94, 1),
-                        Colors.blue,
-                      ]),
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 12.0),
-                  child: ListTile(
-                      title: const Text(
-                        "See Data Client",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontFamily: "RobotoSlab"),
-                      ),
-                      subtitle: const Text(
-                        "See all Data Client",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      // set border for button
-                      trailing: Image.asset(
-                        "assets/database-table.png",
-                        width: 50,
-                        color: Colors.white,
-                      )),
-                ),
-              ),
+            const SizedBox(
+              height: 30,
             ),
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-            child: GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, 'FetchPaidData');
-              },
-              child: Container(
-                height: 100,
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [
-                        Color.fromRGBO(47, 47, 94, 1),
-                        Colors.blue,
-                      ]),
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 12.0),
-                  child: ListTile(
-                      title: const Text(
-                        "See Data Paid",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontFamily: "RobotoSlab"),
-                      ),
-                      subtitle: const Text(
-                        "See all Data Paid",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      // set border for button
-                      trailing: Image.asset(
-                          "assets/paid.png",
-                        width: 50,
-                        color: Colors.white,
-                      )),
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-            child: GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, 'admin');
-              },
-              child: Container(
-                height: 100,
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [
-                        Colors.blue,
-                        Color.fromRGBO(47, 47, 94, 1),
-                      ]),
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 12.0),
-                  child: ListTile(
-                      title: const Text(
-                        "Add Admin",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontFamily: "RobotoSlab"),
-                      ),
-                      subtitle: const Text(
-                        "Add new Admin",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      // set border for button
-                      trailing: Image.asset(
-                        "assets/admin.png",
-                        width: 50,
-                        color: Colors.white,
-                      )),
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-            child: GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, 'Surveyor');
-              },
-              child: Container(
-                height: 100,
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [
-                        Color.fromRGBO(47, 47, 94, 1),
-                        Colors.blue,
-                      ]),
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 12.0),
-                  child: ListTile(
-                      title: const Text(
-                        "Add Surveyor",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontFamily: "RobotoSlab"),
-                      ),
-                      subtitle: const Text(
-                        "Add new Client",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      // set border for button
-                      trailing: Image.asset(
-                        "assets/Client.png",
-                        width: 50,
-                        color: Colors.white,
-                      )),
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-            child: GestureDetector(
-              onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: const Text('Delete All Data',
-                          style: TextStyle(color: Colors.red)),
-                      content:
-                          const Text('Are you sure you want to delete all data?'),
-                      actions: [
-                        TextButton(
-                          onPressed: () {
-                            // Perform the action if the user confirms
-                            deleteAllDocuments();
-                            Navigator.of(context).pop();
-                          },
-                          style: const ButtonStyle(
-                            backgroundColor: MaterialStatePropertyAll(
-                                Color.fromRGBO(13, 110, 253, 1)),
-                            overlayColor: MaterialStatePropertyAll(
-                                Color.fromRGBO(153, 217, 234, 0.2)),
-                          ),
-                          child: const Text('Confirm',
-                              style: TextStyle(color: Colors.white)),
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                  child: Container(
+                    height: 230,
+                    width: 170,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(30),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 1.0,
+                          blurRadius: 12,
+                          offset: const Offset(
+                              3.0, 2.0), // changes position of shadow
                         ),
-                        TextButton(
-                          onPressed: () {
-                            // Close the dialog if the user cancels
-                            Navigator.of(context).pop();
-                          },
-                          style: const ButtonStyle(
-                            backgroundColor: MaterialStatePropertyAll(
-                                Color.fromRGBO(13, 110, 253, 1)),
-                            // overlayColor: MaterialStatePropertyAll(Color.fromRGBO(153, 217, 234, 0.2)),
-                          ),
-                          child: const Text('Cancel',
-                              style: TextStyle(color: Colors.white)),
-                        ),
+                        const BoxShadow(
+                          color: Colors.white,
+                          offset: Offset(-4.0, -4.0),
+                          blurRadius: 15,
+                          spreadRadius: 1.0,
+                        )
                       ],
-                    );
-                  },
-                );
-              },
-              child: Container(
-                height: 100,
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [
-                        Colors.blue,
-                        Color.fromRGBO(47, 47, 94, 1),
-                      ]),
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 12.0),
-                  child: ListTile(
-                      title: const Text(
-                        "Delete Clients",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontFamily: "RobotoSlab"),
-                      ),
-                      subtitle: const Text(
-                        "Delete all data of Clients",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      // set border for button
-                      trailing: Image.asset(
-                        "assets/trash.png",
-                        width: 50,
-                        color: Colors.white,
-                      )),
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-            child: GestureDetector(
-              onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text('Delete All Data',
-                          style: TextStyle(color: Colors.red)),
-                      content:
-                      Text('Are you sure you want to delete all data?'),
-                      actions: [
-                        TextButton(
+                    ),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(18.0),
+                          child: Container(
+                            width: 120,
+                            decoration: BoxDecoration(
+                              color: Colors.grey,
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius: 12,
+                                    blurRadius: 20,
+                                    offset: const Offset(-0, 0),
+                                    blurStyle: BlurStyle
+                                        .inner // changes position of shadow
+                                    ),
+                              ],
+                            ),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.grey,
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(1),
+                                    spreadRadius: 1.0,
+                                    blurRadius: 12,
+                                    offset: const Offset(
+                                        3.0, 2.0), // changes position of shadow
+                                  ),
+                                  const BoxShadow(
+                                    color: Colors.white,
+                                    offset: Offset(-3.0, -3.0),
+                                    blurRadius: 15,
+                                    spreadRadius: 1.0,
+                                  )
+                                ],
+                              ),
+                              width: 50,
+                              child: const CircleAvatar(
+                                backgroundColor: Colors.white,
+                                radius: 50,
+                                child: Image(
+                                  image: AssetImage("assets/admin.png"),
+                                  width: 80,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const Text("New Admin"),
+                        ElevatedButton(
                           onPressed: () {
-                            // Perform the action if the user confirms
-                            deleteAllDocumentsPaid();
-                            Navigator.of(context).pop();
+                            Navigator.pushNamed(context, 'admin');
                           },
                           style: ButtonStyle(
-                            backgroundColor: MaterialStatePropertyAll(
-                                Color.fromRGBO(13, 110, 253, 1)),
-                            overlayColor: MaterialStatePropertyAll(
-                                Color.fromRGBO(153, 217, 234, 0.2)),
+                            backgroundColor: MaterialStateProperty.all(
+                                Colors.deepOrangeAccent),
+                            shape: MaterialStateProperty.all<
+                                    RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    side: const BorderSide(color: Colors.red))),
                           ),
-                          child: Text('Confirm',
-                              style: TextStyle(color: Colors.white)),
+                          child: const Text('Add'),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                  child: Container(
+                    height: 230,
+                    width: 170,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(30),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 1.0,
+                          blurRadius: 12,
+                          offset: const Offset(
+                              3.0, 2.0), // changes position of shadow
                         ),
-                        TextButton(
+                        const BoxShadow(
+                          color: Colors.white,
+                          offset: Offset(-4.0, -4.0),
+                          blurRadius: 15,
+                          spreadRadius: 1.0,
+                        )
+                      ],
+                    ),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(18.0),
+                          child: Container(
+                            width: 120,
+                            decoration: BoxDecoration(
+                              color: Colors.grey,
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius: 12,
+                                    blurRadius: 20,
+                                    offset: const Offset(-0, 0),
+                                    blurStyle: BlurStyle
+                                        .inner // changes position of shadow
+                                    ),
+                              ],
+                            ),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.grey,
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(1),
+                                    spreadRadius: 1.0,
+                                    blurRadius: 12,
+                                    offset: const Offset(
+                                        3.0, 2.0), // changes position of shadow
+                                  ),
+                                  const BoxShadow(
+                                    color: Colors.white,
+                                    offset: Offset(-3.0, -3.0),
+                                    blurRadius: 15,
+                                    spreadRadius: 1.0,
+                                  )
+                                ],
+                              ),
+                              width: 50,
+                              child: const CircleAvatar(
+                                backgroundColor: Colors.white,
+                                radius: 50,
+                                child: Image(
+                                  image: AssetImage("assets/surveyr.png"),
+                                  width: 80,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const Text("New Surveyor"),
+                        ElevatedButton(
                           onPressed: () {
-                            // Close the dialog if the user cancels
-                            Navigator.of(context).pop();
+                            Navigator.pushNamed(context, 'Surveyor');
                           },
                           style: ButtonStyle(
-                            backgroundColor: MaterialStatePropertyAll(
-                                Color.fromRGBO(13, 110, 253, 1)),
-                            // overlayColor: MaterialStatePropertyAll(Color.fromRGBO(153, 217, 234, 0.2)),
+                            backgroundColor: MaterialStateProperty.all(
+                                Colors.deepOrangeAccent),
+                            shape: MaterialStateProperty.all<
+                                    RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    side: const BorderSide(color: Colors.red))),
                           ),
-                          child: Text('Cancel',
-                              style: TextStyle(color: Colors.white)),
-                        ),
+                          child: const Text('Add'),
+                        )
                       ],
-                    );
-                  },
-                );
-              },
-              child: Container(
-                height: 100,
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [
-                        Colors.blue,
-                        Color.fromRGBO(47, 47, 94, 1),
-                      ]),
-                  borderRadius: BorderRadius.circular(15),
+                    ),
+                  ),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 12.0),
-                  child: ListTile(
-                      title: const Text(
-                        "Delete Paid",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontFamily: "RobotoSlab"),
-                      ),
-                      subtitle: const Text(
-                        "Delete all data of paid table",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      // set border for button
-                      trailing: Image.asset(
-                        "assets/trash.png",
-                        width: 50,
-                        color: Colors.white,
-                      )),
-                ),
-              ),
+              ],
             ),
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-            child: GestureDetector(
-              onTap: () {
-                createExcel();
-              },
-              child: Container(
-                height: 100,
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [
-                        Colors.blue,
-                        Color.fromRGBO(47, 47, 94, 1),
-                      ]),
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 12.0),
-                  child: ListTile(
-                      title: const Text(
-                        "Download Data",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontFamily: "RobotoSlab"),
-                      ),
-                      subtitle: const Text(
-                        "Download data from paid table",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      // set border for button
-                      trailing: Image.asset(
-                        "assets/download.png",
-                        width: 50,
-                        color: Colors.white,
-                      )),
-                ),
-              ),
+            const SizedBox(
+              height: 30,
             ),
-          ),
-        ],
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                  child: Container(
+                    height: 230,
+                    width: 170,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(30),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 1.0,
+                          blurRadius: 12,
+                          offset: const Offset(
+                              3.0, 2.0), // changes position of shadow
+                        ),
+                        const BoxShadow(
+                          color: Colors.white,
+                          offset: Offset(-4.0, -4.0),
+                          blurRadius: 15,
+                          spreadRadius: 1.0,
+                        )
+                      ],
+                    ),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(18.0),
+                          child: Container(
+                            width: 120,
+                            decoration: BoxDecoration(
+                              color: Colors.grey,
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius: 12,
+                                    blurRadius: 20,
+                                    offset: const Offset(-0, 0),
+                                    blurStyle: BlurStyle
+                                        .inner // changes position of shadow
+                                    ),
+                              ],
+                            ),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.grey,
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(1),
+                                    spreadRadius: 1.0,
+                                    blurRadius: 12,
+                                    offset: const Offset(
+                                        3.0, 2.0), // changes position of shadow
+                                  ),
+                                  const BoxShadow(
+                                    color: Colors.white,
+                                    offset: Offset(-3.0, -3.0),
+                                    blurRadius: 15,
+                                    spreadRadius: 1.0,
+                                  )
+                                ],
+                              ),
+                              width: 50,
+                              child: const CircleAvatar(
+                                backgroundColor: Colors.white,
+                                radius: 50,
+                                child: Image(
+                                  image: AssetImage("assets/trash.png"),
+                                  width: 130,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const Text("Delete Clients"),
+                        ElevatedButton(
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: const Text('Delete All Data',
+                                      style: TextStyle(color: Colors.red)),
+                                  content: const Text(
+                                      'Are you sure you want to delete all data?'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        // Close the dialog if the user cancels
+                                        Navigator.of(context).pop();
+                                      },
+                                      style: const ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStatePropertyAll(
+                                                Color.fromRGBO(
+                                                    13, 110, 253, 1)),
+                                        // overlayColor: MaterialStatePropertyAll(Color.fromRGBO(153, 217, 234, 0.2)),
+                                      ),
+                                      child: const Text('Cancel',
+                                          style:
+                                              TextStyle(color: Colors.white)),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        // Perform the action if the user confirms
+                                        setState(() {
+                                          showDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                return const Center(
+                                                  child:
+                                                      CircularProgressIndicator(),
+                                                );
+                                              });
+                                        });
+                                        deleteAllDocuments();
+                                        Navigator.of(context).pop();
+                                      },
+                                      style: const ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStatePropertyAll(
+                                                Color.fromRGBO(
+                                                    13, 110, 253, 1)),
+                                        overlayColor: MaterialStatePropertyAll(
+                                            Color.fromRGBO(153, 217, 234, 0.2)),
+                                      ),
+                                      child: const Text('Confirm',
+                                          style:
+                                              TextStyle(color: Colors.white)),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                                Colors.deepOrangeAccent),
+                            shape: MaterialStateProperty.all<
+                                    RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    side: const BorderSide(color: Colors.red))),
+                          ),
+                          child: const Text('Delete'),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                  child: Container(
+                    height: 230,
+                    width: 170,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(30),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 1.0,
+                          blurRadius: 12,
+                          offset: const Offset(
+                              3.0, 2.0), // changes position of shadow
+                        ),
+                        const BoxShadow(
+                          color: Colors.white,
+                          offset: Offset(-4.0, -4.0),
+                          blurRadius: 15,
+                          spreadRadius: 1.0,
+                        )
+                      ],
+                    ),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(18.0),
+                          child: Container(
+                            width: 120,
+                            decoration: BoxDecoration(
+                              color: Colors.grey,
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius: 12,
+                                    blurRadius: 20,
+                                    offset: const Offset(-0, 0),
+                                    blurStyle: BlurStyle
+                                        .inner // changes position of shadow
+                                    ),
+                              ],
+                            ),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.grey,
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(1),
+                                    spreadRadius: 1.0,
+                                    blurRadius: 12,
+                                    offset: const Offset(
+                                        3.0, 2.0), // changes position of shadow
+                                  ),
+                                  const BoxShadow(
+                                    color: Colors.white,
+                                    offset: Offset(-3.0, -3.0),
+                                    blurRadius: 15,
+                                    spreadRadius: 1.0,
+                                  )
+                                ],
+                              ),
+                              width: 50,
+                              child: const CircleAvatar(
+                                backgroundColor: Colors.white,
+                                radius: 50,
+                                child: Image(
+                                  image: AssetImage("assets/recycle-bin.png"),
+                                  width: 80,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const Text("Delete Paid"),
+                        ElevatedButton(
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: const Text('Delete All Data',
+                                      style: TextStyle(color: Colors.red)),
+                                  content: const Text(
+                                      'Are you sure you want to delete all data?'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        // Close the dialog if the user cancels
+                                        Navigator.of(context).pop();
+                                      },
+                                      style: const ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStatePropertyAll(
+                                                Color.fromRGBO(
+                                                    13, 110, 253, 1)),
+                                        // overlayColor: MaterialStatePropertyAll(Color.fromRGBO(153, 217, 234, 0.2)),
+                                      ),
+                                      child: const Text('Cancel',
+                                          style:
+                                              TextStyle(color: Colors.white)),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        // Perform the action if the user confirms
+                                        deleteAllDocumentsPaid();
+                                        Navigator.of(context).pop();
+                                      },
+                                      style: const ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStatePropertyAll(
+                                                Color.fromRGBO(
+                                                    13, 110, 253, 1)),
+                                        overlayColor: MaterialStatePropertyAll(
+                                            Color.fromRGBO(153, 217, 234, 0.2)),
+                                      ),
+                                      child: const Text('Confirm',
+                                          style:
+                                              TextStyle(color: Colors.white)),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                                Colors.deepOrangeAccent),
+                            shape: MaterialStateProperty.all<
+                                    RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    side: const BorderSide(color: Colors.red))),
+                          ),
+                          child: const Text('Delete'),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -608,16 +1093,26 @@ class _ExportState extends State<Export> {
     while (i < snapshot.docs.length) {
       data = snapshot.docs[i].data() as Map<String, dynamic>;
       sheet.getRangeByName('A$excelRow').setText(data['S/N'].toString());
-      sheet.getRangeByName('B$excelRow').setText(data['Household ID'].toString());
+      sheet
+          .getRangeByName('B$excelRow')
+          .setText(data['Household ID'].toString());
       sheet.getRangeByName('C$excelRow').setText(data['Household Name Code']);
       sheet.getRangeByName('D$excelRow').setText(data['Recipient Name']);
       sheet.getRangeByName('E$excelRow').setText(data['Recipient Last Name']);
       sheet.getRangeByName('F$excelRow').setText(data['Father Name']);
       sheet.getRangeByName('G$excelRow').setText(data['Recipient Gender']);
-      sheet.getRangeByName('H$excelRow').setText(data['Recipient Document List']);
-      sheet.getRangeByName('I$excelRow').setText(data['Phone Number'].toString());
-      sheet.getRangeByName('J$excelRow').setText(data['Mobile Number'].toString());
-      sheet.getRangeByName('K$excelRow').setText(data['Account Number'].toString());
+      sheet
+          .getRangeByName('H$excelRow')
+          .setText(data['Recipient Document List']);
+      sheet
+          .getRangeByName('I$excelRow')
+          .setText(data['Phone Number'].toString());
+      sheet
+          .getRangeByName('J$excelRow')
+          .setText(data['Mobile Number'].toString());
+      sheet
+          .getRangeByName('K$excelRow')
+          .setText(data['Account Number'].toString());
       sheet.getRangeByName('L$excelRow').setText(data['Alternate Recipient']);
       sheet.getRangeByName('M$excelRow').setText(data['Address'].toString());
       sheet.getRangeByName('N$excelRow').setText(data['Region']);
@@ -678,17 +1173,8 @@ class _ExportState extends State<Export> {
                   });
             }));
   }
-  Future<void> deleteAllDocuments() async {
-    setState(() {
-      showDialog(
-          context: context,
-          builder: (context) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          });
-    });
 
+  Future<void> deleteAllDocuments() async {
     FirebaseFirestore.instance
         .collection('Clients')
         .get()
@@ -741,6 +1227,7 @@ class _ExportState extends State<Export> {
             }));
     Navigator.of(context).pop();
   }
+
   Future<void> deleteAllDocumentsPaid() async {
     setState(() {
       showDialog(

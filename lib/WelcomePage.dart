@@ -31,7 +31,7 @@ class _WelcomePageState extends State<WelcomePage> {
                     
                   ),
                   Tab(
-                      child: Image(image: AssetImage("assets/admin.png"), width: 30, color: Color.fromRGBO(255, 255, 255, 0.9),)
+                      child: Image(image: AssetImage("assets/user.png"), width: 30, )
                   ),
                 ],
               ),
