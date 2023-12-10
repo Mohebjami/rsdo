@@ -22,11 +22,11 @@ class _ExportState extends State<Export> {
   Widget build(BuildContext context) {
     double fullScreenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(80, 201, 255, 1),
+      backgroundColor: const Color.fromRGBO(211, 211, 211, 1),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(
+           const SizedBox(
               height: 40,
             ),
             Container(
@@ -38,13 +38,13 @@ class _ExportState extends State<Export> {
                     topLeft: Radius.circular(40),
                   )
               ),
-              child: Column(
+              child: const Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(top: 20.0),
+                    padding: EdgeInsets.only(top: 20.0),
                     child: Row(
                       children: [
-                        Container(
+                        SizedBox(
                           width: 90, // specify the width
                           height: 90, // specify the height
                           child: Image(
@@ -239,7 +239,22 @@ class _ExportState extends State<Export> {
                                       });
                                 });
                               } catch (err) {
-                                print(err);
+                                AlertDialog(
+                                  title: const Text('Error'),
+                                  content: const Text(
+                                      'There is some error'),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      child: const Text('OK'),
+                                      onPressed: () {
+                                        setState(() {
+                                          shouldAbsorb = true;
+                                        });
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                  ],
+                                );
                               }
                             }
                           },
@@ -1065,7 +1080,7 @@ class _ExportState extends State<Export> {
   }
 
   Future createExcel() async {
-    var data;
+    Map<String, dynamic> data;
     final QuerySnapshot snapshot =
         await FirebaseFirestore.instance.collection('Paid').get();
     int i = 0;
