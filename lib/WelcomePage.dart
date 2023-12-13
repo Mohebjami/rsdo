@@ -15,9 +15,7 @@ class _WelcomePageState extends State<WelcomePage> {
     return DefaultTabController(
       length: 2,
       child: Container(
-        decoration: const BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage('assets/welcome.jpg'), fit: BoxFit.cover)),
+        decoration: const BoxDecoration(color: Color.fromRGBO(44, 62, 82, 1)),
         child: Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.transparent,
@@ -27,24 +25,24 @@ class _WelcomePageState extends State<WelcomePage> {
                 indicatorColor: Colors.white,
                 tabs: [
                   Tab(
-                    child: Image(image: AssetImage("assets/database.png"), width: 35,)
-                    
-                  ),
+                      child: Image(
+                    image: AssetImage("assets/database.png"),
+                    width: 35,
+                  )),
                   Tab(
-                      child: Image(image: AssetImage("assets/user.png"), width: 30, )
-                  ),
+                      child: Image(
+                    image: AssetImage("assets/user.png"),
+                    width: 30,
+                  )),
                 ],
               ),
             ),
           ),
           backgroundColor: Colors.transparent,
-          body: const TabBarView(
-            children: [
-              AdminLogin(),
-              Sarvear(),
-            ]
-
-          ),
+          body: const TabBarView(children: [
+            AdminLogin(),
+            Sarvear(),
+          ]),
         ),
       ),
     );

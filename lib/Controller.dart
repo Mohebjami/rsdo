@@ -32,7 +32,7 @@ class _ExportState extends State<Export> {
             Container(
               width: fullScreenWidth,
               decoration: const BoxDecoration(
-                color: Colors.deepOrange,
+                color: Color.fromRGBO(47, 47, 97, 1),
                   borderRadius: BorderRadius.only(
                     bottomRight: Radius.circular(40),
                     topLeft: Radius.circular(40),
@@ -260,12 +260,12 @@ class _ExportState extends State<Export> {
                           },
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
-                                Colors.deepOrangeAccent),
+                                Color.fromRGBO(47, 47, 97, 1)),
                             shape: MaterialStateProperty.all<
                                     RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10.0),
-                                    side: const BorderSide(color: Colors.red))),
+                                    side: const BorderSide(color: Color.fromRGBO(47, 47, 97, 1)))),
                           ),
                           child: const Text('Select File'),
                         )
@@ -356,12 +356,12 @@ class _ExportState extends State<Export> {
                           },
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
-                                Colors.deepOrangeAccent),
+                                const Color.fromRGBO(47, 47, 97, 1)),
                             shape: MaterialStateProperty.all<
-                                    RoundedRectangleBorder>(
+                                RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10.0),
-                                    side: const BorderSide(color: Colors.red))),
+                                    side: const BorderSide(color: Color.fromRGBO(47, 47, 97, 1)))),
                           ),
                           child: const Text('Download'),
                         )
@@ -459,12 +459,12 @@ class _ExportState extends State<Export> {
                           },
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
-                                Colors.deepOrangeAccent),
+                                const Color.fromRGBO(47, 47, 97, 1)),
                             shape: MaterialStateProperty.all<
-                                    RoundedRectangleBorder>(
+                                RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10.0),
-                                    side: const BorderSide(color: Colors.red))),
+                                    side: const BorderSide(color: Color.fromRGBO(47, 47, 97, 1)))),
                           ),
                           child: const Text('Search Clients'),
                         )
@@ -555,12 +555,12 @@ class _ExportState extends State<Export> {
                           },
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
-                                Colors.deepOrangeAccent),
+                                const Color.fromRGBO(47, 47, 97, 1)),
                             shape: MaterialStateProperty.all<
-                                    RoundedRectangleBorder>(
+                                RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10.0),
-                                    side: const BorderSide(color: Colors.red))),
+                                    side: const BorderSide(color: Color.fromRGBO(47, 47, 97, 1)))),
                           ),
                           child: const Text('Search'),
                         )
@@ -658,12 +658,12 @@ class _ExportState extends State<Export> {
                           },
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
-                                Colors.deepOrangeAccent),
+                                const Color.fromRGBO(47, 47, 97, 1)),
                             shape: MaterialStateProperty.all<
-                                    RoundedRectangleBorder>(
+                                RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10.0),
-                                    side: const BorderSide(color: Colors.red))),
+                                    side: const BorderSide(color: Color.fromRGBO(47, 47, 97, 1)))),
                           ),
                           child: const Text('Add'),
                         )
@@ -754,12 +754,12 @@ class _ExportState extends State<Export> {
                           },
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
-                                Colors.deepOrangeAccent),
+                                const Color.fromRGBO(47, 47, 97, 1)),
                             shape: MaterialStateProperty.all<
-                                    RoundedRectangleBorder>(
+                                RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10.0),
-                                    side: const BorderSide(color: Colors.red))),
+                                    side: const BorderSide(color: Color.fromRGBO(47, 47, 97, 1)))),
                           ),
                           child: const Text('Add'),
                         )
@@ -913,12 +913,12 @@ class _ExportState extends State<Export> {
                           },
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
-                                Colors.deepOrangeAccent),
+                                const Color.fromRGBO(47, 47, 97, 1)),
                             shape: MaterialStateProperty.all<
-                                    RoundedRectangleBorder>(
+                                RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10.0),
-                                    side: const BorderSide(color: Colors.red))),
+                                    side: const BorderSide(color: Color.fromRGBO(47, 47, 97, 1)))),
                           ),
                           child: const Text('Delete'),
                         )
@@ -1055,12 +1055,12 @@ class _ExportState extends State<Export> {
                           },
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
-                                Colors.deepOrangeAccent),
+                                const Color.fromRGBO(47, 47, 97, 1)),
                             shape: MaterialStateProperty.all<
-                                    RoundedRectangleBorder>(
+                                RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10.0),
-                                    side: const BorderSide(color: Colors.red))),
+                                    side: const BorderSide(color: Color.fromRGBO(47, 47, 97, 1)))),
                           ),
                           child: const Text('Delete'),
                         )

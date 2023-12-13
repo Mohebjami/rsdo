@@ -111,8 +111,10 @@ flutter:
   # example:
   fonts:
      - family: RobotoSlab
+     - family: LilitaOne
        fonts:
          - asset: fonts/RobotoSlab-VariableFont_wght.ttf
+         - asset: fonts/LilitaOne-Regular.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

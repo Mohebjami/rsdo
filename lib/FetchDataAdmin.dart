@@ -39,6 +39,7 @@ class _FirebaseListViewState extends State<FirebaseListView> {
         backgroundColor: Colors.white,
         appBar: AppBar(
           title: const Text('Clients'),
+          backgroundColor: Color.fromRGBO(47, 47, 97, 1),
         ),
         body: Column(
           children: <Widget>[
@@ -63,10 +64,7 @@ class _FirebaseListViewState extends State<FirebaseListView> {
             ),
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
-                stream: _firestore
-                    .collection('Clients')
-                    .where('Household Name Code', isEqualTo: _searchText)
-                    .snapshots(),
+                stream: _firestore.collection('Clients').where('Household Name Code', isEqualTo: _searchText).snapshots(),
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.hasError) {
@@ -78,12 +76,9 @@ class _FirebaseListViewState extends State<FirebaseListView> {
                     );
                   }
                   return ListView(
-                    children:
-                        snapshot.data!.docs.map((DocumentSnapshot document) {
-                      Map<String, dynamic> data =
-                          document.data() as Map<String, dynamic>;
-                      CollectionReference paid =
-                          FirebaseFirestore.instance.collection('Paid');
+                    children: snapshot.data!.docs.map((DocumentSnapshot document) {
+                      Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+                      CollectionReference paid = FirebaseFirestore.instance.collection('Paid');
                       var sn = data['SN'];
                       var Household_ID = data['Household ID'];
                       var Household_Name_Code = data['Household Name Code'];

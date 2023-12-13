@@ -1,114 +1,131 @@
-import 'package:cloud_firestore/cloud_firestore.dart' ;
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:rsdo/Controller.dart';
 
-class FetchPadiData extends StatefulWidget {
-  const FetchPadiData({super.key});
-
-  @override
-  State<FetchPadiData> createState() => _FetchPadiDataState();
-}
-
-
-
-class _FetchPadiDataState extends State<FetchPadiData> {
-  late var client, id, clients, data, data2;
-  bool isPaid = true;
-  var name = "";
+class FetchPadiData extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    double fullScreenHeight = MediaQuery.of(context).size.height;
-    double fullScreenWidth = MediaQuery.of(context).size.width;
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Search Paid"),
-        backgroundColor: const Color.fromRGBO(47, 47, 94, 1),
-      ),
-      body: Container(
-        height: fullScreenHeight,
-        width: fullScreenWidth,
-        decoration: const BoxDecoration(),
-        child: Stack(children: [
-          const SizedBox(
-            height: 10,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(30),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black26.withOpacity(0.5),
-                    spreadRadius: 5,
-                    blurRadius: 15,
-                    offset: const Offset(0, 0),
-                  ),
-                ],
-              ),
+    return FirebaseListView();
+  }
+}
+
+class FirebaseListView extends StatefulWidget {
+  @override
+  _FirebaseListViewState createState() => _FirebaseListViewState();
+}
+
+class _FirebaseListViewState extends State<FirebaseListView> {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final TextEditingController _textController = TextEditingController();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldMessengerState> _scaffoldMessengerKey =
+      GlobalKey<ScaffoldMessengerState>();
+
+
+  String _searchText = '';
+
+  void _search() {
+    setState(() {
+      _searchText = _textController.text;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ScaffoldMessenger(
+      key: _scaffoldMessengerKey,
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          title: const Text('Paid'),
+          backgroundColor: Color.fromRGBO(47, 47, 97, 1),
+        ),
+        body: Column(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
               child: TextField(
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(borderSide: BorderSide.none),
-                    prefixIcon: Icon(Icons.search),
-                    hintText: 'Search...'),
-                onChanged: (val) {
-                  setState(() {
-                    name = val;
-                  });
+                controller: _textController,
+                decoration: InputDecoration(
+                  fillColor: Colors.grey,
+                  filled: true,
+                  hintText: "Search",
+                  border: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                    borderSide: BorderSide.none,
+                  ),
+                  suffixIcon: IconButton(
+                    onPressed: _search,
+                    icon: const Icon(Icons.search),
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              child: StreamBuilder<QuerySnapshot>(
+                stream: _firestore.collection('Paid').where('Household Name Code', isEqualTo: _searchText).snapshots(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  if (snapshot.hasError) {
+                    return const Text('Something went wrong');
+                  }
+                  if (snapshot.data!.docs.isEmpty) {
+                    return const Text('Empty');
+                  }
+                  return ListView(
+                    children: snapshot.data!.docs.map((DocumentSnapshot document) {
+                      Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+                      var Household_ID = data['Household ID'];
+                      if(data.isEmpty){
+                        print("object");
+                        return const Text('Something went wrong');
+                      }
+                      return Slidable(
+                        closeOnScroll: true,
+                        startActionPane: ActionPane(
+                            motion: const StretchMotion(),
+                            children: [
+                              SlidableAction(
+                                  backgroundColor: Colors.red,
+                                  icon: Icons.check,
+                                  label: 'Delete',
+                                  onPressed: (context) async {
+                                    try {
+                                      var querySnapshot = await FirebaseFirestore.instance.collection('Paid').where('Household ID', isEqualTo: Household_ID).get();
+                                      querySnapshot.docs.forEach((doc) async {
+                                        await FirebaseFirestore.instance.collection('Paid').doc(doc.id).delete();
+                                      });
+                                    } catch (e) {
+                                      print('Failed to add document: $e');
+                                    }
+                                  })
+                            ]),
+                        child: ListTile(
+                          title: Text(
+                            data['Recipient Name'],
+                          ),
+                          subtitle: Text(
+                            data['Father Name'],
+                          ),
+                          leading: Text(data['S/N'].toString()),
+                        ),
+                      );
+                    }
+                    ).toList(),
+                  );
                 },
               ),
             ),
-          ),
-          StreamBuilder<QuerySnapshot>(
-              stream:
-              FirebaseFirestore.instance.collection('Paid').snapshots(),
-
-              builder: (context, snapshots) {
-                return (snapshots.connectionState == ConnectionState.waiting)
-                    ? const Center(
-                  child: CircularProgressIndicator(),
-                )
-                    : Padding(
-                  padding: const EdgeInsets.only(top: 65.0),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ListView.builder(
-                      itemCount: snapshots.data!.docs.length,
-                      itemBuilder: (context, index) {
-                        data = snapshots.data!.docs[index].data()
-                        as Map<String, dynamic>;
-                        clients = snapshots.data?.docs.reversed.toList();
-                        if (name.isEmpty) {
-                          return ListTile(
-                            title: Text(
-                              data['Recipient Name'],
-                            ),
-                            subtitle: Text(
-                              data['Father Name'],
-                            ),
-                          );
-                        }
-                        if (data['Recipient Name'].toString().toLowerCase().startsWith(name.toLowerCase()) || data['Mobile Number'].toString().toLowerCase().startsWith(name.toLowerCase())) {
-                          return ListTile(
-                            title: Text(
-                              data['Recipient Name'],
-                            ),
-                            subtitle: Text(
-                              data['Father Name'],
-                            ),
-                          );
-                        }
-                        return Container();
-                      },
-                    ),
-                  ),
-                );
-              }),
-        ]),
+          ],
+        ),
       ),
     );
   }
 }
-
 
