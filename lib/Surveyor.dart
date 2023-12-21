@@ -21,21 +21,23 @@ class _SarvearState extends State<Sarvear> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Container(
-          padding: const EdgeInsets.only(left: 80, top: 50),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Text("Surveyor Login", style: TextStyle(fontFamily: "LilitaOne" ,fontWeight: FontWeight.bold , fontSize: 22,color: Colors.white)),
-              const SizedBox(
-                height: 10,
-              ),
-              Image.asset(
-                "assets/logo.png",
-                width: 250,
-                color: Colors.white70,
-              ),
-            ],
+        Center(
+          child: Container(
+            padding: const EdgeInsets.only(top: 50),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Text("Surveyor Login", style: TextStyle(fontFamily: "LilitaOne" ,fontWeight: FontWeight.bold , fontSize: 22,color: Colors.white)),
+                const SizedBox(
+                  height: 10,
+                ),
+                Image.asset(
+                  "assets/logo.png",
+                  width: 250,
+                  color: Colors.white70,
+                ),
+              ],
+            ),
           ),
         ),
         SingleChildScrollView(

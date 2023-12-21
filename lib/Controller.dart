@@ -6,21 +6,30 @@ import 'package:csv/csv.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart' hide Column, Row;
 import 'package:flutter/material.dart';
 
-class Export extends StatefulWidget {
-  const Export({super.key});
+class Controller extends StatefulWidget {
+  const Controller({super.key});
 
   @override
-  State<Export> createState() => _ExportState();
+  State<Controller> createState() => _ControllerState();
 }
 
 List<List<dynamic>> data = [];
-
-class _ExportState extends State<Export> {
+class _ControllerState extends State<Controller> {
   bool shouldAbsorb = false;
   bool isDeleted = false;
+  late var text;
   @override
   Widget build(BuildContext context) {
     double fullScreenWidth = MediaQuery.of(context).size.width;
+    var now = DateTime.now();
+    setState(() {
+      if (now.hour < 12) {
+        text = 'Good Morning';
+      } else {
+        text = 'Good Afternoon';
+      }
+    });
+
     return Scaffold(
       backgroundColor: const Color.fromRGBO(211, 211, 211, 1),
       body: SingleChildScrollView(
@@ -38,13 +47,13 @@ class _ExportState extends State<Export> {
                     topLeft: Radius.circular(40),
                   )
               ),
-              child: const Column(
+              child:  Column(
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(top: 20.0),
+                    padding: const EdgeInsets.only(top: 20.0),
                     child: Row(
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           width: 90, // specify the width
                           height: 90, // specify the height
                           child: Image(
@@ -55,7 +64,7 @@ class _ExportState extends State<Export> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
+                            const Text(
                               "RSDO",
                               style: TextStyle(
                                   color: Colors.white,
@@ -63,8 +72,8 @@ class _ExportState extends State<Export> {
                                   fontFamily: "RobotoSlab"),
                             ),
                             Text(
-                              "Good Morning",
-                              style: TextStyle(
+                              text,
+                              style: const TextStyle(
                                   color: Colors.white, fontFamily: "RobotoSlab"),
                             ),
                           ],
@@ -73,7 +82,7 @@ class _ExportState extends State<Export> {
                       ],
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                 ],
@@ -83,10 +92,10 @@ class _ExportState extends State<Export> {
               height: 30,
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 // new buttons
-                Padding(
-                  padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                Center(
                   child: Container(
                     height: 230,
                     width: 170,
@@ -260,7 +269,7 @@ class _ExportState extends State<Export> {
                           },
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
-                                Color.fromRGBO(47, 47, 97, 1)),
+                                const Color.fromRGBO(47, 47, 97, 1)),
                             shape: MaterialStateProperty.all<
                                     RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
@@ -273,100 +282,97 @@ class _ExportState extends State<Export> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                  child: Container(
-                    height: 230,
-                    width: 170,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(30),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 1.0,
-                          blurRadius: 12,
-                          offset: const Offset(
-                              3.0, 2.0), // changes position of shadow
-                        ),
-                        const BoxShadow(
-                          color: Colors.white,
-                          offset: Offset(-4.0, -4.0),
-                          blurRadius: 15,
-                          spreadRadius: 1.0,
-                        )
-                      ],
-                    ),
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(18.0),
+                Container(
+                  height: 230,
+                  width: 170,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(30),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 1.0,
+                        blurRadius: 12,
+                        offset: const Offset(
+                            3.0, 2.0), // changes position of shadow
+                      ),
+                      const BoxShadow(
+                        color: Colors.white,
+                        offset: Offset(-4.0, -4.0),
+                        blurRadius: 15,
+                        spreadRadius: 1.0,
+                      )
+                    ],
+                  ),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(18.0),
+                        child: Container(
+                          width: 120,
+                          decoration: BoxDecoration(
+                            color: Colors.grey,
+                            shape: BoxShape.circle,
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 12,
+                                  blurRadius: 20,
+                                  offset: const Offset(-0, 0),
+                                  blurStyle: BlurStyle
+                                      .inner // changes position of shadow
+                                  ),
+                            ],
+                          ),
                           child: Container(
-                            width: 120,
                             decoration: BoxDecoration(
                               color: Colors.grey,
                               shape: BoxShape.circle,
                               boxShadow: [
                                 BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 12,
-                                    blurRadius: 20,
-                                    offset: const Offset(-0, 0),
-                                    blurStyle: BlurStyle
-                                        .inner // changes position of shadow
-                                    ),
+                                  color: Colors.grey.withOpacity(1),
+                                  spreadRadius: 1.0,
+                                  blurRadius: 12,
+                                  offset: const Offset(
+                                      3.0, 2.0), // changes position of shadow
+                                ),
+                                const BoxShadow(
+                                  color: Colors.white,
+                                  offset: Offset(-3.0, -3.0),
+                                  blurRadius: 15,
+                                  spreadRadius: 1.0,
+                                )
                               ],
                             ),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.grey,
-                                shape: BoxShape.circle,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(1),
-                                    spreadRadius: 1.0,
-                                    blurRadius: 12,
-                                    offset: const Offset(
-                                        3.0, 2.0), // changes position of shadow
-                                  ),
-                                  const BoxShadow(
-                                    color: Colors.white,
-                                    offset: Offset(-3.0, -3.0),
-                                    blurRadius: 15,
-                                    spreadRadius: 1.0,
-                                  )
-                                ],
-                              ),
-                              width: 50,
-                              child: const CircleAvatar(
-                                backgroundColor: Colors.white,
-                                radius: 50,
-                                child: Image(
-                                  image: AssetImage("assets/analytics.png"),
-                                  width: 80,
-                                ),
+                            width: 50,
+                            child: const CircleAvatar(
+                              backgroundColor: Colors.white,
+                              radius: 50,
+                              child: Image(
+                                image: AssetImage("assets/analytics.png"),
+                                width: 80,
                               ),
                             ),
                           ),
                         ),
-                        const Text("Report"),
-                        ElevatedButton(
-                          onPressed: () {
-                            createExcel();
-                          },
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(
-                                const Color.fromRGBO(47, 47, 97, 1)),
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    side: const BorderSide(color: Color.fromRGBO(47, 47, 97, 1)))),
-                          ),
-                          child: const Text('Download'),
-                        )
-                      ],
-                    ),
+                      ),
+                      const Text("Report"),
+                      ElevatedButton(
+                        onPressed: () {
+                          createExcel();
+                        },
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(
+                              const Color.fromRGBO(47, 47, 97, 1)),
+                          shape: MaterialStateProperty.all<
+                              RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  side: const BorderSide(color: Color.fromRGBO(47, 47, 97, 1)))),
+                        ),
+                        child: const Text('Download'),
+                      )
+                    ],
                   ),
                 ),
               ],
@@ -375,6 +381,7 @@ class _ExportState extends State<Export> {
               height: 30,
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 15.0, right: 15.0),
@@ -473,7 +480,7 @@ class _ExportState extends State<Export> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                  padding: const EdgeInsets.only( right: 15.0),
                   child: Container(
                     height: 230,
                     width: 170,
@@ -574,9 +581,10 @@ class _ExportState extends State<Export> {
               height: 30,
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                  padding: const EdgeInsets.only(right: 15.0),
                   child: Container(
                     height: 230,
                     width: 170,
@@ -671,100 +679,97 @@ class _ExportState extends State<Export> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                  child: Container(
-                    height: 230,
-                    width: 170,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(30),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 1.0,
-                          blurRadius: 12,
-                          offset: const Offset(
-                              3.0, 2.0), // changes position of shadow
-                        ),
-                        const BoxShadow(
-                          color: Colors.white,
-                          offset: Offset(-4.0, -4.0),
-                          blurRadius: 15,
-                          spreadRadius: 1.0,
-                        )
-                      ],
-                    ),
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(18.0),
+                Container(
+                  height: 230,
+                  width: 170,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(30),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 1.0,
+                        blurRadius: 12,
+                        offset: const Offset(
+                            3.0, 2.0), // changes position of shadow
+                      ),
+                      const BoxShadow(
+                        color: Colors.white,
+                        offset: Offset(-4.0, -4.0),
+                        blurRadius: 15,
+                        spreadRadius: 1.0,
+                      )
+                    ],
+                  ),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(18.0),
+                        child: Container(
+                          width: 120,
+                          decoration: BoxDecoration(
+                            color: Colors.grey,
+                            shape: BoxShape.circle,
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 12,
+                                  blurRadius: 20,
+                                  offset: const Offset(-0, 0),
+                                  blurStyle: BlurStyle
+                                      .inner // changes position of shadow
+                                  ),
+                            ],
+                          ),
                           child: Container(
-                            width: 120,
                             decoration: BoxDecoration(
                               color: Colors.grey,
                               shape: BoxShape.circle,
                               boxShadow: [
                                 BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 12,
-                                    blurRadius: 20,
-                                    offset: const Offset(-0, 0),
-                                    blurStyle: BlurStyle
-                                        .inner // changes position of shadow
-                                    ),
+                                  color: Colors.grey.withOpacity(1),
+                                  spreadRadius: 1.0,
+                                  blurRadius: 12,
+                                  offset: const Offset(
+                                      3.0, 2.0), // changes position of shadow
+                                ),
+                                const BoxShadow(
+                                  color: Colors.white,
+                                  offset: Offset(-3.0, -3.0),
+                                  blurRadius: 15,
+                                  spreadRadius: 1.0,
+                                )
                               ],
                             ),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.grey,
-                                shape: BoxShape.circle,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(1),
-                                    spreadRadius: 1.0,
-                                    blurRadius: 12,
-                                    offset: const Offset(
-                                        3.0, 2.0), // changes position of shadow
-                                  ),
-                                  const BoxShadow(
-                                    color: Colors.white,
-                                    offset: Offset(-3.0, -3.0),
-                                    blurRadius: 15,
-                                    spreadRadius: 1.0,
-                                  )
-                                ],
-                              ),
-                              width: 50,
-                              child: const CircleAvatar(
-                                backgroundColor: Colors.white,
-                                radius: 50,
-                                child: Image(
-                                  image: AssetImage("assets/surveyr.png"),
-                                  width: 80,
-                                ),
+                            width: 50,
+                            child: const CircleAvatar(
+                              backgroundColor: Colors.white,
+                              radius: 50,
+                              child: Image(
+                                image: AssetImage("assets/surveyr.png"),
+                                width: 80,
                               ),
                             ),
                           ),
                         ),
-                        const Text("New Surveyor"),
-                        ElevatedButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, 'Surveyor');
-                          },
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(
-                                const Color.fromRGBO(47, 47, 97, 1)),
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    side: const BorderSide(color: Color.fromRGBO(47, 47, 97, 1)))),
-                          ),
-                          child: const Text('Add'),
-                        )
-                      ],
-                    ),
+                      ),
+                      const Text("New Surveyor"),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, 'Surveyor');
+                        },
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(
+                              const Color.fromRGBO(47, 47, 97, 1)),
+                          shape: MaterialStateProperty.all<
+                              RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  side: const BorderSide(color: Color.fromRGBO(47, 47, 97, 1)))),
+                        ),
+                        child: const Text('Add'),
+                      )
+                    ],
                   ),
                 ),
               ],
@@ -773,9 +778,10 @@ class _ExportState extends State<Export> {
               height: 30,
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                  padding: const EdgeInsets.only( right: 15.0),
                   child: Container(
                     height: 230,
                     width: 170,
@@ -926,8 +932,7 @@ class _ExportState extends State<Export> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                Center(
                   child: Container(
                     height: 230,
                     width: 170,

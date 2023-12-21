@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:rsdo/AdminLogin.dart';
 import 'package:rsdo/Surveyor.dart';
 
-class WelcomePage extends StatefulWidget {
-  const WelcomePage({Key? key}) : super(key: key);
+class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
-  State<WelcomePage> createState() => _WelcomePageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _WelcomePageState extends State<WelcomePage> {
+class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -18,6 +18,7 @@ class _WelcomePageState extends State<WelcomePage> {
         decoration: const BoxDecoration(color: Color.fromRGBO(44, 62, 82, 1)),
         child: Scaffold(
           appBar: AppBar(
+
             backgroundColor: Colors.transparent,
             bottom: const PreferredSize(
               preferredSize: Size(5, 5),

@@ -24,21 +24,23 @@ class _AdminLoginState extends State<AdminLogin> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Container(
-          padding: const EdgeInsets.only(left: 80, top: 50),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text("Admin Login", style: TextStyle(fontFamily: "LilitaOne" ,fontWeight: FontWeight.bold , fontSize: 22,color: Colors.white)),
-              SizedBox(
-                height: 10,
-              ),
-              Image.asset(
-                "assets/logo.png",
-                width: 250,
-                color: Colors.white70,
-              ),
-            ],
+        Center(
+          child: Container(
+            padding: const EdgeInsets.only(top: 50),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text("Admin Login", style: TextStyle(fontFamily: "LilitaOne" ,fontWeight: FontWeight.bold , fontSize: 22,color: Colors.white)),
+                SizedBox(
+                  height: 10,
+                ),
+                Image.asset(
+                  "assets/logo.png",
+                  width: 250,
+                  color: Colors.white70,
+                ),
+              ],
+            ),
           ),
         ),
         SingleChildScrollView(
@@ -73,7 +75,7 @@ class _AdminLoginState extends State<AdminLogin> {
                 const SizedBox(
                   height: 30,
                 ),
-                Container(
+                SizedBox(
                   width: 330,
                   child: TextField(
                     controller: password,

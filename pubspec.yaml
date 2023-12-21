@@ -31,7 +31,6 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_spinkit: ^5.2.0
-  firebase_core: ^2.17.0
   cloud_firestore: ^4.9.3
   firebase_database: ^10.2.7
   file_picker: ^5.1.0
@@ -45,7 +44,7 @@ dependencies:
   percent_indicator: ^4.2.3
   syncfusion_flutter_xlsio:
   path_provider:
-  shared_preferences: ^2.2.2
+  firebase_core:
 
 
 
@@ -110,10 +109,8 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-     - family: RobotoSlab
      - family: LilitaOne
        fonts:
-         - asset: fonts/RobotoSlab-VariableFont_wght.ttf
          - asset: fonts/LilitaOne-Regular.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic

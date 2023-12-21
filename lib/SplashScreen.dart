@@ -14,7 +14,7 @@ class _SplachScreenState extends State<SplachScreen> {
     super.initState();
 
     Timer(const Duration(seconds: 2), () {
-      Navigator.of(context).pushReplacementNamed("welcome");
+      Navigator.of(context).pushReplacementNamed("HomePage");
     });
   }
 
@@ -44,11 +44,22 @@ class _SplachScreenState extends State<SplachScreen> {
               child: Text(
                 "Version 1.0",
                 style: TextStyle(
-                    color: Color.fromRGBO(47, 47, 94, 1), fontSize: 20),
+                    color: Color.fromRGBO(47, 47, 94, 1), fontSize: 15),
               ),
-            )
+            ),
+            Padding(
+              padding: EdgeInsets.only(
+                top: 10,
+              ),
+              child: Text(
+                "Develop by Moheb Jami",
+                style: TextStyle(
+                    color: Color.fromRGBO(47, 47, 94, 1), fontSize: 15),
+              ),
+            ),
           ],
         ),
+
       ),
     );
   }
