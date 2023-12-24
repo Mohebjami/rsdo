@@ -95,6 +95,7 @@ flutter:
    - assets/surveyr.png
    - assets/recycle-bin.png
    - assets/user.png
+   - assets/test.jpg
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

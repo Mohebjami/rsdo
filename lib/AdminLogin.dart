@@ -207,7 +207,7 @@ class _AdminLoginState extends State<AdminLogin> {
                     style: ButtonStyle(
                       backgroundColor: MaterialStatePropertyAll(
                           Color.fromRGBO(126, 145, 162, 1)),
-                      shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
+                      shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))),
                     ),
                   ),
                 ),

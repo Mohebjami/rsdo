@@ -12,169 +12,217 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     double fullScreenWidth = MediaQuery.of(context).size.width;
     double fullScreenHeight = MediaQuery.of(context).size.height;
+    late var text;
+    var now = DateTime.now();
+    setState(() {
+      if (now.hour < 12) {
+        text = 'Good Morning';
+      } else {
+        text = 'Good Afternoon';
+      }
+    });
+
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(44, 62, 82, 1),
-      body: SizedBox(
+      body: Container(
         height: fullScreenHeight,
         width: fullScreenWidth,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18.0),
-                          side: const BorderSide(color: Colors.blue)
-                      )
-                  )
-              ),
-              onPressed: () { Navigator.pushNamed(context, 'welcome'); },
-              child: const Padding(
-                padding: EdgeInsets.all(10.0),
-                child: Text(
-                  'Value Voucher',
-                  style: TextStyle(fontSize: 20, color: Colors.white),
-                ),
-              ),
-            ),
-            ElevatedButton(
-              style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18.0),
-                          side: const BorderSide(color: Colors.blue)
-                      )
-                  )
-              ),
-              onPressed: () { print('Button pressed'); },
-              child: const Padding(
-                padding: EdgeInsets.all(10.0),
-                child: Text(
-                  'Cash',
-                  style: TextStyle(fontSize: 20, color: Colors.white),
-                ),
-              ),
-            ),
-            ElevatedButton(
-              style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18.0),
-                          side: const BorderSide(color: Colors.blue)
-                      )
-                  )
-              ),
-              onPressed: () { print('Button pressed'); },
-              child: const Padding(
-                padding: EdgeInsets.all(10.0),
-                child: Text(
-                  'Food',
-                  style: TextStyle(fontSize: 20, color: Colors.white),
-                ),
-              ),
-            ),
-            ElevatedButton(
-              style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18.0),
-                          side: const BorderSide(color: Colors.blue)
-                      )
-                  )
-              ),
-              onPressed: () { print('Button pressed'); },
-              child: const Padding(
-                padding: EdgeInsets.all(10.0),
-                child: Text(
-                  'Button',
-                  style: TextStyle(fontSize: 20, color: Colors.white),
-                ),
-              ),
-            ),
-
-
-
-            Container(
-              color: Colors.red,
-              width: 300,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Container(
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 8.0),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          // Add your button logic here
-                        },
-                        style: ElevatedButton.styleFrom(
-                          shape:  RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            side: BorderSide(color: Colors.white),
-                          ),
-                          backgroundColor: Colors.red,
-                        ),
-                        child: Text('My Button'),
-                      )
-
-
+        decoration: const BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage('assets/test.jpg'), fit: BoxFit.cover )),
+        child: Center(
+          child: SizedBox(
+            height: fullScreenHeight-200,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Container(
+                  width: 300,
+                  height: 70,
+                  decoration: const BoxDecoration(
+                    color: Colors.transparent,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color.fromRGBO(50, 41, 36, 0.4),
+                        blurRadius: 15,
+                        spreadRadius: 10,
+                        offset: Offset(1, 1), // moves the shadow up
+                      ),
+                    ],
+                  ),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.transparent,
+                      onPrimary: Colors.transparent,
+                      shadowColor: Colors.black,
+                      elevation: 5,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          side: const BorderSide(color: Colors.white30)
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-
-
-
-
-
-            SizedBox(
-              height: 30,
-            ),
-
-
-
-
-            Center(
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.grey[800],
-                  onPrimary: Colors.grey[300],
-                  shadowColor: Colors.black,
-                  elevation: 5,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                ),
-                onPressed: () {},
-                child: Container(
-                  width: 120,
-                  height: 50,
-                  alignment: Alignment.center,
-                  child: Text(
-                    'Button',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontFamily: 'Consolas',
+                    onPressed: () {
+                      Navigator.pushNamed(context, 'welcome');
+                    },
+                    child: const Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: Text(
+                        'Value Voucher',
+                        style: TextStyle(fontSize: 30, color: Colors.white, fontFamily: "LilitaOne"),
+                      ),
                     ),
                   ),
                 ),
-              ),
+                Container(
+                  width: 300,
+                  height: 70,
+                  decoration: const BoxDecoration(
+                    color: Colors.transparent,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color.fromRGBO(50, 41, 36, 0.4),
+                        blurRadius: 15,
+                        spreadRadius: 10,
+                        offset: Offset(1, 1), // moves the shadow up
+                      ),
+                    ],
+                  ),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.transparent,
+                      onPrimary: Colors.transparent,
+                      shadowColor: Colors.black,
+                      elevation: 5,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          side: const BorderSide(color: Colors.white30)
+                      ),
+                    ),
+                    onPressed: () {
+                      print('Button pressed');
+                    },
+                    child: const Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: Text(
+                        'Cash',
+                        style: TextStyle(fontSize: 30, color: Colors.white, fontFamily: "LilitaOne"),
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  width: 300,
+                  height: 70,
+                  decoration: const BoxDecoration(
+                    color: Colors.transparent,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color.fromRGBO(50, 41, 36, 0.4),
+                        blurRadius: 15,
+                        spreadRadius: 10,
+                        offset: Offset(1, 1), // moves the shadow up
+                      ),
+                    ],
+                  ),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.transparent,
+                      onPrimary: Colors.transparent,
+                      shadowColor: Colors.black,
+                      elevation: 5,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        side: const BorderSide(color: Colors.white30)
+                      ),
+                    ),
+                    onPressed: () {
+                      print('Button pressed');
+                    },
+                    child: const Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: Text(
+                        'Food',
+                        style: TextStyle(fontSize: 30, color: Colors.white, fontFamily: "LilitaOne"),
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  width: 300,
+                  height: 70,
+                  decoration: const BoxDecoration(
+                    color: Colors.transparent,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color.fromRGBO(50, 41, 36, 0.4),
+                        blurRadius: 15,
+                        spreadRadius: 10,
+                        offset: Offset(1, 1), // moves the shadow up
+                      ),
+                    ],
+                  ),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.transparent,
+                      onPrimary: Colors.transparent,
+                      shadowColor: Colors.black,
+                      elevation: 5,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          side: const BorderSide(color: Colors.white30)
+                      ),
+                    ),
+                    onPressed: () {
+                      print('Button pressed');
+                    },
+                    child: const Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: Text(
+                        'Button',
+                        style: TextStyle(fontSize: 30, color: Colors.white, fontFamily: "LilitaOne"),
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  width: 300,
+                  height: 70,
+                  decoration: const BoxDecoration(
+                    color: Colors.transparent,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color.fromRGBO(50, 41, 36, 0.4),
+                        blurRadius: 15,
+                        spreadRadius: 10,
+                        offset: Offset(1, 1), // moves the shadow up
+                      ),
+                    ],
+                  ),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.transparent,
+                      onPrimary: Colors.transparent,
+                      shadowColor: Colors.black,
+                      elevation: 5,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          side: const BorderSide(color: Colors.white30)
+                      ),
+                    ),
+                    onPressed: () {},
+                    child: Container(
+                      width: 120,
+                      height: 50,
+                      alignment: Alignment.center,
+                      child: const Text(
+                        'Button',
+                        style: TextStyle(fontSize: 30, color: Colors.white, fontFamily: "LilitaOne"),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-
-
-
-
-
-
-
-
-          ],
+          ),
         ),
       ),
     );
