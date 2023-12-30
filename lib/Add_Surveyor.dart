@@ -166,7 +166,7 @@ class _Add_SarverState extends State<Add_Sarver> {
                   'Error',
                   style: TextStyle(color: Colors.red),
                 ),
-                icon: Image(
+                icon: const Image(
                   image: AssetImage("assets/no-wifi.png"),
                   width: 35,
                   height: 35,

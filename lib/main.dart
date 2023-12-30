@@ -5,9 +5,10 @@ import 'package:rsdo/Add_Surveyor.dart';
 import 'package:rsdo/Controller.dart';
 import 'package:rsdo/FetchDataAdmin.dart';
 import 'package:rsdo/FetchPaidData.dart';
-import 'package:rsdo/HomePage.dart';
+import 'package:rsdo/Projects.dart';
 import 'package:rsdo/SplashScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:rsdo/Sub_Project.dart';
 import 'package:rsdo/WelcomePage.dart';
 
 void main() async {
@@ -21,7 +22,8 @@ void main() async {
     initialRoute: 'start',
     routes: {
       'start': (context) => const SplachScreen(),
-      'HomePage': (context) => const HomePage(),
+      'Projects': (context) => const Projects(),
+      'SubProject': (context) => const SubProject(),
       'welcome': (context) => const LoginPage(),
       'export': (context) => const Controller(),
       'show': (context) =>  FetchDataAdmin(),

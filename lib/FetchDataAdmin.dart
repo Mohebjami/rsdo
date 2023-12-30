@@ -177,7 +177,6 @@ class _FirebaseListViewState extends State<FirebaseListView> {
                                           }
                                         });
                                       } else {
-                                        print("Duplicate data");
                                         _scaffoldMessengerKey.currentState
                                             ?.showSnackBar(SnackBar(
                                           content: Container(
@@ -203,7 +202,6 @@ class _FirebaseListViewState extends State<FirebaseListView> {
                                     } catch (e) {
                                       print('Failed to add document: $e');
                                     }
-                                    print("3");
                                   })
                             ]),
                         child: ListTile(

@@ -14,7 +14,7 @@ class _SplachScreenState extends State<SplachScreen> {
     super.initState();
 
     Timer(const Duration(seconds: 2), () {
-      Navigator.of(context).pushReplacementNamed("HomePage");
+      Navigator.of(context).pushReplacementNamed("Projects");
     });
   }
 

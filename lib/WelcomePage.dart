@@ -18,7 +18,7 @@ class _LoginPageState extends State<LoginPage> {
         decoration: const BoxDecoration(color: Color.fromRGBO(44, 62, 82, 1)),
         child: Scaffold(
           appBar: AppBar(
-
+            automaticallyImplyLeading: false,
             backgroundColor: Colors.transparent,
             bottom: const PreferredSize(
               preferredSize: Size(5, 5),

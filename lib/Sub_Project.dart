@@ -1,27 +1,17 @@
 import 'package:flutter/material.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class SubProject extends StatefulWidget {
+  const SubProject({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<SubProject> createState() => _SubProjectState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _SubProjectState extends State<SubProject> {
   @override
   Widget build(BuildContext context) {
     double fullScreenWidth = MediaQuery.of(context).size.width;
     double fullScreenHeight = MediaQuery.of(context).size.height;
-    late var text;
-    var now = DateTime.now();
-    setState(() {
-      if (now.hour < 12) {
-        text = 'Good Morning';
-      } else {
-        text = 'Good Afternoon';
-      }
-    });
-
     return Scaffold(
       body: Container(
         height: fullScreenHeight,
@@ -177,7 +167,7 @@ class _HomePageState extends State<HomePage> {
                     child: const Padding(
                       padding: EdgeInsets.all(10.0),
                       child: Text(
-                        'Button',
+                        'Comudety vocher',
                         style: TextStyle(fontSize: 30, color: Colors.white, fontFamily: "LilitaOne"),
                       ),
                     ),
