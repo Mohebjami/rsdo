@@ -19,7 +19,9 @@ class _Add_AdminState extends State<Add_Admin> {
     return Container(
       decoration: const BoxDecoration(
           image: DecorationImage(
-              image: AssetImage('assets/henrique.jpg'), fit: BoxFit.cover,opacity: 0.4 )),
+              image: AssetImage('assets/henrique.jpg'),
+              fit: BoxFit.cover,
+              opacity: 0.4)),
       child: Scaffold(
           backgroundColor: Colors.transparent,
           body: Stack(
@@ -34,15 +36,14 @@ class _Add_AdminState extends State<Add_Admin> {
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 38,
-                          fontFamily: "RobotoSlab"
-                      ),
-                    ),Text(
+                          fontFamily: "RobotoSlab"),
+                    ),
+                    Text(
                       ' Admin',
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 20,
-                          fontFamily: "RobotoSlab"
-                      ),
+                          fontFamily: "RobotoSlab"),
                     ),
                   ],
                 ),
@@ -68,7 +69,6 @@ class _Add_AdminState extends State<Add_Admin> {
                           border: OutlineInputBorder(
                               borderSide: BorderSide.none,
                               borderRadius: BorderRadius.circular(10)),
-
                         ),
                       ),
                       const SizedBox(
@@ -86,7 +86,6 @@ class _Add_AdminState extends State<Add_Admin> {
                           border: OutlineInputBorder(
                               borderSide: BorderSide.none,
                               borderRadius: BorderRadius.circular(10)),
-
                         ),
                       ),
                       const SizedBox(
@@ -131,7 +130,10 @@ class _Add_AdminState extends State<Add_Admin> {
                                 email.clear();
                                 password.clear();
                               },
-                              icon: const Icon(Icons.how_to_reg_sharp, size: 30,),
+                              icon: const Icon(
+                                Icons.how_to_reg_sharp,
+                                size: 30,
+                              ),
                             ),
                           )
                         ],
@@ -141,8 +143,7 @@ class _Add_AdminState extends State<Add_Admin> {
                 ),
               )
             ],
-          )
-      ),
+          )),
     );
   }
   // void exportData2() async {
@@ -159,13 +160,6 @@ class _Add_AdminState extends State<Add_Admin> {
   //   }
   // }
 
-
-
-
-
-
-
-
   void exportData() async {
     try {
       String userText = user.text;
@@ -173,8 +167,12 @@ class _Add_AdminState extends State<Add_Admin> {
       String passwordText = password.text;
 
       // Check if the fields are empty or contain certain symbols
-      if (userText.isEmpty ||emailText.isEmpty ||passwordText.isEmpty ||userText.contains(new RegExp(r'[/\\"|]')) ||emailText.contains(new RegExp(r'[/\\"|]')) ||passwordText.contains(new RegExp(r'[/\\"|]')))
-      {
+      if (userText.isEmpty ||
+          emailText.isEmpty ||
+          passwordText.isEmpty ||
+          userText.contains(new RegExp(r'[/\\"|]')) ||
+          emailText.contains(new RegExp(r'[/\\"|]')) ||
+          passwordText.contains(new RegExp(r'[/\\"|]'))) {
         return showDialog(
             context: context,
             builder: (BuildContext context) {
@@ -189,7 +187,8 @@ class _Add_AdminState extends State<Add_Admin> {
                   height: 35,
                 ),
                 iconColor: Colors.red,
-                content: const Text('You cant ues from this Signs ( /\\"| ) or empty',
+                content: const Text(
+                    'You cant ues from this Signs ( /\\"| ) or empty',
                     style: TextStyle(color: Colors.red)),
                 actions: <Widget>[
                   TextButton(
@@ -201,19 +200,17 @@ class _Add_AdminState extends State<Add_Admin> {
                 ],
               );
             });
-      }
-      else {
-        CollectionReference collRef = FirebaseFirestore.instance.collection('Accounts');
+      } else {
+        CollectionReference collRef =
+            FirebaseFirestore.instance.collection('Accounts');
         collRef.add({
           'User name': user.text,
           'Email': email.text,
           'Password': password.text,
         });
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text('Successfully added'),
-          backgroundColor:
-          Color.fromRGBO(47, 47, 94, 1),
+          backgroundColor: Color.fromRGBO(47, 47, 94, 1),
           showCloseIcon: true,
           duration: Duration(seconds: 2),
         ));
@@ -222,12 +219,4 @@ class _Add_AdminState extends State<Add_Admin> {
       print("There is some error");
     }
   }
-
-
-
-
-
-
-
-
 }

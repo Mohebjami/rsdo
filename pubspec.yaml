@@ -42,6 +42,8 @@ dependencies:
   flutter_slidable: ^3.0.0
   android_path_provider: ^0.3.0
   percent_indicator: ^4.2.3
+  build_runner: ^2.4.8
+  build_web_compilers:
   syncfusion_flutter_xlsio:
   path_provider:
   firebase_core:

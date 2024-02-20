@@ -20,6 +20,7 @@ class _SarvearState extends State<Sarvear> {
   @override
   Widget build(BuildContext context) {
     return Stack(
+      fit: StackFit.expand,
       children: [
         Center(
           child: Container(

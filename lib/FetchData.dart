@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:rsdo/ClientInfo.dart';
 
 class FetchData extends StatefulWidget {
   final data;
@@ -59,10 +60,7 @@ class _FetchDataState extends State<FetchData> {
             ),
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
-                stream: _firestore
-                    .collection('Clients')
-                    .where('Household Name Code', isEqualTo: _searchText)
-                    .snapshots(),
+                stream: _firestore.collection('Clients').where('Household Name Code', isEqualTo: _searchText).snapshots(),
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.hasError) {
@@ -89,14 +87,14 @@ class _FetchDataState extends State<FetchData> {
                       var Recipient_Last_Name = data['Recipient Last Name'];
                       var Father_Name = data['Father Name'];
                       var Recipient_Gender = data['Recipient Gender'];
-                      var Recipient_Document_List =
-                      data['Recipient Document List'];
+                      var Recipient_Document_List = data['Recipient Document List'];
                       var Phone_Number = data['Phone Number'];
                       var Mobile_Number = data['Mobile Number'];
-                      var Account_Number = data['Account Number'];
+                      var tazkira_Number = data['Tazkira Number'];
                       var Alternate_Recipient = data['Alternate Recipient'];
+                      var Account_Number = data['Account Number'];
+                      var Location = data['Location'];
                       var Address = data['Address'];
-                      var Region = data['Region'];
                       var province = data['province'];
                       var District = data['District'];
                       var Amount = data['Amount'];
@@ -132,11 +130,11 @@ class _FetchDataState extends State<FetchData> {
                                           Recipient_Document_List,
                                           'Phone Number': Phone_Number,
                                           'Mobile Number': Mobile_Number,
+                                          'Tazkira Number':tazkira_Number,
+                                          'Alternate Recipient': Alternate_Recipient,
                                           'Account Number': Account_Number,
-                                          'Alternate Recipient':
-                                          Alternate_Recipient,
+                                          'Location': Location,
                                           'Address': Address,
-                                          'Region': Region,
                                           'province': province,
                                           'District': District,
                                           'Amount': Amount,
@@ -219,6 +217,15 @@ class _FetchDataState extends State<FetchData> {
                             data['Father Name'],
                           ),
                           leading: Text(data['SN'].toString()),
+                          trailing: Text(data['Account Number'].toString()),
+                          onTap: (){
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ClientInfo(data: data),
+                              ),
+                            );
+                          },
                         ),
                       );
                     }).toList(),

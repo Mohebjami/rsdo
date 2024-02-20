@@ -18,10 +18,10 @@ class _SubProjectState extends State<SubProject> {
         width: fullScreenWidth,
         decoration: const BoxDecoration(
             image: DecorationImage(
-                image: AssetImage('assets/test.jpg'), fit: BoxFit.cover )),
+                image: AssetImage('assets/project.jpg'), fit: BoxFit.cover)),
         child: Center(
           child: SizedBox(
-            height: fullScreenHeight-200,
+            height: fullScreenHeight - 200,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -47,8 +47,7 @@ class _SubProjectState extends State<SubProject> {
                       elevation: 5,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
-                          side: const BorderSide(color: Colors.white30)
-                      ),
+                          side: const BorderSide(color: Colors.white30)),
                     ),
                     onPressed: () {
                       Navigator.pushNamed(context, 'welcome');
@@ -57,7 +56,10 @@ class _SubProjectState extends State<SubProject> {
                       padding: EdgeInsets.all(10.0),
                       child: Text(
                         'Value Voucher',
-                        style: TextStyle(fontSize: 30, color: Colors.white, fontFamily: "LilitaOne"),
+                        style: TextStyle(
+                            fontSize: 30,
+                            color: Colors.white,
+                            fontFamily: "LilitaOne"),
                       ),
                     ),
                   ),
@@ -84,8 +86,7 @@ class _SubProjectState extends State<SubProject> {
                       elevation: 5,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
-                          side: const BorderSide(color: Colors.white30)
-                      ),
+                          side: const BorderSide(color: Colors.white30)),
                     ),
                     onPressed: () {
                       print('Button pressed');
@@ -94,7 +95,10 @@ class _SubProjectState extends State<SubProject> {
                       padding: EdgeInsets.all(10.0),
                       child: Text(
                         'Cash',
-                        style: TextStyle(fontSize: 30, color: Colors.white, fontFamily: "LilitaOne"),
+                        style: TextStyle(
+                            fontSize: 30,
+                            color: Colors.white,
+                            fontFamily: "LilitaOne"),
                       ),
                     ),
                   ),
@@ -120,9 +124,8 @@ class _SubProjectState extends State<SubProject> {
                       shadowColor: Colors.black,
                       elevation: 5,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        side: const BorderSide(color: Colors.white30)
-                      ),
+                          borderRadius: BorderRadius.circular(12),
+                          side: const BorderSide(color: Colors.white30)),
                     ),
                     onPressed: () {
                       print('Button pressed');
@@ -131,7 +134,10 @@ class _SubProjectState extends State<SubProject> {
                       padding: EdgeInsets.all(10.0),
                       child: Text(
                         'Food',
-                        style: TextStyle(fontSize: 30, color: Colors.white, fontFamily: "LilitaOne"),
+                        style: TextStyle(
+                            fontSize: 30,
+                            color: Colors.white,
+                            fontFamily: "LilitaOne"),
                       ),
                     ),
                   ),
@@ -158,8 +164,7 @@ class _SubProjectState extends State<SubProject> {
                       elevation: 5,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
-                          side: const BorderSide(color: Colors.white30)
-                      ),
+                          side: const BorderSide(color: Colors.white30)),
                     ),
                     onPressed: () {
                       print('Button pressed');
@@ -168,7 +173,10 @@ class _SubProjectState extends State<SubProject> {
                       padding: EdgeInsets.all(10.0),
                       child: Text(
                         'Comudety vocher',
-                        style: TextStyle(fontSize: 30, color: Colors.white, fontFamily: "LilitaOne"),
+                        style: TextStyle(
+                            fontSize: 30,
+                            color: Colors.white,
+                            fontFamily: "LilitaOne"),
                       ),
                     ),
                   ),
@@ -195,8 +203,7 @@ class _SubProjectState extends State<SubProject> {
                       elevation: 5,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
-                          side: const BorderSide(color: Colors.white30)
-                      ),
+                          side: const BorderSide(color: Colors.white30)),
                     ),
                     onPressed: () {},
                     child: Container(
@@ -205,7 +212,10 @@ class _SubProjectState extends State<SubProject> {
                       alignment: Alignment.center,
                       child: const Text(
                         'Button',
-                        style: TextStyle(fontSize: 30, color: Colors.white, fontFamily: "LilitaOne"),
+                        style: TextStyle(
+                            fontSize: 30,
+                            color: Colors.white,
+                            fontFamily: "LilitaOne"),
                       ),
                     ),
                   ),

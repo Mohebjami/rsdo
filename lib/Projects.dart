@@ -2,24 +2,21 @@ import 'package:flutter/material.dart';
 
 class Projects extends StatefulWidget {
   const Projects({super.key});
-
   @override
   State<Projects> createState() => _ProjectsState();
 }
-
 class _ProjectsState extends State<Projects> {
   @override
   Widget build(BuildContext context) {
     double fullScreenWidth = MediaQuery.of(context).size.width;
     double fullScreenHeight = MediaQuery.of(context).size.height;
-
     return Scaffold(
       body: Container(
         height: fullScreenHeight,
         width: fullScreenWidth,
         decoration: const BoxDecoration(
             image: DecorationImage(
-                image: AssetImage('assets/project.jpg'), fit: BoxFit.cover )),
+                image: AssetImage('assets/test.jpg'), fit: BoxFit.cover )),
         child: Center(
           child: SizedBox(
             height: fullScreenHeight-200,
@@ -94,7 +91,7 @@ class _ProjectsState extends State<Projects> {
                     child: const Padding(
                       padding: EdgeInsets.all(10.0),
                       child: Text(
-                        'BMZ',
+                        'BMZ/TDH',
                         style: TextStyle(fontSize: 30, color: Colors.white, fontFamily: "LilitaOne"),
                       ),
                     ),
@@ -131,7 +128,7 @@ class _ProjectsState extends State<Projects> {
                     child: const Padding(
                       padding: EdgeInsets.all(10.0),
                       child: Text(
-                        'Commute voucher',
+                        '124/22',
                         style: TextStyle(fontSize: 30, color: Colors.white, fontFamily: "LilitaOne"),
                       ),
                     ),
@@ -168,7 +165,7 @@ class _ProjectsState extends State<Projects> {
                     child: const Padding(
                       padding: EdgeInsets.all(10.0),
                       child: Text(
-                        'Button',
+                        '118/TWET',
                         style: TextStyle(fontSize: 30, color: Colors.white, fontFamily: "LilitaOne"),
                       ),
                     ),
@@ -201,11 +198,11 @@ class _ProjectsState extends State<Projects> {
                     ),
                     onPressed: () {},
                     child: Container(
-                      width: 120,
+                      width: 270,
                       height: 50,
                       alignment: Alignment.center,
                       child: const Text(
-                        'Button',
+                        'Protract Defender',
                         style: TextStyle(fontSize: 30, color: Colors.white, fontFamily: "LilitaOne"),
                       ),
                     ),

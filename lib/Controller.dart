@@ -14,6 +14,7 @@ class Controller extends StatefulWidget {
 }
 
 List<List<dynamic>> data = [];
+
 class _ControllerState extends State<Controller> {
   bool shouldAbsorb = false;
   bool isDeleted = false;
@@ -35,19 +36,18 @@ class _ControllerState extends State<Controller> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-           const SizedBox(
+            const SizedBox(
               height: 40,
             ),
             Container(
               width: fullScreenWidth,
               decoration: const BoxDecoration(
-                color: Color.fromRGBO(47, 47, 97, 1),
+                  color: Color.fromRGBO(47, 47, 97, 1),
                   borderRadius: BorderRadius.only(
                     bottomRight: Radius.circular(40),
                     topLeft: Radius.circular(40),
-                  )
-              ),
-              child:  Column(
+                  )),
+              child: Column(
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(top: 20.0),
@@ -74,11 +74,11 @@ class _ControllerState extends State<Controller> {
                             Text(
                               text,
                               style: const TextStyle(
-                                  color: Colors.white, fontFamily: "RobotoSlab"),
+                                  color: Colors.white,
+                                  fontFamily: "RobotoSlab"),
                             ),
                           ],
                         )
-
                       ],
                     ),
                   ),
@@ -177,24 +177,13 @@ class _ControllerState extends State<Controller> {
                                 type: FileType.custom,
                                 allowedExtensions: ['csv']);
                             if (result != null) {
-                              setState(() {
-                                showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return const Center(
-                                        child: CircularProgressIndicator(
-                                          color: Colors.white,
-                                          backgroundColor: Colors.grey,
-                                        ),
-                                      );
-                                    });
-                              });
+                              int counter = 0; // Initialize the counter
                               final file = File(result.files.single.path!);
                               final contents = await file.readAsString();
                               try {
                                 final List<List<dynamic>> rowsAsListOfValues =
-                                    const CsvToListConverter()
-                                        .convert(contents);
+                                const CsvToListConverter()
+                                    .convert(contents);
                                 FirebaseFirestore.instance;
                                 final firestoreInstance =
                                     FirebaseFirestore.instance;
@@ -213,14 +202,39 @@ class _ControllerState extends State<Controller> {
                                     'Recipient Document List': row[7],
                                     'Phone Number': row[8],
                                     'Mobile Number': row[9],
-                                    'Account Number': row[10],
+                                    'Tazkira Number':row[10],
                                     'Alternate Recipient': row[11],
-                                    'Address': row[12],
-                                    'Region': row[13],
-                                    'province': row[14],
-                                    'District': row[15],
-                                    'Amount': row[16],
+                                    'Account Number': row[12],
+                                    'Location': row[13],
+                                    'Address': row[14],
+                                    'province': row[15],
+                                    'District': row[16],
+                                    'Amount': row[17],
                                     // Add more fields as needed
+                                  });
+                                  counter++; // Increment the counter after each insertion
+                                  setState(() {
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return Container(
+                                            height: 200,
+                                            width: 200,
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                            ),
+                                            child: Column(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: <Widget>[
+                                                CircularProgressIndicator(
+                                                  color: Colors.white,
+                                                  backgroundColor: Colors.grey,
+                                                ),
+                                                Text('Inserted: $counter' , style: TextStyle(color: Colors.black),), // Display the counter
+                                              ],
+                                            ),
+                                          );
+                                        });
                                   });
                                 }
 
@@ -250,8 +264,7 @@ class _ControllerState extends State<Controller> {
                               } catch (err) {
                                 AlertDialog(
                                   title: const Text('Error'),
-                                  content: const Text(
-                                      'There is some error'),
+                                  content: const Text('There is some error'),
                                   actions: <Widget>[
                                     TextButton(
                                       child: const Text('OK'),
@@ -267,6 +280,7 @@ class _ControllerState extends State<Controller> {
                               }
                             }
                           },
+
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
                                 const Color.fromRGBO(47, 47, 97, 1)),
@@ -274,7 +288,8 @@ class _ControllerState extends State<Controller> {
                                     RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10.0),
-                                    side: const BorderSide(color: Color.fromRGBO(47, 47, 97, 1)))),
+                                    side: const BorderSide(
+                                        color: Color.fromRGBO(47, 47, 97, 1)))),
                           ),
                           child: const Text('Select File'),
                         )
@@ -364,11 +379,13 @@ class _ControllerState extends State<Controller> {
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(
                               const Color.fromRGBO(47, 47, 97, 1)),
-                          shape: MaterialStateProperty.all<
-                              RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  side: const BorderSide(color: Color.fromRGBO(47, 47, 97, 1)))),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      side: const BorderSide(
+                                          color:
+                                              Color.fromRGBO(47, 47, 97, 1)))),
                         ),
                         child: const Text('Download'),
                       )
@@ -468,10 +485,11 @@ class _ControllerState extends State<Controller> {
                             backgroundColor: MaterialStateProperty.all(
                                 const Color.fromRGBO(47, 47, 97, 1)),
                             shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(
+                                    RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10.0),
-                                    side: const BorderSide(color: Color.fromRGBO(47, 47, 97, 1)))),
+                                    side: const BorderSide(
+                                        color: Color.fromRGBO(47, 47, 97, 1)))),
                           ),
                           child: const Text('Search Clients'),
                         )
@@ -480,7 +498,7 @@ class _ControllerState extends State<Controller> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only( right: 15.0),
+                  padding: const EdgeInsets.only(right: 15.0),
                   child: Container(
                     height: 230,
                     width: 170,
@@ -564,10 +582,11 @@ class _ControllerState extends State<Controller> {
                             backgroundColor: MaterialStateProperty.all(
                                 const Color.fromRGBO(47, 47, 97, 1)),
                             shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(
+                                    RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10.0),
-                                    side: const BorderSide(color: Color.fromRGBO(47, 47, 97, 1)))),
+                                    side: const BorderSide(
+                                        color: Color.fromRGBO(47, 47, 97, 1)))),
                           ),
                           child: const Text('Search'),
                         )
@@ -668,10 +687,11 @@ class _ControllerState extends State<Controller> {
                             backgroundColor: MaterialStateProperty.all(
                                 const Color.fromRGBO(47, 47, 97, 1)),
                             shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(
+                                    RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10.0),
-                                    side: const BorderSide(color: Color.fromRGBO(47, 47, 97, 1)))),
+                                    side: const BorderSide(
+                                        color: Color.fromRGBO(47, 47, 97, 1)))),
                           ),
                           child: const Text('Add'),
                         )
@@ -761,11 +781,13 @@ class _ControllerState extends State<Controller> {
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(
                               const Color.fromRGBO(47, 47, 97, 1)),
-                          shape: MaterialStateProperty.all<
-                              RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  side: const BorderSide(color: Color.fromRGBO(47, 47, 97, 1)))),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      side: const BorderSide(
+                                          color:
+                                              Color.fromRGBO(47, 47, 97, 1)))),
                         ),
                         child: const Text('Add'),
                       )
@@ -781,7 +803,7 @@ class _ControllerState extends State<Controller> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only( right: 15.0),
+                  padding: const EdgeInsets.only(right: 15.0),
                   child: Container(
                     height: 230,
                     width: 170,
@@ -921,10 +943,11 @@ class _ControllerState extends State<Controller> {
                             backgroundColor: MaterialStateProperty.all(
                                 const Color.fromRGBO(47, 47, 97, 1)),
                             shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(
+                                    RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10.0),
-                                    side: const BorderSide(color: Color.fromRGBO(47, 47, 97, 1)))),
+                                    side: const BorderSide(
+                                        color: Color.fromRGBO(47, 47, 97, 1)))),
                           ),
                           child: const Text('Delete'),
                         )
@@ -1062,10 +1085,11 @@ class _ControllerState extends State<Controller> {
                             backgroundColor: MaterialStateProperty.all(
                                 const Color.fromRGBO(47, 47, 97, 1)),
                             shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(
+                                    RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10.0),
-                                    side: const BorderSide(color: Color.fromRGBO(47, 47, 97, 1)))),
+                                    side: const BorderSide(
+                                        color: Color.fromRGBO(47, 47, 97, 1)))),
                           ),
                           child: const Text('Delete'),
                         )
@@ -1094,7 +1118,7 @@ class _ControllerState extends State<Controller> {
     final Worksheet sheet = workbook.worksheets[0];
     sheet.getRangeByName('A1').setText('S/N');
     sheet.getRangeByName('B1').setText('Household ID');
-    sheet.getRangeByName('C1').setText('Household Name');
+    sheet.getRangeByName('C1').setText('Household Name Code');
     sheet.getRangeByName('D1').setText('Recipient First Name');
     sheet.getRangeByName('E1').setText('Recipient Last Name');
     sheet.getRangeByName('F1').setText('Father Name');
@@ -1102,44 +1126,37 @@ class _ControllerState extends State<Controller> {
     sheet.getRangeByName('H1').setText('Recipient Document List');
     sheet.getRangeByName('I1').setText('Mobile Number');
     sheet.getRangeByName('J1').setText('Recipient Mobile Number');
-    sheet.getRangeByName('K1').setText('Account Number');
+    sheet.getRangeByName('K1').setText('Tazkira Number');
     sheet.getRangeByName('L1').setText('Alternate Recipient');
-    sheet.getRangeByName('M1').setText('Address');
-    sheet.getRangeByName('N1').setText('Region');
-    sheet.getRangeByName('O1').setText('province');
-    sheet.getRangeByName('P1').setText('District');
-    sheet.getRangeByName('Q1').setText('Amount');
-    sheet.getRangeByName('R1').setText('Store Name');
+    sheet.getRangeByName('M1').setText('Account Number');
+
+    sheet.getRangeByName('N1').setText('Location');
+    sheet.getRangeByName('O1').setText('Address');
+    sheet.getRangeByName('P1').setText('province');
+    sheet.getRangeByName('Q1').setText('District');
+    sheet.getRangeByName('R1').setText('Amount');
+    sheet.getRangeByName('S1').setText('Store Name');
     while (i < snapshot.docs.length) {
       data = snapshot.docs[i].data() as Map<String, dynamic>;
       sheet.getRangeByName('A$excelRow').setText(data['S/N'].toString());
-      sheet
-          .getRangeByName('B$excelRow')
-          .setText(data['Household ID'].toString());
+      sheet.getRangeByName('B$excelRow').setText(data['Household ID'].toString());
       sheet.getRangeByName('C$excelRow').setText(data['Household Name Code']);
       sheet.getRangeByName('D$excelRow').setText(data['Recipient Name']);
       sheet.getRangeByName('E$excelRow').setText(data['Recipient Last Name']);
       sheet.getRangeByName('F$excelRow').setText(data['Father Name']);
       sheet.getRangeByName('G$excelRow').setText(data['Recipient Gender']);
-      sheet
-          .getRangeByName('H$excelRow')
-          .setText(data['Recipient Document List']);
-      sheet
-          .getRangeByName('I$excelRow')
-          .setText(data['Phone Number'].toString());
-      sheet
-          .getRangeByName('J$excelRow')
-          .setText(data['Mobile Number'].toString());
-      sheet
-          .getRangeByName('K$excelRow')
-          .setText(data['Account Number'].toString());
+      sheet.getRangeByName('H$excelRow').setText(data['Recipient Document List'].toString());
+      sheet.getRangeByName('I$excelRow').setText(data['Phone Number'].toString());
+      sheet.getRangeByName('J$excelRow').setText(data['Mobile Number'].toString());
+      sheet.getRangeByName('K$excelRow').setText(data['Tazkira Number'].toString());
       sheet.getRangeByName('L$excelRow').setText(data['Alternate Recipient']);
-      sheet.getRangeByName('M$excelRow').setText(data['Address'].toString());
-      sheet.getRangeByName('N$excelRow').setText(data['Region']);
-      sheet.getRangeByName('O$excelRow').setText(data['province']);
-      sheet.getRangeByName('P$excelRow').setText(data['District']);
-      sheet.getRangeByName('Q$excelRow').setText(data['Amount'].toString());
-      sheet.getRangeByName('R$excelRow').setText(data['Store Name']);
+      sheet.getRangeByName('M$excelRow').setText(data['Account Number'].toString());
+      sheet.getRangeByName('N$excelRow').setText(data['Location']);
+      sheet.getRangeByName('O$excelRow').setText(data['Address'].toString());
+      sheet.getRangeByName('P$excelRow').setText(data['province']);
+      sheet.getRangeByName('Q$excelRow').setText(data['District']);
+      sheet.getRangeByName('R$excelRow').setText(data['Amount'].toString());
+      sheet.getRangeByName('S$excelRow').setText(data['Store Name']);
       i++;
       excelRow++;
     }
@@ -1194,7 +1211,15 @@ class _ControllerState extends State<Controller> {
             }));
   }
 
+  // Define a boolean variable to control the state of the loading indicator
+  bool _isLoading = false;
+
   Future<void> deleteAllDocuments() async {
+    // Set _isLoading to true when the deletion process starts
+    setState(() {
+      _isLoading = true;
+    });
+
     FirebaseFirestore.instance
         .collection('Clients')
         .get()
@@ -1204,6 +1229,9 @@ class _ControllerState extends State<Controller> {
           }
         })
         .then((_) => setState(() {
+              // Set _isLoading to false when the deletion process ends
+              _isLoading = false;
+
               showDialog(
                   context: context,
                   builder: (BuildContext context) {
@@ -1214,9 +1242,6 @@ class _ControllerState extends State<Controller> {
                         TextButton(
                           child: const Text('Done'),
                           onPressed: () {
-                            setState(() {
-                              shouldAbsorb = false;
-                            });
                             Navigator.of(context).pop();
                           },
                         ),
@@ -1225,6 +1250,9 @@ class _ControllerState extends State<Controller> {
                   });
             }))
         .catchError((error) => setState(() {
+              // Set _isLoading to false when an error occurs
+              _isLoading = false;
+
               showDialog(
                   context: context,
                   builder: (BuildContext context) {
@@ -1235,9 +1263,6 @@ class _ControllerState extends State<Controller> {
                         TextButton(
                           child: const Text('Done'),
                           onPressed: () {
-                            setState(() {
-                              shouldAbsorb = false;
-                            });
                             Navigator.of(context).pop();
                           },
                         ),
@@ -1245,6 +1270,7 @@ class _ControllerState extends State<Controller> {
                     );
                   });
             }));
+
     Navigator.of(context).pop();
   }
 

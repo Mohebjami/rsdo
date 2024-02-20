@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:rsdo/ClientInfo.dart';
 
 class FetchDataAdmin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FirebaseListView();
-
   }
 }
 
@@ -64,7 +64,10 @@ class _FirebaseListViewState extends State<FirebaseListView> {
             ),
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
-                stream: _firestore.collection('Clients').where('Household Name Code', isEqualTo: _searchText).snapshots(),
+                stream: _firestore
+                    .collection('Clients')
+                    .where('Household Name Code', isEqualTo: _searchText)
+                    .snapshots(),
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.hasError) {
@@ -76,9 +79,12 @@ class _FirebaseListViewState extends State<FirebaseListView> {
                     );
                   }
                   return ListView(
-                    children: snapshot.data!.docs.map((DocumentSnapshot document) {
-                      Map<String, dynamic> data = document.data() as Map<String, dynamic>;
-                      CollectionReference paid = FirebaseFirestore.instance.collection('Paid');
+                    children:
+                        snapshot.data!.docs.map((DocumentSnapshot document) {
+                      Map<String, dynamic> data =
+                          document.data() as Map<String, dynamic>;
+                      CollectionReference paid =
+                          FirebaseFirestore.instance.collection('Paid');
                       var sn = data['SN'];
                       var Household_ID = data['Household ID'];
                       var Household_Name_Code = data['Household Name Code'];
@@ -90,10 +96,11 @@ class _FirebaseListViewState extends State<FirebaseListView> {
                           data['Recipient Document List'];
                       var Phone_Number = data['Phone Number'];
                       var Mobile_Number = data['Mobile Number'];
-                      var Account_Number = data['Account Number'];
+                      var tazkira_Number = data['Tazkira Number'];
                       var Alternate_Recipient = data['Alternate Recipient'];
+                      var Account_Number = data['Account Number'];
+                      var Location = data['Location'];
                       var Address = data['Address'];
-                      var Region = data['Region'];
                       var province = data['province'];
                       var District = data['District'];
                       var Amount = data['Amount'];
@@ -110,7 +117,12 @@ class _FirebaseListViewState extends State<FirebaseListView> {
                                   onPressed: (context) async {
                                     try {
 // Check if the data already exists in the 'Paid' collection
-                                      var querySnapshot = await FirebaseFirestore.instance.collection('Paid').where('Household ID', isEqualTo: Household_ID).get();
+                                      var querySnapshot =
+                                          await FirebaseFirestore.instance
+                                              .collection('Paid')
+                                              .where('Household ID',
+                                                  isEqualTo: Household_ID)
+                                              .get();
 
 // If the data does not exist, add it to the 'Paid' collection
                                       if (querySnapshot.docs.isEmpty) {
@@ -128,11 +140,12 @@ class _FirebaseListViewState extends State<FirebaseListView> {
                                               Recipient_Document_List,
                                           'Phone Number': Phone_Number,
                                           'Mobile Number': Mobile_Number,
-                                          'Account Number': Account_Number,
+                                          'Tazkira Number': tazkira_Number,
                                           'Alternate Recipient':
                                               Alternate_Recipient,
+                                          'Account Number': Account_Number,
+                                          'Location': Location,
                                           'Address': Address,
-                                          'Region': Region,
                                           'province': province,
                                           'District': District,
                                           'Amount': Amount,
@@ -142,7 +155,8 @@ class _FirebaseListViewState extends State<FirebaseListView> {
                                           _scaffoldMessengerKey.currentState
                                               ?.showSnackBar(SnackBar(
                                             content: Container(
-                                              padding: const EdgeInsets.all(16.0),
+                                              padding:
+                                                  const EdgeInsets.all(16.0),
                                               height: 90,
                                               decoration: const BoxDecoration(
                                                 color: Colors.red,
@@ -157,13 +171,14 @@ class _FirebaseListViewState extends State<FirebaseListView> {
                                             ),
                                             backgroundColor: Colors.transparent,
                                             elevation: 0.0,
-                                            duration: const Duration(seconds: 2),
+                                            duration:
+                                                const Duration(seconds: 2),
                                             behavior: SnackBarBehavior.floating,
                                           ));
                                         }).catchError((error) {
                                           print("Failed to add record: $error");
                                           if (mounted) {
-                                            // Check if the widget is still in the tree
+// Check if the widget is still in the tree
                                             ScaffoldMessenger.of(context)
                                                 .showSnackBar(SnackBar(
                                               content: Text("$error"),
@@ -212,6 +227,15 @@ class _FirebaseListViewState extends State<FirebaseListView> {
                             data['Father Name'],
                           ),
                           leading: Text(data['SN'].toString()),
+                          trailing: Text(data['Account Number'].toString()),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ClientInfo(data: data),
+                              ),
+                            );
+                          },
                         ),
                       );
                     }).toList(),
