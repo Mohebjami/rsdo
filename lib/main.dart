@@ -28,8 +28,7 @@ void main() async {
   } else {
     await Firebase.initializeApp();
   }
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-  ));
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle());
 
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
