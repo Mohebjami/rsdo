@@ -24,20 +24,20 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="rsdo">
-  <link rel="apple-touch-icon" href="./icons/Icon-192.png">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png"/>
 
   <title>rsdo</title>
-  <link rel="manifest" href="./manifest.json">
+  <link rel="manifest" href="manifest.json">
 
   <script>
     // The value below is injected by flutter build, do not touch.
     const serviceWorkerVersion = null;
   </script>
   <!-- This script adds the flutter initialization JS code -->
-  <script src="./flutter.js" defer></script>
+  <script src="flutter.js" defer></script>
 </head>
 <body>
 <script>
@@ -54,7 +54,9 @@
         }
       });
     });
+     window.flutterConfiguration = {
+    canvasKitBaseUrl: "/canvaskit/"
+  };
   </script>
-<script src="./main.dart.js"></script>
 </body>
 </html>
