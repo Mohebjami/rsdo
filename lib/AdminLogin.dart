@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 class AdminLogin extends StatefulWidget {
@@ -22,7 +23,6 @@ class _AdminLoginState extends State<AdminLogin> {
   @override
   Widget build(BuildContext context) {
     return Stack(
-      fit: StackFit.expand,
       children: [
         Center(
           child: Container(
@@ -30,7 +30,12 @@ class _AdminLoginState extends State<AdminLogin> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Text("Admin Login", style: TextStyle(fontFamily: "LilitaOne" ,fontWeight: FontWeight.bold , fontSize: 22,color: Colors.white)),
+                const Text("Admin Login",
+                    style: TextStyle(
+                        fontFamily: "LilitaOne",
+                        fontWeight: FontWeight.bold,
+                        fontSize: 22,
+                        color: Colors.white)),
                 const SizedBox(
                   height: 10,
                 ),
@@ -55,13 +60,12 @@ class _AdminLoginState extends State<AdminLogin> {
                 const SizedBox(
                   height: 40,
                 ),
-                SizedBox(
+                Container(
                   width: 330,
                   child: TextField(
                     controller: email,
-                    style: const TextStyle(
-                        color: Color.fromRGBO(44, 62, 82, 1)
-                    ),
+                    style:
+                        const TextStyle(color: Color.fromRGBO(44, 62, 82, 1)),
                     decoration: InputDecoration(
                       fillColor: const Color.fromRGBO(234, 235, 237, 1),
                       filled: true,
@@ -79,9 +83,8 @@ class _AdminLoginState extends State<AdminLogin> {
                   width: 330,
                   child: TextField(
                     controller: password,
-                    style: const TextStyle(
-                        color: Color.fromRGBO(44, 62, 82, 1)
-                    ),
+                    style:
+                        const TextStyle(color: Color.fromRGBO(44, 62, 82, 1)),
                     obscureText: true,
                     decoration: InputDecoration(
                         fillColor: const Color.fromRGBO(234, 235, 237, 1),
@@ -99,26 +102,38 @@ class _AdminLoginState extends State<AdminLogin> {
                   width: 400,
                   height: 60,
                   child: ElevatedButton(
-                    onPressed: () async{
+                    onPressed: () async {
                       setState(() {
-                        showDialog(context: context, builder: (context){
-                          return const Center(
-                            child: CircularProgressIndicator(
-                              color: Colors.white,
-                              backgroundColor: Colors.grey,
-                            ),
-                          );
-                        });
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return const Center(
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                  backgroundColor: Colors.grey,
+                                ),
+                              );
+                            });
                       });
-                      try{
-                        hasInternet = await InternetConnectionChecker().hasConnection;
-                      }catch (_) {
+                      try {
+                        hasInternet =
+                            await InternetConnectionChecker().hasConnection;
+                      } catch (_) {
                         // Handle exception
                         AlertDialog(
-                          title: const Text('No Internet' , style: TextStyle(color: Colors.red),),
-                          icon: const Image(image: AssetImage("assets/no-wifi.png"), width: 35,height: 35,),
+                          title: const Text(
+                            'No Internet',
+                            style: TextStyle(color: Colors.red),
+                          ),
+                          icon: const Image(
+                            image: AssetImage("assets/no-wifi.png"),
+                            width: 35,
+                            height: 35,
+                          ),
                           iconColor: Colors.red,
-                          content: const Text('Problem is on Internet connection' , style: TextStyle(color: Colors.red)),
+                          content: const Text(
+                              'Problem is on Internet connection',
+                              style: TextStyle(color: Colors.red)),
                           actions: <Widget>[
                             TextButton(
                               child: const Text('Done'),
@@ -130,54 +145,41 @@ class _AdminLoginState extends State<AdminLogin> {
                         );
                       }
                       Navigator.of(context).pop();
-                      if(!hasInternet){
-                        return showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: const Text('No Internet' , style: TextStyle(color: Colors.red),),
-                                icon: const Image(image: AssetImage("assets/no-wifi.png"), width: 35,height: 35,),
-                                iconColor: Colors.red,
-                                content: const Text('Problem is on Internet connection' , style: TextStyle(color: Colors.red)),
-                                actions: <Widget>[
-                                  TextButton(
-                                    child: const Text('Done'),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                ],
-                              );
-                            }
-                        );
-                      }
-                      else{
-                        Map<String, dynamic> data;
+                      if (hasInternet) {
+                        var data;
                         int i = 0;
                         press++;
                         setState(() {
-                          showDialog(context: context, builder: (context){
-                            return const Center(
-                              child: CircularProgressIndicator(
-                                color: Colors.white,
-                                backgroundColor: Colors.grey,
-                              ),
-                            );
-                          });
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return const Center(
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                    backgroundColor: Colors.grey,
+                                  ),
+                                );
+                              });
                         });
-                        final QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('Accounts').get();
+                        final QuerySnapshot snapshot = await FirebaseFirestore
+                            .instance
+                            .collection('Accounts')
+                            .get();
                         Navigator.of(context).pop();
                         while (i < snapshot.docs.length) {
-                          data = snapshot.docs[i].data() as Map<String, dynamic>;
-                          if (data['Email'] == email.text && data['Password'] == password.text) {
+                          data =
+                              snapshot.docs[i].data() as Map<String, dynamic>;
+                          if (data['Email'] == email.text &&
+                              data['Password'] == password.text) {
                             setState(() {
                               isCorrect = true;
                             });
-                            Navigator.of(context).pushReplacementNamed("export");
+                            Navigator.of(context)
+                                .pushReplacementNamed("export");
                           }
                           i++;
                         }
-                        if(isCorrect == false){
+                        if (isCorrect == false) {
                           setState(() {
                             ScaffoldMessenger.of(context)
                                 .showSnackBar(const SnackBar(
@@ -201,14 +203,48 @@ class _AdminLoginState extends State<AdminLogin> {
                             ));
                           });
                         }
+                      } else {
+                        return showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text(
+                                  'No Internet',
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                                icon: const Image(
+                                  image: AssetImage("assets/no-wifi.png"),
+                                  width: 35,
+                                  height: 35,
+                                ),
+                                iconColor: Colors.red,
+                                content: const Text(
+                                    'Problem is on Internet connection',
+                                    style: TextStyle(color: Colors.red)),
+                                actions: <Widget>[
+                                  TextButton(
+                                    child: const Text('Done'),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ],
+                              );
+                            });
                       }
                     },
                     style: ButtonStyle(
                       backgroundColor: const MaterialStatePropertyAll(
                           Color.fromRGBO(126, 145, 162, 1)),
-                      shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))),
+                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15))),
                     ),
-                    child: const Text("Login" , style: TextStyle(fontFamily: "LilitaOne" ,fontWeight: FontWeight.bold , fontSize: 22, color: Colors.white)),
+                    child: const Text("Login",
+                        style: TextStyle(
+                            fontFamily: "LilitaOne",
+                            fontWeight: FontWeight.bold,
+                            fontSize: 22,
+                            color: Colors.white)),
                   ),
                 ),
                 const SizedBox(

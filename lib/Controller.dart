@@ -36,21 +36,17 @@ class _ControllerState extends State<Controller> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const SizedBox(
-              height: 40,
-            ),
             Container(
               width: fullScreenWidth,
               decoration: const BoxDecoration(
                   color: Color.fromRGBO(47, 47, 97, 1),
                   borderRadius: BorderRadius.only(
-                    bottomRight: Radius.circular(40),
-                    topLeft: Radius.circular(40),
+                    bottomRight: Radius.elliptical(100, 80)
                   )),
               child: Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(top: 20.0),
+                    padding: const EdgeInsets.only(top: 50.0),
                     child: Row(
                       children: [
                         const SizedBox(
@@ -67,14 +63,16 @@ class _ControllerState extends State<Controller> {
                             const Text(
                               "RSDO",
                               style: TextStyle(
+                                fontWeight: FontWeight.bold,
                                   color: Colors.white,
-                                  fontSize: 30,
+                                  fontSize: 40,
                                   fontFamily: "RobotoSlab"),
                             ),
                             Text(
                               text,
                               style: const TextStyle(
                                   color: Colors.white,
+                                  fontWeight: FontWeight.bold,
                                   fontFamily: "RobotoSlab"),
                             ),
                           ],

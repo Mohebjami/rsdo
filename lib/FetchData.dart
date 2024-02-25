@@ -35,28 +35,111 @@ class _FetchDataState extends State<FetchData> {
       child: Scaffold(
         appBar: AppBar(
           title: Text("${widget.data}"),
-          actions: [
-            StreamBuilder(
-              stream: FirebaseFirestore.instance.collection('Paid').snapshots(),
-              builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (snapshot.hasError) {
-                  return const Text('Something went wrong');
-                }
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Text("Loading");
-                }
-                int? docLength = snapshot.data?.docs.length; // Assigning length to a variable
-                print('Document Length: $docLength'); // Printing the length
-                return Padding(
-                  padding: const EdgeInsets.only(right: 15.0),
-                  child: Text(
-                    '$docLength',
-                    style: const TextStyle(color: Colors.black, fontSize: 20),
-                  ),
-                );
-              },
-            )
-          ],
+            actions: [
+              IconButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        content: Container(
+                          width: double.maxFinite,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.only(left: 0.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  children: [
+                                    StreamBuilder(
+                                      stream: FirebaseFirestore.instance.collection('Paid').snapshots(),
+                                      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                                        if (snapshot.hasError) {
+                                          return const Text('Something went wrong');
+                                        }
+                                        if (snapshot.connectionState == ConnectionState.waiting) {
+                                          return const Text("Loading");
+                                        }
+                                        int? docLength = snapshot.data?.docs.length; // Assigning length to a variable
+                                        // Printing the length
+                                        return Padding(
+                                          padding: const EdgeInsets.only(right: 15.0),
+                                          child: Text(
+                                            '$docLength',
+                                            style: const TextStyle(color: Colors.black, fontSize: 25),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                    StreamBuilder(
+                                      stream: FirebaseFirestore.instance.collection('Paid').where('Recipient Gender', isEqualTo: 'Female').snapshots(),
+                                      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                                        if (snapshot.hasError) {
+                                          return const Text('Something went wrong');
+                                        }
+                                        if (snapshot.connectionState == ConnectionState.waiting) {
+                                          return const Text("Loading");
+                                        }
+                                        int? docLength = snapshot.data?.docs.length; // Assigning length to a variable
+                                        // Printing the length
+                                        return Padding(
+                                          padding: const EdgeInsets.only(right: 15.0),
+                                          child: Text(
+                                            '$docLength',
+                                            style: const TextStyle(color: Colors.black, fontSize: 25),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                    StreamBuilder(
+                                      stream: FirebaseFirestore.instance.collection('Paid').where('Recipient Gender', isEqualTo: 'Male').snapshots(),
+                                      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                                        if (snapshot.hasError) {
+                                          return const Text('Something went wrong');
+                                        }
+                                        if (snapshot.connectionState == ConnectionState.waiting) {
+                                          return const Text("Loading");
+                                        }
+                                        int? docLength = snapshot.data?.docs.length; // Assigning length to a variable
+                                        // Printing the length
+                                        return Padding(
+                                          padding: const EdgeInsets.only(right: 15.0),
+                                          child: Text(
+                                            '$docLength',
+                                            style: const TextStyle(color: Colors.black, fontSize: 25),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+
+                                children: [
+                                  Text("Total "),
+                                  Text("Female"),
+                                  Text("Male  "),
+                                ],
+                              ),
+
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
+                icon: const Icon(
+                  Icons.insert_chart_outlined_rounded,
+                  color: Colors.white,
+                ),
+              )
+            ],
         ),
         body: Column(
           children: <Widget>[
