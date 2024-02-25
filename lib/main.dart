@@ -22,8 +22,8 @@ void main() async {
             projectId: "rsdo-database",
             storageBucket: "rsdo-database.appspot.com",
             messagingSenderId: "1046325775468",
-            appId: "1:1046325775468:web:756999ddc41ddbb775dc49",
-            measurementId: "G-D4S5CZQ0XN"
+            appId: "1:1046325775468:web:cbc4595afcf1597a75dc49",
+            measurementId: "G-NVTQD2EHKQ"
         ));
   } else {
     await Firebase.initializeApp();

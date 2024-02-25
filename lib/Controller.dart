@@ -32,14 +32,14 @@ class _ControllerState extends State<Controller> {
     });
 
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(211, 211, 211, 1),
+      backgroundColor: const Color.fromRGBO(230, 240, 255, 0.9),
       body: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               width: fullScreenWidth,
               decoration: const BoxDecoration(
-                  color: Color.fromRGBO(47, 47, 97, 1),
+                  color: Color.fromRGBO(70, 130, 180, 1),
                   borderRadius: BorderRadius.only(
                     bottomRight: Radius.elliptical(100, 80)
                   )),
@@ -50,8 +50,8 @@ class _ControllerState extends State<Controller> {
                     child: Row(
                       children: [
                         const SizedBox(
-                          width: 90, // specify the width
-                          height: 90, // specify the height
+                          width: 100, // specify the width
+                          height: 100, // specify the height
                           child: Image(
                             image: AssetImage("assets/logo.png"),
                             color: Colors.white,
@@ -72,6 +72,7 @@ class _ControllerState extends State<Controller> {
                               text,
                               style: const TextStyle(
                                   color: Colors.white,
+                                  fontSize: 15,
                                   fontWeight: FontWeight.bold,
                                   fontFamily: "RobotoSlab"),
                             ),
@@ -282,13 +283,13 @@ class _ControllerState extends State<Controller> {
 
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
-                                const Color.fromRGBO(47, 47, 97, 1)),
+                                const Color.fromRGBO(70, 130, 180, 1)),
                             shape: MaterialStateProperty.all<
                                     RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10.0),
                                     side: const BorderSide(
-                                        color: Color.fromRGBO(47, 47, 97, 1)))),
+                                        color: Colors.transparent))),
                           ),
                           child: const Text('Select File',style: TextStyle(color: Colors.white),),
                         )
@@ -379,14 +380,14 @@ class _ControllerState extends State<Controller> {
                           },
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
-                                const Color.fromRGBO(47, 47, 97, 1)),
+                                const Color.fromRGBO(70, 130, 180, 1)),
                             shape:
                                 MaterialStateProperty.all<RoundedRectangleBorder>(
                                     RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(10.0),
                                         side: const BorderSide(
                                             color:
-                                                Color.fromRGBO(47, 47, 97, 1)))),
+                                                Color.fromRGBO(70, 130, 180, 1)))),
                           ),
                           child: const Text('Download',style: TextStyle(color: Colors.white),),
                         )
@@ -485,13 +486,13 @@ class _ControllerState extends State<Controller> {
                           },
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
-                                const Color.fromRGBO(47, 47, 97, 1)),
+                                const Color.fromRGBO(70, 130, 180, 1)),
                             shape: MaterialStateProperty.all<
                                     RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10.0),
                                     side: const BorderSide(
-                                        color: Color.fromRGBO(47, 47, 97, 1)))),
+                                        color: Color.fromRGBO(70, 130, 180, 1)))),
                           ),
                           child: const Text('Search Clients',style: TextStyle(color: Colors.white),),
                         )
@@ -582,13 +583,13 @@ class _ControllerState extends State<Controller> {
                           },
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
-                                const Color.fromRGBO(47, 47, 97, 1)),
+                                const Color.fromRGBO(70, 130, 180, 1)),
                             shape: MaterialStateProperty.all<
                                     RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10.0),
                                     side: const BorderSide(
-                                        color: Color.fromRGBO(47, 47, 97, 1)))),
+                                        color: Color.fromRGBO(70, 130, 180, 1)))),
                           ),
                           child: const Text('Search',style: TextStyle(color: Colors.white),),
                         )
@@ -687,13 +688,13 @@ class _ControllerState extends State<Controller> {
                           },
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
-                                const Color.fromRGBO(47, 47, 97, 1)),
+                                const Color.fromRGBO(70, 130, 180, 1)),
                             shape: MaterialStateProperty.all<
                                     RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10.0),
                                     side: const BorderSide(
-                                        color: Color.fromRGBO(47, 47, 97, 1)))),
+                                        color: Color.fromRGBO(70, 130, 180, 1)))),
                           ),
                           child: const Text('Add', style: TextStyle(color: Colors.white),),
                         )
@@ -782,14 +783,14 @@ class _ControllerState extends State<Controller> {
                         },
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(
-                              const Color.fromRGBO(47, 47, 97, 1)),
+                              const Color.fromRGBO(70, 130, 180, 1)),
                           shape:
                               MaterialStateProperty.all<RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10.0),
                                       side: const BorderSide(
                                           color:
-                                              Color.fromRGBO(47, 47, 97, 1)))),
+                                              Color.fromRGBO(70, 130, 180, 1)))),
                         ),
                         child: const Text('Add',style: TextStyle(color: Colors.white),),
                       )
@@ -943,13 +944,13 @@ class _ControllerState extends State<Controller> {
                           },
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
-                                const Color.fromRGBO(47, 47, 97, 1)),
+                                const Color.fromRGBO(70, 130, 180, 1)),
                             shape: MaterialStateProperty.all<
                                     RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10.0),
                                     side: const BorderSide(
-                                        color: Color.fromRGBO(47, 47, 97, 1)))),
+                                        color: Color.fromRGBO(70, 130, 180, 1)))),
                           ),
                           child: const Text('Delete', style: TextStyle(color: Colors.white),),
                         )
@@ -1085,13 +1086,13 @@ class _ControllerState extends State<Controller> {
                           },
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
-                                const Color.fromRGBO(47, 47, 97, 1)),
+                                const Color.fromRGBO(70, 130, 180, 1)),
                             shape: MaterialStateProperty.all<
                                     RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10.0),
                                     side: const BorderSide(
-                                        color: Color.fromRGBO(47, 47, 97, 1)))),
+                                        color: Color.fromRGBO(70, 130, 180, 1)))),
                           ),
                           child: const Text('Delete', style: TextStyle(color: Colors.white),),
                         )

@@ -33,8 +33,12 @@ class _FetchDataState extends State<FetchData> {
     return ScaffoldMessenger(
       key: _scaffoldMessengerKey,
       child: Scaffold(
+        backgroundColor: const Color.fromRGBO(230, 240, 255, 0.9),
         appBar: AppBar(
           title: Text("${widget.data}"),
+          backgroundColor: const Color.fromRGBO(70, 130, 180, 1),
+          foregroundColor: Colors.white,
+          automaticallyImplyLeading: false,
             actions: [
               IconButton(
                 onPressed: () {
@@ -147,17 +151,19 @@ class _FetchDataState extends State<FetchData> {
               padding: const EdgeInsets.all(8.0),
               child: TextField(
                 controller: _textController,
+                style: TextStyle(color: Colors.white),
                 decoration: InputDecoration(
-                  fillColor: Colors.grey,
+                  fillColor: const Color.fromRGBO(70, 130, 180, 0.9),
                   filled: true,
                   hintText: "Search",
+                  hintStyle: TextStyle(color: Colors.white),
                   border: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                    borderRadius: BorderRadius.all(Radius.circular(15.0)),
                     borderSide: BorderSide.none,
                   ),
                   suffixIcon: IconButton(
                     onPressed: _search,
-                    icon: const Icon(Icons.search),
+                    icon: const Icon(Icons.search,color: Colors.white,),
                   ),
                 ),
               ),
@@ -176,7 +182,6 @@ class _FetchDataState extends State<FetchData> {
                       child: CircularProgressIndicator(),
                     );
                   }
-
                   return ListView(
                     children:
                     snapshot.data!.docs.map((DocumentSnapshot document) {
@@ -203,133 +208,163 @@ class _FetchDataState extends State<FetchData> {
                       var District = data['District'];
                       var Amount = data['Amount'];
                       var ss = "${widget.data}";
-                      return Slidable(
-                        closeOnScroll: true,
-                        startActionPane: ActionPane(
-                            motion: const StretchMotion(),
-                            children: [
-                              SlidableAction(
-                                  backgroundColor: Colors.red,
-                                  icon: Icons.check,
-                                  label: 'Paid',
-                                  onPressed: (context) async {
-                                    print("1");
-                                    try {
-// Check if the data already exists in the 'Paid' collection
-                                      var querySnapshot =
-                                      await FirebaseFirestore.instance.collection('Paid').where('Household ID', isEqualTo: householdId).get();
-// If the data does not exist, add it to the 'Paid' collection
-                                      if (querySnapshot.docs.isEmpty) {
-                                        await paid.add({
-                                          'S/N': sn,
-                                          'Household ID': householdId,
-                                          'Household Name Code':
-                                          householdNameCode,
-                                          'Recipient Name': recipientName,
-                                          'Recipient Last Name':
-                                          recipientLastName,
-                                          'Father Name': fatherName,
-                                          'Recipient Gender': recipientGender,
-                                          'Recipient Document List':
-                                          recipientDocumentList,
-                                          'Phone Number': phoneNumber,
-                                          'Mobile Number': mobileNumber,
-                                          'Tazkira Number':tazkiraNumber,
-                                          'Alternate Recipient': alternateRecipient,
-                                          'Account Number': accountNumber,
-                                          'Location': Location,
-                                          'Address': Address,
-                                          'province': province,
-                                          'District': District,
-                                          'Amount': Amount,
-                                          'Store Name': ss,
-                                        }).then((value) {
-                                          print("Record added to Firestore");
-                                          _scaffoldMessengerKey.currentState
-                                              ?.showSnackBar(SnackBar(
-                                            content: Container(
-                                              padding: const EdgeInsets.all(16.0),
-                                              height: 90,
-                                              decoration: const BoxDecoration(
-                                                color: Colors.red,
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(20)),
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: Slidable(
+                            closeOnScroll: true,
+                            startActionPane: ActionPane(
+                                motion: const StretchMotion(),
+                                children: [
+                                  SlidableAction(
+                                      borderRadius: BorderRadius.circular(15),
+                                      backgroundColor: Colors.red,
+                                      icon: Icons.check,
+                                      label: 'Paid',
+                                      onPressed: (context) async {
+                                        try {
+                          // Check if the data already exists in the 'Paid' collection
+                                          var querySnapshot =
+                                          await FirebaseFirestore.instance.collection('Paid').where('Household ID', isEqualTo: householdId).get();
+                          // If the data does not exist, add it to the 'Paid' collection
+                                          if (querySnapshot.docs.isEmpty) {
+                                            await paid.add({
+                                              'S/N': sn,
+                                              'Household ID': householdId,
+                                              'Household Name Code':
+                                              householdNameCode,
+                                              'Recipient Name': recipientName,
+                                              'Recipient Last Name':
+                                              recipientLastName,
+                                              'Father Name': fatherName,
+                                              'Recipient Gender': recipientGender,
+                                              'Recipient Document List':
+                                              recipientDocumentList,
+                                              'Phone Number': phoneNumber,
+                                              'Mobile Number': mobileNumber,
+                                              'Tazkira Number':tazkiraNumber,
+                                              'Alternate Recipient': alternateRecipient,
+                                              'Account Number': accountNumber,
+                                              'Location': Location,
+                                              'Address': Address,
+                                              'province': province,
+                                              'District': District,
+                                              'Amount': Amount,
+                                              'Store Name': ss,
+                                            }).then((value) {
+                                              print("Record added to Firestore");
+                                              _scaffoldMessengerKey.currentState
+                                                  ?.showSnackBar(SnackBar(
+                                                content: Container(
+                                                  padding: const EdgeInsets.all(16.0),
+                                                  height: 90,
+                                                  decoration: const BoxDecoration(
+                                                    color: Colors.red,
+                                                    borderRadius: BorderRadius.all(
+                                                        Radius.circular(20)),
+                                                  ),
+                                                  child: const Center(
+                                                      child: Text(
+                                                        "Successfully Paid",
+                                                        style: TextStyle(fontSize: 20),
+                                                      )),
+                                                ),
+                                                backgroundColor: Colors.transparent,
+                                                elevation: 0.0,
+                                                duration: const Duration(seconds: 2),
+                                                behavior: SnackBarBehavior.floating,
+                                              ));
+                                            }).catchError((error) {
+                                              if (mounted) {
+                                                // Check if the widget is still in the tree
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(SnackBar(
+                                                  content: Text("$error"),
+                                                  backgroundColor:
+                                                  const Color.fromRGBO(
+                                                      47, 47, 94, 1),
+                                                  showCloseIcon: true,
+                                                  duration:
+                                                  const Duration(seconds: 2),
+                                                ));
+                                              }
+                                            });
+                                          } else {
+                                            _scaffoldMessengerKey.currentState
+                                                ?.showSnackBar(SnackBar(
+                                              content: Container(
+                                                padding: const EdgeInsets.all(16.0),
+                                                height: 90,
+                                                decoration: const BoxDecoration(
+                                                  color: Colors.red,
+                                                  borderRadius: BorderRadius.all(
+                                                      Radius.circular(20)),
+                                                ),
+                                                child: const Center(
+                                                    child: Text(
+                                                      "Already Paid",
+                                                      style: TextStyle(fontSize: 20),
+                                                    )),
                                               ),
-                                              child: const Center(
-                                                  child: Text(
-                                                    "Successfully Paid",
-                                                    style: TextStyle(fontSize: 20),
-                                                  )),
-                                            ),
-                                            backgroundColor: Colors.transparent,
-                                            elevation: 0.0,
-                                            duration: const Duration(seconds: 2),
-                                            behavior: SnackBarBehavior.floating,
-                                          ));
-                                          print("6666666666666666666666666666");
-                                        }).catchError((error) {
-                                          print("Failed to add record: $error");
-                                          if (mounted) {
-                                            // Check if the widget is still in the tree
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(SnackBar(
-                                              content: Text("$error"),
-                                              backgroundColor:
-                                              const Color.fromRGBO(
-                                                  47, 47, 94, 1),
-                                              showCloseIcon: true,
-                                              duration:
-                                              const Duration(seconds: 2),
+                                              backgroundColor: Colors.transparent,
+                                              elevation: 0.0,
+                                              duration: const Duration(seconds: 2),
+                                              behavior: SnackBarBehavior.floating,
                                             ));
                                           }
-                                        });
-                                      } else {
-                                        print("Duplicate data");
-                                        _scaffoldMessengerKey.currentState
-                                            ?.showSnackBar(SnackBar(
-                                          content: Container(
-                                            padding: const EdgeInsets.all(16.0),
-                                            height: 90,
-                                            decoration: const BoxDecoration(
-                                              color: Colors.red,
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(20)),
-                                            ),
-                                            child: const Center(
-                                                child: Text(
-                                                  "Duplicate data",
-                                                  style: TextStyle(fontSize: 20),
-                                                )),
-                                          ),
-                                          backgroundColor: Colors.transparent,
-                                          elevation: 0.0,
-                                          duration: const Duration(seconds: 2),
-                                          behavior: SnackBarBehavior.floating,
-                                        ));
-                                      }
-                                    } catch (e) {
-                                      print('Failed to add document: $e');
-                                    }
-                                    print("3");
-                                  })
-                            ]),
-                        child: ListTile(
-                          title: Text(
-                            data['Recipient Name'],
-                          ),
-                          subtitle: Text(
-                            data['Father Name'],
-                          ),
-                          leading: Text(data['SN'].toString()),
-                          trailing: Text(data['Account Number'].toString()),
-                          onTap: (){
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ClientInfo(data: data),
+                                        } catch (e) {
+                                          print('Failed to add document: $e');
+                                        }
+                                      })
+                                ]),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: const Color.fromRGBO(70, 130, 180, 0.9),
+                                border: Border.all(
+                                  color:
+                                  const Color.fromRGBO(70, 130, 180, 0.9),
+                                ),
+                                borderRadius: BorderRadius.circular(15),
                               ),
-                            );
-                          },
+                              child: ListTile(
+                                title: Text(
+                                  data['Recipient Name'],
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                subtitle: Text(
+                                  data['Alternate Recipient'],
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                leading: Text(data['SN'].toString(),
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20),),
+                                trailing: Text(data['Account Number'].toString().substring(data['Account Number'].toString().length - 5),
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 15),),
+                                onTap: (){
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ClientInfo(data: data),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
                         ),
                       );
                     }).toList(),
