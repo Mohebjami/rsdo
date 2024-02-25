@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class Add_Admin extends StatefulWidget {
   const Add_Admin({super.key});
@@ -146,19 +145,6 @@ class _Add_AdminState extends State<Add_Admin> {
           )),
     );
   }
-  // void exportData2() async {
-  //   try {
-  //     CollectionReference collRef = FirebaseFirestore.instance.collection('Accounts');
-  //
-  //     collRef.add({
-  //       'User name': user.text,
-  //       'Email': email.text,
-  //       'Password': password.text,
-  //     });
-  //   } catch (err) {
-  //     print("There is some error");
-  //   }
-  // }
 
   void exportData() async {
     try {
@@ -170,9 +156,9 @@ class _Add_AdminState extends State<Add_Admin> {
       if (userText.isEmpty ||
           emailText.isEmpty ||
           passwordText.isEmpty ||
-          userText.contains(new RegExp(r'[/\\"|]')) ||
-          emailText.contains(new RegExp(r'[/\\"|]')) ||
-          passwordText.contains(new RegExp(r'[/\\"|]'))) {
+          userText.contains(RegExp(r'[/\\"|]')) ||
+          emailText.contains(RegExp(r'[/\\"|]')) ||
+          passwordText.contains(RegExp(r'[/\\"|]'))) {
         return showDialog(
             context: context,
             builder: (BuildContext context) {
@@ -181,7 +167,7 @@ class _Add_AdminState extends State<Add_Admin> {
                   'Error',
                   style: TextStyle(color: Colors.red),
                 ),
-                icon: Image(
+                icon: const Image(
                   image: AssetImage("assets/no-wifi.png"),
                   width: 35,
                   height: 35,

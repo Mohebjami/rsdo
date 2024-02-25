@@ -53,7 +53,7 @@ class _SarvearState extends State<Sarvear> {
                 const SizedBox(
                   height: 40,
                 ),
-                Container(
+                SizedBox(
                   width: 330,
                   child: TextField(
                     controller: email,
@@ -73,7 +73,7 @@ class _SarvearState extends State<Sarvear> {
                 const SizedBox(
                   height: 30,
                 ),
-                Container(
+                SizedBox(
                   width: 330,
                   child: TextField(
                     controller: password,
@@ -141,7 +141,7 @@ class _SarvearState extends State<Sarvear> {
                               );
                             });
                       } else {
-                        var data;
+                        Map<String, dynamic> data;
                         int i = 0;
                         press++;
                         setState(() {
@@ -204,12 +204,12 @@ class _SarvearState extends State<Sarvear> {
                         });
                       }
                     },
-                    child: const Text("Login" , style: TextStyle(fontFamily: "LilitaOne" ,fontWeight: FontWeight.bold , fontSize: 22)),
                     style: ButtonStyle(
                       backgroundColor: const MaterialStatePropertyAll(
                           Color.fromRGBO(126, 145, 162, 1)),
                       shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
                     ),
+                    child: const Text("Login" , style: TextStyle(fontFamily: "LilitaOne" ,fontWeight: FontWeight.bold , fontSize: 22 ,color: Colors.white)),
                   ),
                 ),
                 const SizedBox(

@@ -156,7 +156,7 @@ class _Add_SarverState extends State<Add_Sarver> {
       String passwordText = password.text;
 
       // Check if the fields are empty or contain certain symbols
-      if (userText.isEmpty ||emailText.isEmpty ||passwordText.isEmpty ||userText.contains(new RegExp(r'[/\\"|]')) ||emailText.contains(new RegExp(r'[/\\"|]')) ||passwordText.contains(new RegExp(r'[/\\"|]')))
+      if (userText.isEmpty ||emailText.isEmpty ||passwordText.isEmpty ||userText.contains(RegExp(r'[/\\"|]')) ||emailText.contains(RegExp(r'[/\\"|]')) ||passwordText.contains(RegExp(r'[/\\"|]')))
       {
         return showDialog(
             context: context,

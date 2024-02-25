@@ -92,10 +92,11 @@ class _ControllerState extends State<Controller> {
               height: 30,
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 // new buttons
-                Center(
+                Padding(
+                  padding: const EdgeInsets.only(left: 15.0, right: 15.0),
                   child: Container(
                     height: 230,
                     width: 170,
@@ -220,17 +221,17 @@ class _ControllerState extends State<Controller> {
                                           return Container(
                                             height: 200,
                                             width: 200,
-                                            decoration: BoxDecoration(
+                                            decoration: const BoxDecoration(
                                               color: Colors.white,
                                             ),
                                             child: Column(
                                               mainAxisAlignment: MainAxisAlignment.center,
                                               children: <Widget>[
-                                                CircularProgressIndicator(
+                                                const CircularProgressIndicator(
                                                   color: Colors.white,
                                                   backgroundColor: Colors.grey,
                                                 ),
-                                                Text('Inserted: $counter' , style: TextStyle(color: Colors.black),), // Display the counter
+                                                Text('Inserted: $counter' , style: const TextStyle(color: Colors.black),), // Display the counter
                                               ],
                                             ),
                                           );
@@ -291,105 +292,108 @@ class _ControllerState extends State<Controller> {
                                     side: const BorderSide(
                                         color: Color.fromRGBO(47, 47, 97, 1)))),
                           ),
-                          child: const Text('Select File'),
+                          child: const Text('Select File',style: TextStyle(color: Colors.white),),
                         )
                       ],
                     ),
                   ),
                 ),
-                Container(
-                  height: 230,
-                  width: 170,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(30),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 1.0,
-                        blurRadius: 12,
-                        offset: const Offset(
-                            3.0, 2.0), // changes position of shadow
-                      ),
-                      const BoxShadow(
-                        color: Colors.white,
-                        offset: Offset(-4.0, -4.0),
-                        blurRadius: 15,
-                        spreadRadius: 1.0,
-                      )
-                    ],
-                  ),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(18.0),
-                        child: Container(
-                          width: 120,
-                          decoration: BoxDecoration(
-                            color: Colors.grey,
-                            shape: BoxShape.circle,
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
-                                  spreadRadius: 12,
-                                  blurRadius: 20,
-                                  offset: const Offset(-0, 0),
-                                  blurStyle: BlurStyle
-                                      .inner // changes position of shadow
-                                  ),
-                            ],
-                          ),
+                Padding(
+                  padding: const EdgeInsets.only( right: 15.0),
+                  child: Container(
+                    height: 230,
+                    width: 170,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(30),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 1.0,
+                          blurRadius: 12,
+                          offset: const Offset(
+                              3.0, 2.0), // changes position of shadow
+                        ),
+                        const BoxShadow(
+                          color: Colors.white,
+                          offset: Offset(-4.0, -4.0),
+                          blurRadius: 15,
+                          spreadRadius: 1.0,
+                        )
+                      ],
+                    ),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(18.0),
                           child: Container(
+                            width: 120,
                             decoration: BoxDecoration(
                               color: Colors.grey,
                               shape: BoxShape.circle,
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.grey.withOpacity(1),
-                                  spreadRadius: 1.0,
-                                  blurRadius: 12,
-                                  offset: const Offset(
-                                      3.0, 2.0), // changes position of shadow
-                                ),
-                                const BoxShadow(
-                                  color: Colors.white,
-                                  offset: Offset(-3.0, -3.0),
-                                  blurRadius: 15,
-                                  spreadRadius: 1.0,
-                                )
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius: 12,
+                                    blurRadius: 20,
+                                    offset: const Offset(-0, 0),
+                                    blurStyle: BlurStyle
+                                        .inner // changes position of shadow
+                                    ),
                               ],
                             ),
-                            width: 50,
-                            child: const CircleAvatar(
-                              backgroundColor: Colors.white,
-                              radius: 50,
-                              child: Image(
-                                image: AssetImage("assets/analytics.png"),
-                                width: 80,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.grey,
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(1),
+                                    spreadRadius: 1.0,
+                                    blurRadius: 12,
+                                    offset: const Offset(
+                                        3.0, 2.0), // changes position of shadow
+                                  ),
+                                  const BoxShadow(
+                                    color: Colors.white,
+                                    offset: Offset(-3.0, -3.0),
+                                    blurRadius: 15,
+                                    spreadRadius: 1.0,
+                                  )
+                                ],
+                              ),
+                              width: 50,
+                              child: const CircleAvatar(
+                                backgroundColor: Colors.white,
+                                radius: 50,
+                                child: Image(
+                                  image: AssetImage("assets/analytics.png"),
+                                  width: 80,
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      const Text("Report"),
-                      ElevatedButton(
-                        onPressed: () {
-                          createExcel();
-                        },
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(
-                              const Color.fromRGBO(47, 47, 97, 1)),
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      side: const BorderSide(
-                                          color:
-                                              Color.fromRGBO(47, 47, 97, 1)))),
-                        ),
-                        child: const Text('Download'),
-                      )
-                    ],
+                        const Text("Report"),
+                        ElevatedButton(
+                          onPressed: () {
+                            createExcel();
+                          },
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                                const Color.fromRGBO(47, 47, 97, 1)),
+                            shape:
+                                MaterialStateProperty.all<RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10.0),
+                                        side: const BorderSide(
+                                            color:
+                                                Color.fromRGBO(47, 47, 97, 1)))),
+                          ),
+                          child: const Text('Download',style: TextStyle(color: Colors.white),),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -491,7 +495,7 @@ class _ControllerState extends State<Controller> {
                                     side: const BorderSide(
                                         color: Color.fromRGBO(47, 47, 97, 1)))),
                           ),
-                          child: const Text('Search Clients'),
+                          child: const Text('Search Clients',style: TextStyle(color: Colors.white),),
                         )
                       ],
                     ),
@@ -588,7 +592,7 @@ class _ControllerState extends State<Controller> {
                                     side: const BorderSide(
                                         color: Color.fromRGBO(47, 47, 97, 1)))),
                           ),
-                          child: const Text('Search'),
+                          child: const Text('Search',style: TextStyle(color: Colors.white),),
                         )
                       ],
                     ),
@@ -693,7 +697,7 @@ class _ControllerState extends State<Controller> {
                                     side: const BorderSide(
                                         color: Color.fromRGBO(47, 47, 97, 1)))),
                           ),
-                          child: const Text('Add'),
+                          child: const Text('Add', style: TextStyle(color: Colors.white),),
                         )
                       ],
                     ),
@@ -789,7 +793,7 @@ class _ControllerState extends State<Controller> {
                                           color:
                                               Color.fromRGBO(47, 47, 97, 1)))),
                         ),
-                        child: const Text('Add'),
+                        child: const Text('Add',style: TextStyle(color: Colors.white),),
                       )
                     ],
                   ),
@@ -949,7 +953,7 @@ class _ControllerState extends State<Controller> {
                                     side: const BorderSide(
                                         color: Color.fromRGBO(47, 47, 97, 1)))),
                           ),
-                          child: const Text('Delete'),
+                          child: const Text('Delete', style: TextStyle(color: Colors.white),),
                         )
                       ],
                     ),
@@ -1091,7 +1095,7 @@ class _ControllerState extends State<Controller> {
                                     side: const BorderSide(
                                         color: Color.fromRGBO(47, 47, 97, 1)))),
                           ),
-                          child: const Text('Delete'),
+                          child: const Text('Delete', style: TextStyle(color: Colors.white),),
                         )
                       ],
                     ),
