@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class ClientInfo extends StatelessWidget {
   final Map data;
 
-  ClientInfo({Key? key, required this.data}) : super(key: key);
+  const ClientInfo({Key? key, required this.data}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,11 +18,11 @@ class ClientInfo extends StatelessWidget {
           children: <Widget>[
             Center(
               child: CircleAvatar(
-                child: Text('${data['Recipient Name']}',),
                 radius:70,
+                child: Text('${data['Recipient Name']}',),
               ),
             ),
-            SizedBox(height: 15,),
+            const SizedBox(height: 15,),
             Container(
               decoration: BoxDecoration(border: Border.all(width: 0.5 ,color: Colors.grey)),
               child: Padding(
@@ -32,18 +32,20 @@ class ClientInfo extends StatelessWidget {
                   children: [
                     Text('SN: ${data['SN']}'),
 
-                    SizedBox(height: 5,),
+                    const SizedBox(height: 5,),
                     Text('Father Name: ${data['Father Name']}'),
-                    SizedBox(height: 5,),
+                    const SizedBox(height: 5,),
                     Text('Recipient Document List: ${data['Recipient Document List']}'),
-                    SizedBox(height: 5,),
+                    const SizedBox(height: 5,),
                     Text('Account Number: ${data['Account Number']}'),
-                    SizedBox(height: 5,),
+                    const SizedBox(height: 5,),
                     Text('Household Name Code: ${data['Household Name Code']}'),
-                    SizedBox(height: 5,),
+                    const SizedBox(height: 5,),
                     Text('Alternate Recipient: ${data['Alternate Recipient']}'),
-                    SizedBox(height: 5,),
+                    const SizedBox(height: 5,),
                     Text('Mobile Number: ${data['Mobile Number']}'),
+                    const SizedBox(height: 5,),
+                    Text('Tazkira Number: ${data['Tazkira Number']}'),
                   ],
                 ),
               ),

@@ -39,8 +39,7 @@ class _ProjectsState extends State<Projects> {
                   ),
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.transparent,
-                      onPrimary: Colors.transparent,
+                      backgroundColor: Colors.transparent,
                       shadowColor: Colors.black,
                       elevation: 5,
                       shape: RoundedRectangleBorder(
@@ -76,8 +75,7 @@ class _ProjectsState extends State<Projects> {
                   ),
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.transparent,
-                      onPrimary: Colors.transparent,
+                      backgroundColor: Colors.transparent,
                       shadowColor: Colors.black,
                       elevation: 5,
                       shape: RoundedRectangleBorder(
@@ -113,8 +111,7 @@ class _ProjectsState extends State<Projects> {
                   ),
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.transparent,
-                      onPrimary: Colors.transparent,
+                      backgroundColor: Colors.transparent,
                       shadowColor: Colors.black,
                       elevation: 5,
                       shape: RoundedRectangleBorder(
@@ -150,8 +147,7 @@ class _ProjectsState extends State<Projects> {
                   ),
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.transparent,
-                      onPrimary: Colors.transparent,
+                      backgroundColor: Colors.transparent,
                       shadowColor: Colors.black,
                       elevation: 5,
                       shape: RoundedRectangleBorder(
@@ -187,8 +183,7 @@ class _ProjectsState extends State<Projects> {
                   ),
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.transparent,
-                      onPrimary: Colors.transparent,
+                      backgroundColor: Colors.transparent,
                       shadowColor: Colors.black,
                       elevation: 5,
                       shape: RoundedRectangleBorder(

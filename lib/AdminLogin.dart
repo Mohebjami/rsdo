@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 class AdminLogin extends StatefulWidget {
@@ -31,8 +30,8 @@ class _AdminLoginState extends State<AdminLogin> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text("Admin Login", style: TextStyle(fontFamily: "LilitaOne" ,fontWeight: FontWeight.bold , fontSize: 22,color: Colors.white)),
-                SizedBox(
+                const Text("Admin Login", style: TextStyle(fontFamily: "LilitaOne" ,fontWeight: FontWeight.bold , fontSize: 22,color: Colors.white)),
+                const SizedBox(
                   height: 10,
                 ),
                 Image.asset(
@@ -53,10 +52,10 @@ class _AdminLoginState extends State<AdminLogin> {
             ),
             child: Column(
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 40,
                 ),
-                Container(
+                SizedBox(
                   width: 330,
                   child: TextField(
                     controller: email,
@@ -117,7 +116,7 @@ class _AdminLoginState extends State<AdminLogin> {
                         // Handle exception
                         AlertDialog(
                           title: const Text('No Internet' , style: TextStyle(color: Colors.red),),
-                          icon: Image(image: AssetImage("assets/no-wifi.png"), width: 35,height: 35,),
+                          icon: const Image(image: AssetImage("assets/no-wifi.png"), width: 35,height: 35,),
                           iconColor: Colors.red,
                           content: const Text('Problem is on Internet connection' , style: TextStyle(color: Colors.red)),
                           actions: <Widget>[
@@ -137,7 +136,7 @@ class _AdminLoginState extends State<AdminLogin> {
                             builder: (BuildContext context) {
                               return AlertDialog(
                                 title: const Text('No Internet' , style: TextStyle(color: Colors.red),),
-                                icon: Image(image: AssetImage("assets/no-wifi.png"), width: 35,height: 35,),
+                                icon: const Image(image: AssetImage("assets/no-wifi.png"), width: 35,height: 35,),
                                 iconColor: Colors.red,
                                 content: const Text('Problem is on Internet connection' , style: TextStyle(color: Colors.red)),
                                 actions: <Widget>[
@@ -153,7 +152,7 @@ class _AdminLoginState extends State<AdminLogin> {
                         );
                       }
                       else{
-                        var data;
+                        Map<String, dynamic> data;
                         int i = 0;
                         press++;
                         setState(() {
@@ -204,12 +203,12 @@ class _AdminLoginState extends State<AdminLogin> {
                         }
                       }
                     },
-                    child: Text("Login" , style: TextStyle(fontFamily: "LilitaOne" ,fontWeight: FontWeight.bold , fontSize: 22)),
                     style: ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll(
+                      backgroundColor: const MaterialStatePropertyAll(
                           Color.fromRGBO(126, 145, 162, 1)),
                       shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))),
                     ),
+                    child: const Text("Login" , style: TextStyle(fontFamily: "LilitaOne" ,fontWeight: FontWeight.bold , fontSize: 22, color: Colors.white)),
                   ),
                 ),
                 const SizedBox(

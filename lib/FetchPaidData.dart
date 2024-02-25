@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:rsdo/Controller.dart';
 
 class FetchPadiData extends StatelessWidget {
+  const FetchPadiData({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return FirebaseListView();
+    return const FirebaseListView();
   }
 }
 
 class FirebaseListView extends StatefulWidget {
+  const FirebaseListView({super.key});
+
   @override
   _FirebaseListViewState createState() => _FirebaseListViewState();
 }
@@ -39,7 +42,7 @@ class _FirebaseListViewState extends State<FirebaseListView> {
         backgroundColor: Colors.white,
         appBar: AppBar(
           title: const Text('Paid'),
-          backgroundColor: Color.fromRGBO(47, 47, 97, 1),
+          backgroundColor: const Color.fromRGBO(47, 47, 97, 1),
         ),
         body: Column(
           children: <Widget>[
@@ -81,7 +84,7 @@ class _FirebaseListViewState extends State<FirebaseListView> {
                   return ListView(
                     children: snapshot.data!.docs.map((DocumentSnapshot document) {
                       Map<String, dynamic> data = document.data() as Map<String, dynamic>;
-                      var Household_ID = data['Household ID'];
+                      var householdId = data['Household ID'];
                       if(data.isEmpty){
                         print("object");
                         return const Text('Something went wrong');
@@ -97,7 +100,7 @@ class _FirebaseListViewState extends State<FirebaseListView> {
                                   label: 'Delete',
                                   onPressed: (context) async {
                                     try {
-                                      var querySnapshot = await FirebaseFirestore.instance.collection('Paid').where('Household ID', isEqualTo: Household_ID).get();
+                                      var querySnapshot = await FirebaseFirestore.instance.collection('Paid').where('Household ID', isEqualTo: householdId).get();
                                       querySnapshot.docs.forEach((doc) async {
                                         await FirebaseFirestore.instance.collection('Paid').doc(doc.id).delete();
                                       });

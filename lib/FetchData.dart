@@ -33,9 +33,30 @@ class _FetchDataState extends State<FetchData> {
     return ScaffoldMessenger(
       key: _scaffoldMessengerKey,
       child: Scaffold(
-        backgroundColor: Colors.white,
         appBar: AppBar(
           title: Text("${widget.data}"),
+          actions: [
+            StreamBuilder(
+              stream: FirebaseFirestore.instance.collection('Paid').snapshots(),
+              builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.hasError) {
+                  return const Text('Something went wrong');
+                }
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Text("Loading");
+                }
+                int? docLength = snapshot.data?.docs.length; // Assigning length to a variable
+                print('Document Length: $docLength'); // Printing the length
+                return Padding(
+                  padding: const EdgeInsets.only(right: 15.0),
+                  child: Text(
+                    '$docLength',
+                    style: const TextStyle(color: Colors.black, fontSize: 20),
+                  ),
+                );
+              },
+            )
+          ],
         ),
         body: Column(
           children: <Widget>[
@@ -47,13 +68,13 @@ class _FetchDataState extends State<FetchData> {
                   fillColor: Colors.grey,
                   filled: true,
                   hintText: "Search",
-                  border: OutlineInputBorder(
+                  border: const OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(30.0)),
                     borderSide: BorderSide.none,
                   ),
                   suffixIcon: IconButton(
                     onPressed: _search,
-                    icon: Icon(Icons.search),
+                    icon: const Icon(Icons.search),
                   ),
                 ),
               ),
@@ -81,18 +102,18 @@ class _FetchDataState extends State<FetchData> {
                       CollectionReference paid =
                       FirebaseFirestore.instance.collection('Paid');
                       var sn = data['SN'];
-                      var Household_ID = data['Household ID'];
-                      var Household_Name_Code = data['Household Name Code'];
-                      var Recipient_Name = data['Recipient Name'];
-                      var Recipient_Last_Name = data['Recipient Last Name'];
-                      var Father_Name = data['Father Name'];
-                      var Recipient_Gender = data['Recipient Gender'];
-                      var Recipient_Document_List = data['Recipient Document List'];
-                      var Phone_Number = data['Phone Number'];
-                      var Mobile_Number = data['Mobile Number'];
-                      var tazkira_Number = data['Tazkira Number'];
-                      var Alternate_Recipient = data['Alternate Recipient'];
-                      var Account_Number = data['Account Number'];
+                      var householdId = data['Household ID'];
+                      var householdNameCode = data['Household Name Code'];
+                      var recipientName = data['Recipient Name'];
+                      var recipientLastName = data['Recipient Last Name'];
+                      var fatherName = data['Father Name'];
+                      var recipientGender = data['Recipient Gender'];
+                      var recipientDocumentList = data['Recipient Document List'];
+                      var phoneNumber = data['Phone Number'];
+                      var mobileNumber = data['Mobile Number'];
+                      var tazkiraNumber = data['Tazkira Number'];
+                      var alternateRecipient = data['Alternate Recipient'];
+                      var accountNumber = data['Account Number'];
                       var Location = data['Location'];
                       var Address = data['Address'];
                       var province = data['province'];
@@ -113,26 +134,26 @@ class _FetchDataState extends State<FetchData> {
                                     try {
 // Check if the data already exists in the 'Paid' collection
                                       var querySnapshot =
-                                      await FirebaseFirestore.instance.collection('Paid').where('Household ID', isEqualTo: Household_ID).get();
+                                      await FirebaseFirestore.instance.collection('Paid').where('Household ID', isEqualTo: householdId).get();
 // If the data does not exist, add it to the 'Paid' collection
                                       if (querySnapshot.docs.isEmpty) {
                                         await paid.add({
                                           'S/N': sn,
-                                          'Household ID': Household_ID,
+                                          'Household ID': householdId,
                                           'Household Name Code':
-                                          Household_Name_Code,
-                                          'Recipient Name': Recipient_Name,
+                                          householdNameCode,
+                                          'Recipient Name': recipientName,
                                           'Recipient Last Name':
-                                          Recipient_Last_Name,
-                                          'Father Name': Father_Name,
-                                          'Recipient Gender': Recipient_Gender,
+                                          recipientLastName,
+                                          'Father Name': fatherName,
+                                          'Recipient Gender': recipientGender,
                                           'Recipient Document List':
-                                          Recipient_Document_List,
-                                          'Phone Number': Phone_Number,
-                                          'Mobile Number': Mobile_Number,
-                                          'Tazkira Number':tazkira_Number,
-                                          'Alternate Recipient': Alternate_Recipient,
-                                          'Account Number': Account_Number,
+                                          recipientDocumentList,
+                                          'Phone Number': phoneNumber,
+                                          'Mobile Number': mobileNumber,
+                                          'Tazkira Number':tazkiraNumber,
+                                          'Alternate Recipient': alternateRecipient,
+                                          'Account Number': accountNumber,
                                           'Location': Location,
                                           'Address': Address,
                                           'province': province,
@@ -144,9 +165,9 @@ class _FetchDataState extends State<FetchData> {
                                           _scaffoldMessengerKey.currentState
                                               ?.showSnackBar(SnackBar(
                                             content: Container(
-                                              padding: EdgeInsets.all(16.0),
+                                              padding: const EdgeInsets.all(16.0),
                                               height: 90,
-                                              decoration: BoxDecoration(
+                                              decoration: const BoxDecoration(
                                                 color: Colors.red,
                                                 borderRadius: BorderRadius.all(
                                                     Radius.circular(20)),
@@ -159,7 +180,7 @@ class _FetchDataState extends State<FetchData> {
                                             ),
                                             backgroundColor: Colors.transparent,
                                             elevation: 0.0,
-                                            duration: Duration(seconds: 2),
+                                            duration: const Duration(seconds: 2),
                                             behavior: SnackBarBehavior.floating,
                                           ));
                                           print("6666666666666666666666666666");
@@ -184,9 +205,9 @@ class _FetchDataState extends State<FetchData> {
                                         _scaffoldMessengerKey.currentState
                                             ?.showSnackBar(SnackBar(
                                           content: Container(
-                                            padding: EdgeInsets.all(16.0),
+                                            padding: const EdgeInsets.all(16.0),
                                             height: 90,
-                                            decoration: BoxDecoration(
+                                            decoration: const BoxDecoration(
                                               color: Colors.red,
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(20)),
@@ -199,7 +220,7 @@ class _FetchDataState extends State<FetchData> {
                                           ),
                                           backgroundColor: Colors.transparent,
                                           elevation: 0.0,
-                                          duration: Duration(seconds: 2),
+                                          duration: const Duration(seconds: 2),
                                           behavior: SnackBarBehavior.floating,
                                         ));
                                       }

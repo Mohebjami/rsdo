@@ -22,8 +22,8 @@ void main() async {
             projectId: "rsdo-database",
             storageBucket: "rsdo-database.appspot.com",
             messagingSenderId: "1046325775468",
-            appId: "1:1046325775468:web:7022da5a571362e475dc49",
-            measurementId: "G-HPLHQWYYV8"
+            appId: "1:1046325775468:web:756999ddc41ddbb775dc49",
+            measurementId: "G-D4S5CZQ0XN"
         ));
   } else {
     await Firebase.initializeApp();
@@ -39,8 +39,8 @@ void main() async {
       'SubProject': (context) => const SubProject(),
       'welcome': (context) => const LoginPage(),
       'export': (context) => const Controller(),
-      'show': (context) =>  FetchDataAdmin(),
-      'FetchPaidData': (context) =>  FetchPadiData(),
+      'show': (context) =>  const FetchDataAdmin(),
+      'FetchPaidData': (context) =>  const FetchPadiData(),
       'Surveyor': (context) => const Add_Sarver(),
       'admin': (context) => const Add_Admin(),
     },
