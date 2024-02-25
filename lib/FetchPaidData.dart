@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:rsdo/ClientInfo.dart';
 
 class FetchPadiData extends StatelessWidget {
   const FetchPadiData({super.key});
@@ -42,7 +43,8 @@ class _FirebaseListViewState extends State<FirebaseListView> {
         backgroundColor: Colors.white,
         appBar: AppBar(
           title: const Text('Paid'),
-          backgroundColor: const Color.fromRGBO(47, 47, 97, 1),
+          backgroundColor: const Color.fromRGBO(70, 130, 180, 1),
+          foregroundColor: Colors.white,
         ),
         body: Column(
           children: <Widget>[
@@ -50,17 +52,22 @@ class _FirebaseListViewState extends State<FirebaseListView> {
               padding: const EdgeInsets.all(8.0),
               child: TextField(
                 controller: _textController,
+                style: TextStyle(color: Colors.white),
                 decoration: InputDecoration(
-                  fillColor: Colors.grey,
+                  fillColor: const Color.fromRGBO(70, 130, 180, 0.9),
                   filled: true,
                   hintText: "Search",
+                  hintStyle: TextStyle(color: Colors.white),
                   border: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                    borderRadius: BorderRadius.all(Radius.circular(15.0)),
                     borderSide: BorderSide.none,
                   ),
+
+
+
                   suffixIcon: IconButton(
                     onPressed: _search,
-                    icon: const Icon(Icons.search),
+                    icon: const Icon(Icons.search,color: Colors.white,),
                   ),
                 ),
               ),
@@ -89,34 +96,78 @@ class _FirebaseListViewState extends State<FirebaseListView> {
                         print("object");
                         return const Text('Something went wrong');
                       }
-                      return Slidable(
-                        closeOnScroll: true,
-                        startActionPane: ActionPane(
-                            motion: const StretchMotion(),
-                            children: [
-                              SlidableAction(
-                                  backgroundColor: Colors.red,
-                                  icon: Icons.check,
-                                  label: 'Delete',
-                                  onPressed: (context) async {
-                                    try {
-                                      var querySnapshot = await FirebaseFirestore.instance.collection('Paid').where('Household ID', isEqualTo: householdId).get();
-                                      querySnapshot.docs.forEach((doc) async {
-                                        await FirebaseFirestore.instance.collection('Paid').doc(doc.id).delete();
-                                      });
-                                    } catch (e) {
-                                      print('Failed to add document: $e');
-                                    }
-                                  })
-                            ]),
-                        child: ListTile(
-                          title: Text(
-                            data['Recipient Name'],
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
                           ),
-                          subtitle: Text(
-                            data['Father Name'],
+                          child: Slidable(
+                            closeOnScroll: true,
+                            startActionPane: ActionPane(
+                                motion: const StretchMotion(),
+                                children: [
+                                  SlidableAction(
+                                      backgroundColor: Colors.red,
+                                      icon: Icons.delete_forever,
+                                      borderRadius: BorderRadius.circular(15),
+                                      label: 'Delete',
+                                      onPressed: (context) async {
+                                        try {
+                                          var querySnapshot = await FirebaseFirestore.instance.collection('Paid').where('Household ID', isEqualTo: householdId).get();
+                                          querySnapshot.docs.forEach((doc) async {
+                                            await FirebaseFirestore.instance.collection('Paid').doc(doc.id).delete();
+                                          });
+                                        } catch (e) {
+                                          print('Failed to add document: $e');
+                                        }
+                                      })
+                                ]),
+                            child:Container(
+                              decoration: BoxDecoration(
+                                color: const Color.fromRGBO(70, 130, 180, 0.9),
+                                border: Border.all(
+                                  color:
+                                  const Color.fromRGBO(70, 130, 180, 0.9),
+                                ),
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: ListTile(
+                                title: Text(
+                                  data['Recipient Name'],
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                subtitle: Text(
+                                  data['Alternate Recipient'],
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                leading: Text(data['S/N'].toString(),
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20),),
+                                trailing: Text(data['Account Number'].toString().substring(data['Account Number'].toString().length - 5),
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 15),),
+                                onTap: (){
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ClientInfo(data: data),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
                           ),
-                          leading: Text(data['S/N'].toString()),
                         ),
                       );
                     }

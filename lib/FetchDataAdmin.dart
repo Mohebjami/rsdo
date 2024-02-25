@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -28,6 +29,7 @@ class _FirebaseListViewState extends State<FirebaseListView> {
 
   String _searchText = '';
   late var data;
+  String dropdownValue = 'Household Name Code';
 
   void _search() {
     setState(() {
@@ -182,23 +184,46 @@ class _FirebaseListViewState extends State<FirebaseListView> {
         ),
         body: Column(
           children: <Widget>[
+            // DropdownButton<String>(
+            //   value: dropdownValue,
+            //   icon: Icon(Icons.arrow_downward),
+            //   iconSize: 24,
+            //   elevation: 16,
+            //   style: TextStyle(color: Colors.deepPurple),
+            //   underline: Container(
+            //     height: 2,
+            //     color: Colors.deepPurpleAccent,
+            //   ),
+            //   onChanged: (newValue) {
+            //     setState(() {
+            //       dropdownValue = newValue!;
+            //     });
+            //   },
+            //   items: <String>['Household Name Code', 'Account Number']
+            //       .map<DropdownMenuItem<String>>((String value) {
+            //     return DropdownMenuItem<String>(
+            //       value: value,
+            //       child: Text(value),
+            //     );
+            //   }).toList(),
+            // ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
                 controller: _textController,
-                style: TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white),
                 decoration: InputDecoration(
                   fillColor: const Color.fromRGBO(70, 130, 180, 0.9),
                   filled: true,
                   hintText: "Search",
-                  hintStyle: TextStyle(color: Colors.white),
+                  hintStyle: const TextStyle(color: Colors.white),
                   border: const OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(15.0)),
                     borderSide: BorderSide.none,
                   ),
                   suffixIcon: IconButton(
                     onPressed: _search,
-                    icon: const Icon(Icons.search),
+                    icon: const Icon(Icons.search,color: Colors.white,),
                   ),
                 ),
               ),
@@ -246,175 +271,185 @@ class _FirebaseListViewState extends State<FirebaseListView> {
                       var District = data['District'];
                       var Amount = data['Amount'];
                       var ss = "Paid with Admin";
-                      return Slidable(
-                          closeOnScroll: true,
-                          startActionPane: ActionPane(
-                              motion: const StretchMotion(),
-                              children: [
-                                SlidableAction(
-                                    backgroundColor: Colors.red,
-                                    icon: Icons.check,
-                                    label: 'Paid',
-                                    onPressed: (context) async {
-                                      try {
-// Check if the data already exists in the 'Paid' collection
-                                        var querySnapshot =
-                                            await FirebaseFirestore.instance
-                                                .collection('Paid')
-                                                .where('Household ID',
-                                                    isEqualTo: householdId)
-                                                .get();
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: Slidable(
+                              closeOnScroll: true,
+                              startActionPane: ActionPane(
+                                  motion: const StretchMotion(),
+                                  children: [
+                                    SlidableAction(
+                                      borderRadius: BorderRadius.circular(15),
+                                        backgroundColor: Colors.red,
+                                        icon: Icons.check,
+                                        label: 'Paid',
+                                        onPressed: (context) async {
+                                          try {
+                          // Check if the data already exists in the 'Paid' collection
+                                            var querySnapshot =
+                                                await FirebaseFirestore.instance
+                                                    .collection('Paid')
+                                                    .where('Household ID',
+                                                        isEqualTo: householdId)
+                                                    .get();
 
-// If the data does not exist, add it to the 'Paid' collection
-                                        if (querySnapshot.docs.isEmpty) {
-                                          await paid.add({
-                                            'S/N': sn,
-                                            'Household ID': householdId,
-                                            'Household Name Code':
-                                                householdNameCode,
-                                            'Recipient Name': recipientName,
-                                            'Recipient Last Name':
-                                                recipientLastName,
-                                            'Father Name': fatherName,
-                                            'Recipient Gender': recipientGender,
-                                            'Recipient Document List':
-                                                recipientDocumentList,
-                                            'Phone Number': phoneNumber,
-                                            'Mobile Number': mobileNumber,
-                                            'Tazkira Number': tazkiraNumber,
-                                            'Alternate Recipient':
-                                                alternateRecipient,
-                                            'Account Number': accountNumber,
-                                            'Location': Location,
-                                            'Address': Address,
-                                            'province': province,
-                                            'District': District,
-                                            'Amount': Amount,
-                                            'Store Name': ss,
-                                          }).then((value) {
-                                            print("Record added to Firestore");
-                                            _scaffoldMessengerKey.currentState
-                                                ?.showSnackBar(SnackBar(
-                                              content: Container(
-                                                padding:
-                                                    const EdgeInsets.all(16.0),
-                                                height: 90,
-                                                decoration: const BoxDecoration(
-                                                  color: Colors.red,
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(20)),
+                          // If the data does not exist, add it to the 'Paid' collection
+                                            if (querySnapshot.docs.isEmpty) {
+                                              await paid.add({
+                                                'S/N': sn,
+                                                'Household ID': householdId,
+                                                'Household Name Code':
+                                                    householdNameCode,
+                                                'Recipient Name': recipientName,
+                                                'Recipient Last Name':
+                                                    recipientLastName,
+                                                'Father Name': fatherName,
+                                                'Recipient Gender':
+                                                    recipientGender,
+                                                'Recipient Document List':
+                                                    recipientDocumentList,
+                                                'Phone Number': phoneNumber,
+                                                'Mobile Number': mobileNumber,
+                                                'Tazkira Number': tazkiraNumber,
+                                                'Alternate Recipient':
+                                                    alternateRecipient,
+                                                'Account Number': accountNumber,
+                                                'Location': Location,
+                                                'Address': Address,
+                                                'province': province,
+                                                'District': District,
+                                                'Amount': Amount,
+                                                'Store Name': ss,
+                                              }).then((value) {
+                                                print(
+                                                    "Record added to Firestore");
+                                                _scaffoldMessengerKey.currentState
+                                                    ?.showSnackBar(SnackBar(
+                                                  content: Container(
+                                                    padding: const EdgeInsets.all(
+                                                        16.0),
+                                                    height: 90,
+                                                    decoration:
+                                                        const BoxDecoration(
+                                                      color: Colors.red,
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                              Radius.circular(
+                                                                  20)),
+                                                    ),
+                                                    child: const Center(
+                                                        child: Text(
+                                                      "Successfully Paid",
+                                                      style:
+                                                          TextStyle(fontSize: 20),
+                                                    )),
+                                                  ),
+                                                  backgroundColor:
+                                                      Colors.transparent,
+                                                  elevation: 0.0,
+                                                  duration:
+                                                      const Duration(seconds: 2),
+                                                  behavior:
+                                                      SnackBarBehavior.floating,
+                                                ));
+                                              }).catchError((error) {
+                                                print(
+                                                    "Failed to add record: $error");
+                                                if (mounted) {
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(SnackBar(
+                                                    content: Text("$error"),
+                                                    backgroundColor:
+                                                        const Color.fromRGBO(
+                                                            47, 47, 94, 1),
+                                                    showCloseIcon: true,
+                                                    duration: const Duration(
+                                                        seconds: 2),
+                                                  ));
+                                                }
+                                              });
+                                            } else {
+                                              _scaffoldMessengerKey.currentState
+                                                  ?.showSnackBar(SnackBar(
+                                                content: Container(
+                                                  padding:
+                                                      const EdgeInsets.all(16.0),
+                                                  height: 90,
+                                                  decoration: const BoxDecoration(
+                                                    color: Colors.red,
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(20)),
+                                                  ),
+                                                  child: const Center(
+                                                      child: Text(
+                                                        "Already Paid",
+                                                    style:
+                                                        TextStyle(fontSize: 20),
+                                                  )),
                                                 ),
-                                                child: const Center(
-                                                    child: Text(
-                                                  "Successfully Paid",
-                                                  style:
-                                                      TextStyle(fontSize: 20),
-                                                )),
-                                              ),
-                                              backgroundColor:
-                                                  Colors.transparent,
-                                              elevation: 0.0,
-                                              duration:
-                                                  const Duration(seconds: 2),
-                                              behavior:
-                                                  SnackBarBehavior.floating,
-                                            ));
-                                          }).catchError((error) {
-                                            print(
-                                                "Failed to add record: $error");
-                                            if (mounted) {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(SnackBar(
-                                                content: Text("$error"),
                                                 backgroundColor:
-                                                    const Color.fromRGBO(
-                                                        47, 47, 94, 1),
-                                                showCloseIcon: true,
+                                                    Colors.transparent,
+                                                elevation: 0.0,
                                                 duration:
                                                     const Duration(seconds: 2),
+                                                behavior:
+                                                    SnackBarBehavior.floating,
                                               ));
                                             }
-                                          });
-                                        } else {
-                                          _scaffoldMessengerKey.currentState
-                                              ?.showSnackBar(SnackBar(
-                                            content: Container(
-                                              padding:
-                                                  const EdgeInsets.all(16.0),
-                                              height: 90,
-                                              decoration: const BoxDecoration(
-                                                color: Colors.red,
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(20)),
-                                              ),
-                                              child: const Center(
-                                                  child: Text(
-                                                "Duplicate data",
-                                                style: TextStyle(fontSize: 20),
-                                              )),
-                                            ),
-                                            backgroundColor: Colors.transparent,
-                                            elevation: 0.0,
-                                            duration:
-                                                const Duration(seconds: 2),
-                                            behavior: SnackBarBehavior.floating,
-                                          ));
-                                        }
-                                      } catch (e) {
-                                        print('Failed to add document: $e');
-                                      }
-                                    })
-                              ]),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color:
-                                      const Color.fromRGBO(70, 130, 180, 0.9),
+                                          } catch (e) {
+                                            print('Failed to add document: $e');
+                                          }
+                                        })
+                                  ]),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: const Color.fromRGBO(70, 130, 180, 0.9),
                                   border: Border.all(
                                     color:
                                         const Color.fromRGBO(70, 130, 180, 0.9),
                                   ),
-                                  borderRadius: BorderRadius.circular(15)),
-                              child: ListTile(
-                                title: Text(
-                                  data['Recipient Name'],
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 20),
+                                  borderRadius: BorderRadius.circular(15),
                                 ),
-                                subtitle: Text(
-                                  data['Alternate Recipient'],
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 15),
+                                child: ListTile(
+                                  title: Text(
+                                    data['Recipient Name'],
+                                    style: const TextStyle(
+                                        color: Colors.white, fontSize: 20,fontWeight: FontWeight.bold),
+                                  ),
+                                  subtitle: Text(
+                                    data['Alternate Recipient'],
+                                    style: const TextStyle(
+                                        color: Colors.white, fontSize: 15,fontWeight: FontWeight.bold),
+                                  ),
+                                  leading: Text(
+                                    data['SN'].toString(),
+                                    style: const TextStyle(
+                                        color: Color.fromRGBO(
+                                            230, 240, 255, 0.9),
+                                        fontSize: 20,fontWeight: FontWeight.bold),
+                                  ),
+                                  trailing: Text(data['Account Number'].toString().substring(data['Account Number'].toString().length - 5),
+                                    style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 15,fontWeight: FontWeight.bold),),
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            ClientInfo(data: data),
+                                      ),
+                                    );
+                                  },
                                 ),
-                                leading: CircleAvatar(
-                                    backgroundColor:
-                                        Color.fromRGBO(0, 100, 2000, 1),
-                                    child: Text(
-                                      data['SN'].toString(),
-                                      style: TextStyle(
-                                          color: Color.fromRGBO(
-                                              230, 240, 255, 0.9),
-                                          fontSize: 15),
-                                    )),
-                                trailing: Text(
-                                  data['Account Number'].toString(),
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 15),
-                                ),
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          ClientInfo(data: data),
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
-                          ));
+                              )),
+                        ),
+                      );
                     }).toList(),
                   );
                 },
