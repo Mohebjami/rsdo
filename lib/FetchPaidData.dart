@@ -22,7 +22,6 @@ class FirebaseListView extends StatefulWidget {
 class _FirebaseListViewState extends State<FirebaseListView> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final TextEditingController _textController = TextEditingController();
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final GlobalKey<ScaffoldMessengerState> _scaffoldMessengerKey =
       GlobalKey<ScaffoldMessengerState>();
 
@@ -52,19 +51,16 @@ class _FirebaseListViewState extends State<FirebaseListView> {
               padding: const EdgeInsets.all(8.0),
               child: TextField(
                 controller: _textController,
-                style: TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white),
                 decoration: InputDecoration(
                   fillColor: const Color.fromRGBO(70, 130, 180, 0.9),
                   filled: true,
                   hintText: "Search",
-                  hintStyle: TextStyle(color: Colors.white),
+                  hintStyle: const TextStyle(color: Colors.white),
                   border: const OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(15.0)),
                     borderSide: BorderSide.none,
                   ),
-
-
-
                   suffixIcon: IconButton(
                     onPressed: _search,
                     icon: const Icon(Icons.search,color: Colors.white,),
@@ -93,7 +89,6 @@ class _FirebaseListViewState extends State<FirebaseListView> {
                       Map<String, dynamic> data = document.data() as Map<String, dynamic>;
                       var householdId = data['Household ID'];
                       if(data.isEmpty){
-                        print("object");
                         return const Text('Something went wrong');
                       }
                       return Padding(
@@ -119,7 +114,14 @@ class _FirebaseListViewState extends State<FirebaseListView> {
                                             await FirebaseFirestore.instance.collection('Paid').doc(doc.id).delete();
                                           });
                                         } catch (e) {
-                                          print('Failed to add document: $e');
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(const SnackBar(
+                                            content: Text(
+                                                'Failed to add document'),
+                                            backgroundColor: Color.fromRGBO(47, 47, 94, 1),
+                                            showCloseIcon: true,
+                                            duration: Duration(seconds: 2),
+                                          ));
                                         }
                                       })
                                 ]),

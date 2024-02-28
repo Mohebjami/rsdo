@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 class AdminLogin extends StatefulWidget {
@@ -65,7 +64,7 @@ class _AdminLoginState extends State<AdminLogin> {
                   child: TextField(
                     controller: email,
                     style:
-                        const TextStyle(color: Color.fromRGBO(44, 62, 82, 1)),
+                    const TextStyle(color: Color.fromRGBO(44, 62, 82, 1)),
                     decoration: InputDecoration(
                       fillColor: const Color.fromRGBO(234, 235, 237, 1),
                       filled: true,
@@ -84,7 +83,7 @@ class _AdminLoginState extends State<AdminLogin> {
                   child: TextField(
                     controller: password,
                     style:
-                        const TextStyle(color: Color.fromRGBO(44, 62, 82, 1)),
+                    const TextStyle(color: Color.fromRGBO(44, 62, 82, 1)),
                     obscureText: true,
                     decoration: InputDecoration(
                         fillColor: const Color.fromRGBO(234, 235, 237, 1),
@@ -117,7 +116,7 @@ class _AdminLoginState extends State<AdminLogin> {
                       });
                       try {
                         hasInternet =
-                            await InternetConnectionChecker().hasConnection;
+                        await InternetConnectionChecker().hasConnection;
                       } catch (_) {
                         // Handle exception
                         AlertDialog(
@@ -161,21 +160,17 @@ class _AdminLoginState extends State<AdminLogin> {
                                 );
                               });
                         });
-                        final QuerySnapshot snapshot = await FirebaseFirestore
-                            .instance
-                            .collection('Accounts')
-                            .get();
+                        final QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('Accounts').get();
                         Navigator.of(context).pop();
                         while (i < snapshot.docs.length) {
                           data =
-                              snapshot.docs[i].data() as Map<String, dynamic>;
+                          snapshot.docs[i].data() as Map<String, dynamic>;
                           if (data['Email'] == email.text &&
                               data['Password'] == password.text) {
                             setState(() {
                               isCorrect = true;
                             });
-                            Navigator.of(context)
-                                .pushReplacementNamed("export");
+                            Navigator.of(context).pushReplacementNamed("export");
                           }
                           i++;
                         }

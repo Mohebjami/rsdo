@@ -28,7 +28,7 @@ class _SarvearState extends State<Sarvear> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Text("Surveyor Login", style: TextStyle(fontFamily: "LilitaOne" ,fontWeight: FontWeight.bold , fontSize: 22,color: Colors.white)),
+                const Text("Distributor Login", style: TextStyle(fontFamily: "LilitaOne" ,fontWeight: FontWeight.bold , fontSize: 22,color: Colors.white)),
                 const SizedBox(
                   height: 10,
                 ),
@@ -167,8 +167,7 @@ class _SarvearState extends State<Sarvear> {
                             });
                             Navigator.pushReplacement(context,
                               MaterialPageRoute(
-                                builder: (context) =>
-                                    FetchData(data: test_data),
+                                builder: (context) => FetchData(data: test_data),
                               ),
                             );
                           }

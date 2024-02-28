@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:rsdo/ClientInfo.dart';
+import 'package:intl/intl.dart';
 
 class FetchDataAdmin extends StatelessWidget {
   const FetchDataAdmin({super.key});
@@ -23,7 +24,6 @@ class FirebaseListView extends StatefulWidget {
 class _FirebaseListViewState extends State<FirebaseListView> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final TextEditingController _textController = TextEditingController();
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final GlobalKey<ScaffoldMessengerState> _scaffoldMessengerKey =
       GlobalKey<ScaffoldMessengerState>();
 
@@ -54,7 +54,7 @@ class _FirebaseListViewState extends State<FirebaseListView> {
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
-                      content: Container(
+                      content: SizedBox(
                         width: double.maxFinite,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -223,7 +223,10 @@ class _FirebaseListViewState extends State<FirebaseListView> {
                   ),
                   suffixIcon: IconButton(
                     onPressed: _search,
-                    icon: const Icon(Icons.search,color: Colors.white,),
+                    icon: const Icon(
+                      Icons.search,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),
@@ -283,13 +286,13 @@ class _FirebaseListViewState extends State<FirebaseListView> {
                                   motion: const StretchMotion(),
                                   children: [
                                     SlidableAction(
-                                      borderRadius: BorderRadius.circular(15),
+                                        borderRadius: BorderRadius.circular(15),
                                         backgroundColor: Colors.red,
                                         icon: Icons.check,
                                         label: 'Paid',
                                         onPressed: (context) async {
                                           try {
-                          // Check if the data already exists in the 'Paid' collection
+                                            // Check if the data already exists in the 'Paid' collection
                                             var querySnapshot =
                                                 await FirebaseFirestore.instance
                                                     .collection('Paid')
@@ -297,7 +300,9 @@ class _FirebaseListViewState extends State<FirebaseListView> {
                                                         isEqualTo: householdId)
                                                     .get();
 
-                          // If the data does not exist, add it to the 'Paid' collection
+                                            // var NDate = DateTime.now();
+
+                                            // If the data does not exist, add it to the 'Paid' collection
                                             if (querySnapshot.docs.isEmpty) {
                                               await paid.add({
                                                 'S/N': sn,
@@ -324,14 +329,15 @@ class _FirebaseListViewState extends State<FirebaseListView> {
                                                 'District': District,
                                                 'Amount': Amount,
                                                 'Store Name': ss,
+                                                'Current time': DateFormat('yyyy-MM-dd').format(DateTime.now()),
                                               }).then((value) {
-                                                print(
-                                                    "Record added to Firestore");
-                                                _scaffoldMessengerKey.currentState
+                                                _scaffoldMessengerKey
+                                                    .currentState
                                                     ?.showSnackBar(SnackBar(
                                                   content: Container(
-                                                    padding: const EdgeInsets.all(
-                                                        16.0),
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            16.0),
                                                     height: 90,
                                                     decoration:
                                                         const BoxDecoration(
@@ -344,21 +350,19 @@ class _FirebaseListViewState extends State<FirebaseListView> {
                                                     child: const Center(
                                                         child: Text(
                                                       "Successfully Paid",
-                                                      style:
-                                                          TextStyle(fontSize: 20),
+                                                      style: TextStyle(
+                                                          fontSize: 20),
                                                     )),
                                                   ),
                                                   backgroundColor:
                                                       Colors.transparent,
                                                   elevation: 0.0,
-                                                  duration:
-                                                      const Duration(seconds: 2),
+                                                  duration: const Duration(
+                                                      seconds: 2),
                                                   behavior:
                                                       SnackBarBehavior.floating,
                                                 ));
                                               }).catchError((error) {
-                                                print(
-                                                    "Failed to add record: $error");
                                                 if (mounted) {
                                                   ScaffoldMessenger.of(context)
                                                       .showSnackBar(SnackBar(
@@ -376,18 +380,20 @@ class _FirebaseListViewState extends State<FirebaseListView> {
                                               _scaffoldMessengerKey.currentState
                                                   ?.showSnackBar(SnackBar(
                                                 content: Container(
-                                                  padding:
-                                                      const EdgeInsets.all(16.0),
+                                                  padding: const EdgeInsets.all(
+                                                      16.0),
                                                   height: 90,
-                                                  decoration: const BoxDecoration(
+                                                  decoration:
+                                                      const BoxDecoration(
                                                     color: Colors.red,
                                                     borderRadius:
                                                         BorderRadius.all(
-                                                            Radius.circular(20)),
+                                                            Radius.circular(
+                                                                20)),
                                                   ),
                                                   child: const Center(
                                                       child: Text(
-                                                        "Already Paid",
+                                                    "Already Paid",
                                                     style:
                                                         TextStyle(fontSize: 20),
                                                   )),
@@ -408,7 +414,8 @@ class _FirebaseListViewState extends State<FirebaseListView> {
                                   ]),
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: const Color.fromRGBO(70, 130, 180, 0.9),
+                                  color:
+                                      const Color.fromRGBO(70, 130, 180, 0.9),
                                   border: Border.all(
                                     color:
                                         const Color.fromRGBO(70, 130, 180, 0.9),
@@ -419,24 +426,36 @@ class _FirebaseListViewState extends State<FirebaseListView> {
                                   title: Text(
                                     data['Recipient Name'],
                                     style: const TextStyle(
-                                        color: Colors.white, fontSize: 20,fontWeight: FontWeight.bold),
+                                        color: Colors.white,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
                                   ),
                                   subtitle: Text(
                                     data['Alternate Recipient'],
                                     style: const TextStyle(
-                                        color: Colors.white, fontSize: 15,fontWeight: FontWeight.bold),
+                                        color: Colors.white,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold),
                                   ),
                                   leading: Text(
                                     data['SN'].toString(),
                                     style: const TextStyle(
-                                        color: Color.fromRGBO(
-                                            230, 240, 255, 0.9),
-                                        fontSize: 20,fontWeight: FontWeight.bold),
+                                        color:
+                                            Color.fromRGBO(230, 240, 255, 0.9),
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
                                   ),
-                                  trailing: Text(data['Account Number'].toString().substring(data['Account Number'].toString().length - 5),
+                                  trailing: Text(
+                                    data['Account Number'].toString().substring(
+                                        data['Account Number']
+                                                .toString()
+                                                .length -
+                                            5),
                                     style: const TextStyle(
                                         color: Colors.white,
-                                        fontSize: 15,fontWeight: FontWeight.bold),),
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold),
+                                  ),
                                   onTap: () {
                                     Navigator.push(
                                       context,

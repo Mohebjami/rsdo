@@ -13,9 +13,6 @@ class _Add_SarverState extends State<Add_Sarver> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
 
-  String myEmail = "moheb@gmail.com";
-  String pass = "123";
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -41,7 +38,7 @@ class _Add_SarverState extends State<Add_Sarver> {
                           fontFamily: "RobotoSlab"),
                     ),
                     Text(
-                      ' Surveyor',
+                      'Distributor',
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 20,
