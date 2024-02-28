@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 class AdminLogin extends StatefulWidget {
@@ -161,10 +160,7 @@ class _AdminLoginState extends State<AdminLogin> {
                                 );
                               });
                         });
-                        final QuerySnapshot snapshot = await FirebaseFirestore
-                            .instance
-                            .collection('Accounts')
-                            .get();
+                        final QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('Accounts').get();
                         Navigator.of(context).pop();
                         while (i < snapshot.docs.length) {
                           data =
@@ -174,8 +170,7 @@ class _AdminLoginState extends State<AdminLogin> {
                             setState(() {
                               isCorrect = true;
                             });
-                            Navigator.of(context)
-                                .pushReplacementNamed("export");
+                            Navigator.of(context).pushReplacementNamed("export");
                           }
                           i++;
                         }

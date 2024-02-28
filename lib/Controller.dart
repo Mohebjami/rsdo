@@ -6,6 +6,8 @@ import 'package:csv/csv.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart' hide Column, Row;
 import 'package:flutter/material.dart';
 
+
+
 class Controller extends StatefulWidget {
   const Controller({super.key});
 
@@ -41,8 +43,7 @@ class _ControllerState extends State<Controller> {
               decoration: const BoxDecoration(
                   color: Color.fromRGBO(70, 130, 180, 1),
                   borderRadius: BorderRadius.only(
-                    bottomRight: Radius.elliptical(100, 80)
-                  )),
+                      bottomRight: Radius.elliptical(100, 80))),
               child: Column(
                 children: [
                   Padding(
@@ -63,7 +64,7 @@ class _ControllerState extends State<Controller> {
                             const Text(
                               "RSDO",
                               style: TextStyle(
-                                fontWeight: FontWeight.bold,
+                                  fontWeight: FontWeight.bold,
                                   color: Colors.white,
                                   fontSize: 40,
                                   fontFamily: "RobotoSlab"),
@@ -182,8 +183,8 @@ class _ControllerState extends State<Controller> {
                               final contents = await file.readAsString();
                               try {
                                 final List<List<dynamic>> rowsAsListOfValues =
-                                const CsvToListConverter()
-                                    .convert(contents);
+                                    const CsvToListConverter()
+                                        .convert(contents);
                                 FirebaseFirestore.instance;
                                 final firestoreInstance =
                                     FirebaseFirestore.instance;
@@ -202,7 +203,7 @@ class _ControllerState extends State<Controller> {
                                     'Recipient Document List': row[7],
                                     'Phone Number': row[8],
                                     'Mobile Number': row[9],
-                                    'Tazkira Number':row[10],
+                                    'Tazkira Number': row[10],
                                     'Alternate Recipient': row[11],
                                     'Account Number': row[12],
                                     'Location': row[13],
@@ -224,13 +225,18 @@ class _ControllerState extends State<Controller> {
                                               color: Colors.white,
                                             ),
                                             child: Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
                                               children: <Widget>[
                                                 const CircularProgressIndicator(
                                                   color: Colors.white,
                                                   backgroundColor: Colors.grey,
                                                 ),
-                                                Text('Inserted: $counter' , style: const TextStyle(color: Colors.black),), // Display the counter
+                                                Text(
+                                                  'Inserted: $counter',
+                                                  style: const TextStyle(
+                                                      color: Colors.black),
+                                                ), // Display the counter
                                               ],
                                             ),
                                           );
@@ -280,7 +286,6 @@ class _ControllerState extends State<Controller> {
                               }
                             }
                           },
-
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
                                 const Color.fromRGBO(70, 130, 180, 1)),
@@ -291,14 +296,17 @@ class _ControllerState extends State<Controller> {
                                     side: const BorderSide(
                                         color: Colors.transparent))),
                           ),
-                          child: const Text('Select File',style: TextStyle(color: Colors.white),),
+                          child: const Text(
+                            'Select File',
+                            style: TextStyle(color: Colors.white),
+                          ),
                         )
                       ],
                     ),
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only( right: 15.0),
+                  padding: const EdgeInsets.only(right: 15.0),
                   child: Container(
                     height: 230,
                     width: 170,
@@ -375,21 +383,26 @@ class _ControllerState extends State<Controller> {
                         ),
                         const Text("Report"),
                         ElevatedButton(
-                          onPressed: () {
+                          onPressed: () async{
+
                             createExcel();
+
                           },
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
                                 const Color.fromRGBO(70, 130, 180, 1)),
-                            shape:
-                                MaterialStateProperty.all<RoundedRectangleBorder>(
-                                    RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10.0),
-                                        side: const BorderSide(
-                                            color:
-                                                Color.fromRGBO(70, 130, 180, 1)))),
+                            shape: MaterialStateProperty.all<
+                                    RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    side: const BorderSide(
+                                        color:
+                                            Color.fromRGBO(70, 130, 180, 1)))),
                           ),
-                          child: const Text('Download',style: TextStyle(color: Colors.white),),
+                          child: const Text(
+                            'Download',
+                            style: TextStyle(color: Colors.white),
+                          ),
                         )
                       ],
                     ),
@@ -492,9 +505,13 @@ class _ControllerState extends State<Controller> {
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10.0),
                                     side: const BorderSide(
-                                        color: Color.fromRGBO(70, 130, 180, 1)))),
+                                        color:
+                                            Color.fromRGBO(70, 130, 180, 1)))),
                           ),
-                          child: const Text('Search Clients',style: TextStyle(color: Colors.white),),
+                          child: const Text(
+                            'Search Clients',
+                            style: TextStyle(color: Colors.white),
+                          ),
                         )
                       ],
                     ),
@@ -589,9 +606,13 @@ class _ControllerState extends State<Controller> {
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10.0),
                                     side: const BorderSide(
-                                        color: Color.fromRGBO(70, 130, 180, 1)))),
+                                        color:
+                                            Color.fromRGBO(70, 130, 180, 1)))),
                           ),
-                          child: const Text('Search',style: TextStyle(color: Colors.white),),
+                          child: const Text(
+                            'Search',
+                            style: TextStyle(color: Colors.white),
+                          ),
                         )
                       ],
                     ),
@@ -694,9 +715,13 @@ class _ControllerState extends State<Controller> {
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10.0),
                                     side: const BorderSide(
-                                        color: Color.fromRGBO(70, 130, 180, 1)))),
+                                        color:
+                                            Color.fromRGBO(70, 130, 180, 1)))),
                           ),
-                          child: const Text('Add', style: TextStyle(color: Colors.white),),
+                          child: const Text(
+                            'Add',
+                            style: TextStyle(color: Colors.white),
+                          ),
                         )
                       ],
                     ),
@@ -776,7 +801,7 @@ class _ControllerState extends State<Controller> {
                           ),
                         ),
                       ),
-                      const Text("New Surveyor"),
+                      const Text("New Distributor"),
                       ElevatedButton(
                         onPressed: () {
                           Navigator.pushNamed(context, 'Surveyor');
@@ -784,15 +809,17 @@ class _ControllerState extends State<Controller> {
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(
                               const Color.fromRGBO(70, 130, 180, 1)),
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      side: const BorderSide(
-                                          color:
-                                              Color.fromRGBO(70, 130, 180, 1)))),
+                          shape: MaterialStateProperty.all<
+                                  RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  side: const BorderSide(
+                                      color: Color.fromRGBO(70, 130, 180, 1)))),
                         ),
-                        child: const Text('Add',style: TextStyle(color: Colors.white),),
+                        child: const Text(
+                          'Add',
+                          style: TextStyle(color: Colors.white),
+                        ),
                       )
                     ],
                   ),
@@ -950,9 +977,13 @@ class _ControllerState extends State<Controller> {
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10.0),
                                     side: const BorderSide(
-                                        color: Color.fromRGBO(70, 130, 180, 1)))),
+                                        color:
+                                            Color.fromRGBO(70, 130, 180, 1)))),
                           ),
-                          child: const Text('Delete', style: TextStyle(color: Colors.white),),
+                          child: const Text(
+                            'Delete',
+                            style: TextStyle(color: Colors.white),
+                          ),
                         )
                       ],
                     ),
@@ -1092,9 +1123,13 @@ class _ControllerState extends State<Controller> {
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10.0),
                                     side: const BorderSide(
-                                        color: Color.fromRGBO(70, 130, 180, 1)))),
+                                        color:
+                                            Color.fromRGBO(70, 130, 180, 1)))),
                           ),
-                          child: const Text('Delete', style: TextStyle(color: Colors.white),),
+                          child: const Text(
+                            'Delete',
+                            style: TextStyle(color: Colors.white),
+                          ),
                         )
                       ],
                     ),
@@ -1112,106 +1147,99 @@ class _ControllerState extends State<Controller> {
   }
 
   Future createExcel() async {
-    Map<String, dynamic> data;
-    final QuerySnapshot snapshot =
-        await FirebaseFirestore.instance.collection('Paid').get();
-    int i = 0;
-    int excelRow = 2;
-    final Workbook workbook = Workbook();
-    final Worksheet sheet = workbook.worksheets[0];
-    sheet.getRangeByName('A1').setText('S/N');
-    sheet.getRangeByName('B1').setText('Household ID');
-    sheet.getRangeByName('C1').setText('Household Name Code');
-    sheet.getRangeByName('D1').setText('Recipient First Name');
-    sheet.getRangeByName('E1').setText('Recipient Last Name');
-    sheet.getRangeByName('F1').setText('Father Name');
-    sheet.getRangeByName('G1').setText('Recipient Gender');
-    sheet.getRangeByName('H1').setText('Recipient Document List');
-    sheet.getRangeByName('I1').setText('Mobile Number');
-    sheet.getRangeByName('J1').setText('Recipient Mobile Number');
-    sheet.getRangeByName('K1').setText('Tazkira Number');
-    sheet.getRangeByName('L1').setText('Alternate Recipient');
-    sheet.getRangeByName('M1').setText('Account Number');
+    print("1");
+      Map<String, dynamic> data;
+      final QuerySnapshot snapshot =
+      await FirebaseFirestore.instance.collection('Paid').get();
+      int i = 0;
+      int excelRow = 2;
+      final Workbook workbook = Workbook();
+      final Worksheet sheet = workbook.worksheets[0];
+      sheet.getRangeByName('A1').setText('S/N');
+      sheet.getRangeByName('B1').setText('Household ID');
+      sheet.getRangeByName('C1').setText('Household Name Code');
+      sheet.getRangeByName('D1').setText('Recipient First Name');
+      sheet.getRangeByName('E1').setText('Recipient Last Name');
+      sheet.getRangeByName('F1').setText('Father Name');
+      sheet.getRangeByName('G1').setText('Recipient Gender');
+      sheet.getRangeByName('H1').setText('Recipient Document List');
+      sheet.getRangeByName('I1').setText('Mobile Number');
+      sheet.getRangeByName('J1').setText('Recipient Mobile Number');
+      sheet.getRangeByName('K1').setText('Tazkira Number');
+      sheet.getRangeByName('L1').setText('Alternate Recipient');
+      sheet.getRangeByName('M1').setText('Account Number');
+      sheet.getRangeByName('N1').setText('Location');
+      sheet.getRangeByName('O1').setText('Address');
+      sheet.getRangeByName('P1').setText('province');
+      sheet.getRangeByName('Q1').setText('District');
+      sheet.getRangeByName('R1').setText('Amount');
+      sheet.getRangeByName('S1').setText('Store Name');
+      sheet.getRangeByName('T1').setText('Current time');
+      while (i < snapshot.docs.length) {
+        data = snapshot.docs[i].data() as Map<String, dynamic>;
+        sheet.getRangeByName('A$excelRow').setText(data['S/N'].toString());
+        sheet.getRangeByName('B$excelRow').setText(data['Household ID'].toString());
+        sheet.getRangeByName('C$excelRow').setText(data['Household Name Code']);
+        sheet.getRangeByName('D$excelRow').setText(data['Recipient Name']);
+        sheet.getRangeByName('E$excelRow').setText(data['Recipient Last Name']);
+        sheet.getRangeByName('F$excelRow').setText(data['Father Name']);
+        sheet.getRangeByName('G$excelRow').setText(data['Recipient Gender']);
+        sheet.getRangeByName('H$excelRow').setText(data['Recipient Document List'].toString());
+        sheet.getRangeByName('I$excelRow').setText(data['Phone Number'].toString());
+        sheet.getRangeByName('J$excelRow').setText(data['Mobile Number'].toString());
+        sheet.getRangeByName('K$excelRow').setText(data['Tazkira Number'].toString());
+        sheet.getRangeByName('L$excelRow').setText(data['Alternate Recipient']);
+        sheet.getRangeByName('M$excelRow').setText(data['Account Number'].toString());
+        sheet.getRangeByName('N$excelRow').setText(data['Location']);
+        sheet.getRangeByName('O$excelRow').setText(data['Address'].toString());
+        sheet.getRangeByName('P$excelRow').setText(data['province']);
+        sheet.getRangeByName('Q$excelRow').setText(data['District']);
+        sheet.getRangeByName('R$excelRow').setText(data['Amount'].toString());
+        sheet.getRangeByName('S$excelRow').setText(data['Store Name']);
+        sheet.getRangeByName('T$excelRow').setText(data['Current time']);
+        i++;
+        excelRow++;
+      }
+      final List<int> bytes = workbook.saveAsStream();
+      workbook.dispose();
+      var path = await AndroidPathProvider.downloadsPath;
+      final String fileName = '$path/Report.xlsx';
+      final File file = File(fileName);
+      await file.writeAsBytes(bytes, flush: true).then((_) => showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Successfully'),
+              content: const Text("Report file successfully created"),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('Done'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    print("Done");
+                  },
+                ),
+              ],
+            );
+          }))
+          .catchError((error) => showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Failed'),
+              content: Text("$error"),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('Done'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          }));
 
-    sheet.getRangeByName('N1').setText('Location');
-    sheet.getRangeByName('O1').setText('Address');
-    sheet.getRangeByName('P1').setText('province');
-    sheet.getRangeByName('Q1').setText('District');
-    sheet.getRangeByName('R1').setText('Amount');
-    sheet.getRangeByName('S1').setText('Store Name');
-    while (i < snapshot.docs.length) {
-      data = snapshot.docs[i].data() as Map<String, dynamic>;
-      sheet.getRangeByName('A$excelRow').setText(data['S/N'].toString());
-      sheet.getRangeByName('B$excelRow').setText(data['Household ID'].toString());
-      sheet.getRangeByName('C$excelRow').setText(data['Household Name Code']);
-      sheet.getRangeByName('D$excelRow').setText(data['Recipient Name']);
-      sheet.getRangeByName('E$excelRow').setText(data['Recipient Last Name']);
-      sheet.getRangeByName('F$excelRow').setText(data['Father Name']);
-      sheet.getRangeByName('G$excelRow').setText(data['Recipient Gender']);
-      sheet.getRangeByName('H$excelRow').setText(data['Recipient Document List'].toString());
-      sheet.getRangeByName('I$excelRow').setText(data['Phone Number'].toString());
-      sheet.getRangeByName('J$excelRow').setText(data['Mobile Number'].toString());
-      sheet.getRangeByName('K$excelRow').setText(data['Tazkira Number'].toString());
-      sheet.getRangeByName('L$excelRow').setText(data['Alternate Recipient']);
-      sheet.getRangeByName('M$excelRow').setText(data['Account Number'].toString());
-      sheet.getRangeByName('N$excelRow').setText(data['Location']);
-      sheet.getRangeByName('O$excelRow').setText(data['Address'].toString());
-      sheet.getRangeByName('P$excelRow').setText(data['province']);
-      sheet.getRangeByName('Q$excelRow').setText(data['District']);
-      sheet.getRangeByName('R$excelRow').setText(data['Amount'].toString());
-      sheet.getRangeByName('S$excelRow').setText(data['Store Name']);
-      i++;
-      excelRow++;
-    }
-    final List<int> bytes = workbook.saveAsStream();
-    workbook.dispose();
-    var path = await AndroidPathProvider.downloadsPath;
-    final String fileName = '$path/Report.xlsx';
-    final File file = File(fileName);
-    await file
-        .writeAsBytes(bytes, flush: true)
-        .then((_) => setState(() {
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: const Text('Successfully'),
-                      content: const Text("Report file successfully created"),
-                      actions: <Widget>[
-                        TextButton(
-                          child: const Text('Done'),
-                          onPressed: () {
-                            setState(() {
-                              shouldAbsorb = false;
-                            });
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                      ],
-                    );
-                  });
-            }))
-        .catchError((error) => setState(() {
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: const Text('Failed'),
-                      content: Text("$error"),
-                      actions: <Widget>[
-                        TextButton(
-                          child: const Text('Done'),
-                          onPressed: () {
-                            setState(() {
-                              shouldAbsorb = false;
-                            });
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                      ],
-                    );
-                  });
-            }));
+      print("2");
   }
 
   // Define a boolean variable to control the state of the loading indicator
