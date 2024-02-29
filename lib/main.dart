@@ -6,7 +6,6 @@ import 'package:rsdo/Add_Surveyor.dart';
 import 'package:rsdo/Controller.dart';
 import 'package:rsdo/FetchDataAdmin.dart';
 import 'package:rsdo/FetchPaidData.dart';
-import 'package:rsdo/NSearch.dart';
 import 'package:rsdo/Projects.dart';
 import 'package:rsdo/SplashScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -44,7 +43,6 @@ void main() async {
       'FetchPaidData': (context) =>  const FetchPadiData(),
       'Surveyor': (context) => const Add_Sarver(),
       'admin': (context) => const Add_Admin(),
-      'NSearch': (context) => const NSearch(),
     },
   ));
 }

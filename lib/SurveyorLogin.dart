@@ -163,7 +163,7 @@ class _SarvearState extends State<Sarvear> {
                           if (data['Email'] == email.text && data['Password'] == password.text) {
                             setState(() {
                               isCorrect = true;
-                              test_data = data['Surveyor'];
+                              test_data = data['DistributorName'];
                             });
                             Navigator.pushReplacement(context,
                               MaterialPageRoute(

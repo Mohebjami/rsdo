@@ -1147,7 +1147,6 @@ class _ControllerState extends State<Controller> {
   }
 
   Future createExcel() async {
-    print("1");
       Map<String, dynamic> data;
       final QuerySnapshot snapshot =
       await FirebaseFirestore.instance.collection('Paid').get();
@@ -1239,7 +1238,6 @@ class _ControllerState extends State<Controller> {
             );
           }));
 
-      print("2");
   }
 
   // Define a boolean variable to control the state of the loading indicator

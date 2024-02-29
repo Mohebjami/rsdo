@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rsdo/AdminLogin.dart';
-import 'package:rsdo/Surveyor.dart';
+import 'package:rsdo/SurveyorLogin.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);

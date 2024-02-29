@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:rsdo/Controller.dart';
 
 class AdminLogin extends StatefulWidget {
   const AdminLogin({super.key});
@@ -18,7 +19,6 @@ class _AdminLoginState extends State<AdminLogin> {
   bool hasInternet = false;
   bool isCorrect = false;
   int press = 0;
-  late bool _isLoding;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -59,7 +59,7 @@ class _AdminLoginState extends State<AdminLogin> {
                 const SizedBox(
                   height: 40,
                 ),
-                Container(
+                SizedBox(
                   width: 330,
                   child: TextField(
                     controller: email,
@@ -170,7 +170,9 @@ class _AdminLoginState extends State<AdminLogin> {
                             setState(() {
                               isCorrect = true;
                             });
-                            Navigator.of(context).pushReplacementNamed("export");
+                            Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(builder: (context) => Controller()),
+                            );
                           }
                           i++;
                         }

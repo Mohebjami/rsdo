@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:rsdo/ClientInfo.dart';
+import 'package:rsdo/WelcomePage.dart';
 
 class FetchData extends StatefulWidget {
   final data;
@@ -11,15 +12,18 @@ class FetchData extends StatefulWidget {
 }
 
 class _FetchDataState extends State<FetchData> {
-
-
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final TextEditingController _textController = TextEditingController();
+  final TextEditingController SM_Name = TextEditingController();
+  final TextEditingController email = TextEditingController();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final GlobalKey<ScaffoldMessengerState> _scaffoldMessengerKey =
-  GlobalKey<ScaffoldMessengerState>();
+      GlobalKey<ScaffoldMessengerState>();
+
+  String dropdownValue = 'Household Name Code';
 
   String _searchText = '';
+
   late var data;
 
   void _search() {
@@ -28,8 +32,58 @@ class _FetchDataState extends State<FetchData> {
     });
   }
 
+  bool isNumeric(String str) {
+    return double.tryParse(str) != null;
+  }
+
+  void updateSurveyor(String surveyorValue, String newData) async {
+    try {
+      await _firestore
+          .collection('Surveyor')
+          .where('Surveyor', isEqualTo: surveyorValue)
+          .get()
+          .then((querySnapshot) {
+        querySnapshot.docs.forEach((document) {
+          document.reference.update({'Surveyor': newData});
+        });
+      });
+
+      showDialog(
+        context: context,
+        barrierDismissible: false, // Prevents the dialog from closing when tapping outside
+        builder: (BuildContext context) {
+          return WillPopScope(
+            onWillPop: () async => false, // Prevents the back button from being pressed
+            child: AlertDialog(
+              title: const Text('Update Status'),
+              content: const Text('Update successful'),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('OK'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (context) => LoginPage()),
+                          (Route<dynamic> route) => false,
+                    );
+                  },
+                ),
+              ],
+            ),
+          );
+        },
+      );
+
+
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    double fullScreenWidth = MediaQuery.of(context).size.width;
+    double fullScreenHeight = MediaQuery.of(context).size.height;
     return ScaffoldMessenger(
       key: _scaffoldMessengerKey,
       child: Scaffold(
@@ -39,98 +93,181 @@ class _FetchDataState extends State<FetchData> {
           backgroundColor: const Color.fromRGBO(70, 130, 180, 1),
           foregroundColor: Colors.white,
           automaticallyImplyLeading: false,
-            actions: [
-              IconButton(
+          actions: [
+            IconButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      content: SizedBox(
+                        width: double.maxFinite,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(left: 0.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  StreamBuilder(
+                                    stream: FirebaseFirestore.instance
+                                        .collection('Paid')
+                                        .snapshots(),
+                                    builder: (BuildContext context,
+                                        AsyncSnapshot<QuerySnapshot> snapshot) {
+                                      if (snapshot.hasError) {
+                                        return const Text(
+                                            'Something went wrong');
+                                      }
+                                      if (snapshot.connectionState ==
+                                          ConnectionState.waiting) {
+                                        return const Text("Loading");
+                                      }
+                                      int? docLength = snapshot.data?.docs
+                                          .length; // Assigning length to a variable
+                                      // Printing the length
+                                      return Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 15.0),
+                                        child: Text(
+                                          '$docLength',
+                                          style: const TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 25),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                  StreamBuilder(
+                                    stream: FirebaseFirestore.instance
+                                        .collection('Paid')
+                                        .where('Recipient Gender',
+                                            isEqualTo: 'Female')
+                                        .snapshots(),
+                                    builder: (BuildContext context,
+                                        AsyncSnapshot<QuerySnapshot> snapshot) {
+                                      if (snapshot.hasError) {
+                                        return const Text(
+                                            'Something went wrong');
+                                      }
+                                      if (snapshot.connectionState ==
+                                          ConnectionState.waiting) {
+                                        return const Text("Loading");
+                                      }
+                                      int? docLength = snapshot.data?.docs
+                                          .length; // Assigning length to a variable
+                                      // Printing the length
+                                      return Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 15.0),
+                                        child: Text(
+                                          '$docLength',
+                                          style: const TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 25),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                  StreamBuilder(
+                                    stream: FirebaseFirestore.instance
+                                        .collection('Paid')
+                                        .where('Recipient Gender',
+                                            isEqualTo: 'Male')
+                                        .snapshots(),
+                                    builder: (BuildContext context,
+                                        AsyncSnapshot<QuerySnapshot> snapshot) {
+                                      if (snapshot.hasError) {
+                                        return const Text(
+                                            'Something went wrong');
+                                      }
+                                      if (snapshot.connectionState ==
+                                          ConnectionState.waiting) {
+                                        return const Text("Loading");
+                                      }
+                                      int? docLength = snapshot.data?.docs
+                                          .length; // Assigning length to a variable
+                                      // Printing the length
+                                      return Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 15.0),
+                                        child: Text(
+                                          '$docLength',
+                                          style: const TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 25),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Text("Total "),
+                                Text("Female"),
+                                Text("Male  "),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+              icon: const Icon(
+                Icons.insert_chart_outlined_rounded,
+                color: Colors.white,
+              ),
+            ),
+            IconButton(
                 onPressed: () {
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        content: Container(
+                        content: SizedBox(
                           width: double.maxFinite,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.only(left: 0.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                  children: [
-                                    StreamBuilder(
-                                      stream: FirebaseFirestore.instance.collection('Paid').snapshots(),
-                                      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                                        if (snapshot.hasError) {
-                                          return const Text('Something went wrong');
-                                        }
-                                        if (snapshot.connectionState == ConnectionState.waiting) {
-                                          return const Text("Loading");
-                                        }
-                                        int? docLength = snapshot.data?.docs.length; // Assigning length to a variable
-                                        // Printing the length
-                                        return Padding(
-                                          padding: const EdgeInsets.only(right: 15.0),
-                                          child: Text(
-                                            '$docLength',
-                                            style: const TextStyle(color: Colors.black, fontSize: 25),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                    StreamBuilder(
-                                      stream: FirebaseFirestore.instance.collection('Paid').where('Recipient Gender', isEqualTo: 'Female').snapshots(),
-                                      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                                        if (snapshot.hasError) {
-                                          return const Text('Something went wrong');
-                                        }
-                                        if (snapshot.connectionState == ConnectionState.waiting) {
-                                          return const Text("Loading");
-                                        }
-                                        int? docLength = snapshot.data?.docs.length; // Assigning length to a variable
-                                        // Printing the length
-                                        return Padding(
-                                          padding: const EdgeInsets.only(right: 15.0),
-                                          child: Text(
-                                            '$docLength',
-                                            style: const TextStyle(color: Colors.black, fontSize: 25),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                    StreamBuilder(
-                                      stream: FirebaseFirestore.instance.collection('Paid').where('Recipient Gender', isEqualTo: 'Male').snapshots(),
-                                      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                                        if (snapshot.hasError) {
-                                          return const Text('Something went wrong');
-                                        }
-                                        if (snapshot.connectionState == ConnectionState.waiting) {
-                                          return const Text("Loading");
-                                        }
-                                        int? docLength = snapshot.data?.docs.length; // Assigning length to a variable
-                                        // Printing the length
-                                        return Padding(
-                                          padding: const EdgeInsets.only(right: 15.0),
-                                          child: Text(
-                                            '$docLength',
-                                            style: const TextStyle(color: Colors.black, fontSize: 25),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  ],
+                              const Text(
+                                "Update",
+                                style: TextStyle(
+                                    fontSize: 25, fontFamily: 'LilitaOne'),
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              TextField(
+                                controller: email,
+                                style: const TextStyle(
+                                  color: Colors.white,
                                 ),
+                                decoration: const InputDecoration(
+                                  fillColor: Color.fromRGBO(70, 130, 180, 0.9),
+                                  filled: true,
+                                  hintText: "Super Market Name",
+                                  hintStyle: TextStyle(color: Colors.white),
+                                  border: OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(15.0)),
+                                    borderSide: BorderSide.none,
+                                  ),
+                                ),
+                                onSubmitted: (value) {
+                                  updateSurveyor(widget.data, value);
+                                },
                               ),
-                              const Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-
-                                children: [
-                                  Text("Total "),
-                                  Text("Female"),
-                                  Text("Male  "),
-                                ],
-                              ),
-
                             ],
                           ),
                         ),
@@ -138,41 +275,83 @@ class _FetchDataState extends State<FetchData> {
                     },
                   );
                 },
-                icon: const Icon(
-                  Icons.insert_chart_outlined_rounded,
-                  color: Colors.white,
-                ),
-              )
-            ],
+                icon: const Icon(Icons.account_circle))
+          ],
         ),
         body: Column(
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.all(8.0),
+              child: Container(
+                width: fullScreenWidth,
+                decoration: BoxDecoration(
+                    color: const Color.fromRGBO(70, 130, 180, 1),
+                    borderRadius: BorderRadius.circular(15.0)),
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      left: 8.0, right: 8.0, bottom: 5.0, top: 5.0),
+                  child: DropdownButton<String>(
+                    value: dropdownValue,
+                    focusColor: Colors.white,
+                    iconEnabledColor: Colors.white,
+                    isExpanded: true,
+                    icon: const Icon(Icons.arrow_downward),
+                    iconSize: 24,
+                    elevation: 16,
+                    style: const TextStyle(
+                        color: Colors.white), // Change color here
+                    dropdownColor: const Color.fromRGBO(70, 130, 180, 1),
+                    underline: Container(
+                      color: Colors.transparent,
+                    ),
+                    onChanged: (newValue) {
+                      setState(() {
+                        dropdownValue = newValue!;
+                      });
+                    },
+                    items: <String>['Household Name Code', 'Account Number']
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
               child: TextField(
                 controller: _textController,
-                style: TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white),
                 decoration: InputDecoration(
                   fillColor: const Color.fromRGBO(70, 130, 180, 0.9),
                   filled: true,
                   hintText: "Search",
-                  hintStyle: TextStyle(color: Colors.white),
+                  hintStyle: const TextStyle(color: Colors.white),
                   border: const OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(15.0)),
                     borderSide: BorderSide.none,
                   ),
                   suffixIcon: IconButton(
                     onPressed: _search,
-                    icon: const Icon(Icons.search,color: Colors.white,),
+                    icon: const Icon(
+                      Icons.search,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),
             ),
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
-                stream: _firestore.collection('Clients').where('Household Name Code', isEqualTo: _searchText).snapshots(),
-                builder: (BuildContext context,
-                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                stream: _firestore
+                    .collection('Clients')
+                    .where(dropdownValue,
+                        isEqualTo: dropdownValue == 'Account Number' &&
+                            isNumeric(_searchText) ? int.parse(_searchText) : _searchText).snapshots(),
+                builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.hasError) {
                     return const Text('Something went wrong');
                   }
@@ -184,11 +363,11 @@ class _FetchDataState extends State<FetchData> {
                   }
                   return ListView(
                     children:
-                    snapshot.data!.docs.map((DocumentSnapshot document) {
+                        snapshot.data!.docs.map((DocumentSnapshot document) {
                       Map<String, dynamic> data =
-                      document.data() as Map<String, dynamic>;
+                          document.data() as Map<String, dynamic>;
                       CollectionReference paid =
-                      FirebaseFirestore.instance.collection('Paid');
+                          FirebaseFirestore.instance.collection('Paid');
                       var sn = data['SN'];
                       var householdId = data['Household ID'];
                       var householdNameCode = data['Household Name Code'];
@@ -196,7 +375,8 @@ class _FetchDataState extends State<FetchData> {
                       var recipientLastName = data['Recipient Last Name'];
                       var fatherName = data['Father Name'];
                       var recipientGender = data['Recipient Gender'];
-                      var recipientDocumentList = data['Recipient Document List'];
+                      var recipientDocumentList =
+                          data['Recipient Document List'];
                       var phoneNumber = data['Phone Number'];
                       var mobileNumber = data['Mobile Number'];
                       var tazkiraNumber = data['Tazkira Number'];
@@ -226,27 +406,33 @@ class _FetchDataState extends State<FetchData> {
                                       label: 'Paid',
                                       onPressed: (context) async {
                                         try {
-                          // Check if the data already exists in the 'Paid' collection
+                                          // Check if the data already exists in the 'Paid' collection
                                           var querySnapshot =
-                                          await FirebaseFirestore.instance.collection('Paid').where('Household ID', isEqualTo: householdId).get();
-                          // If the data does not exist, add it to the 'Paid' collection
+                                              await FirebaseFirestore.instance
+                                                  .collection('Paid')
+                                                  .where('Household ID',
+                                                      isEqualTo: householdId)
+                                                  .get();
+                                          // If the data does not exist, add it to the 'Paid' collection
                                           if (querySnapshot.docs.isEmpty) {
                                             await paid.add({
                                               'S/N': sn,
                                               'Household ID': householdId,
                                               'Household Name Code':
-                                              householdNameCode,
+                                                  householdNameCode,
                                               'Recipient Name': recipientName,
                                               'Recipient Last Name':
-                                              recipientLastName,
+                                                  recipientLastName,
                                               'Father Name': fatherName,
-                                              'Recipient Gender': recipientGender,
+                                              'Recipient Gender':
+                                                  recipientGender,
                                               'Recipient Document List':
-                                              recipientDocumentList,
+                                                  recipientDocumentList,
                                               'Phone Number': phoneNumber,
                                               'Mobile Number': mobileNumber,
-                                              'Tazkira Number':tazkiraNumber,
-                                              'Alternate Recipient': alternateRecipient,
+                                              'Tazkira Number': tazkiraNumber,
+                                              'Alternate Recipient':
+                                                  alternateRecipient,
                                               'Account Number': accountNumber,
                                               'Location': Location,
                                               'Address': Address,
@@ -255,27 +441,36 @@ class _FetchDataState extends State<FetchData> {
                                               'Amount': Amount,
                                               'Store Name': ss,
                                             }).then((value) {
-                                              print("Record added to Firestore");
+                                              print(
+                                                  "Record added to Firestore");
                                               _scaffoldMessengerKey.currentState
                                                   ?.showSnackBar(SnackBar(
                                                 content: Container(
-                                                  padding: const EdgeInsets.all(16.0),
+                                                  padding: const EdgeInsets.all(
+                                                      16.0),
                                                   height: 90,
-                                                  decoration: const BoxDecoration(
+                                                  decoration:
+                                                      const BoxDecoration(
                                                     color: Colors.red,
-                                                    borderRadius: BorderRadius.all(
-                                                        Radius.circular(20)),
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                20)),
                                                   ),
                                                   child: const Center(
                                                       child: Text(
-                                                        "Successfully Paid",
-                                                        style: TextStyle(fontSize: 20),
-                                                      )),
+                                                    "Successfully Paid",
+                                                    style:
+                                                        TextStyle(fontSize: 20),
+                                                  )),
                                                 ),
-                                                backgroundColor: Colors.transparent,
+                                                backgroundColor:
+                                                    Colors.transparent,
                                                 elevation: 0.0,
-                                                duration: const Duration(seconds: 2),
-                                                behavior: SnackBarBehavior.floating,
+                                                duration:
+                                                    const Duration(seconds: 2),
+                                                behavior:
+                                                    SnackBarBehavior.floating,
                                               ));
                                             }).catchError((error) {
                                               if (mounted) {
@@ -284,11 +479,11 @@ class _FetchDataState extends State<FetchData> {
                                                     .showSnackBar(SnackBar(
                                                   content: Text("$error"),
                                                   backgroundColor:
-                                                  const Color.fromRGBO(
-                                                      47, 47, 94, 1),
+                                                      const Color.fromRGBO(
+                                                          47, 47, 94, 1),
                                                   showCloseIcon: true,
-                                                  duration:
-                                                  const Duration(seconds: 2),
+                                                  duration: const Duration(
+                                                      seconds: 2),
                                                 ));
                                               }
                                             });
@@ -296,23 +491,29 @@ class _FetchDataState extends State<FetchData> {
                                             _scaffoldMessengerKey.currentState
                                                 ?.showSnackBar(SnackBar(
                                               content: Container(
-                                                padding: const EdgeInsets.all(16.0),
+                                                padding:
+                                                    const EdgeInsets.all(16.0),
                                                 height: 90,
                                                 decoration: const BoxDecoration(
                                                   color: Colors.red,
-                                                  borderRadius: BorderRadius.all(
-                                                      Radius.circular(20)),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(20)),
                                                 ),
                                                 child: const Center(
                                                     child: Text(
-                                                      "Already Paid",
-                                                      style: TextStyle(fontSize: 20),
-                                                    )),
+                                                  "Already Paid",
+                                                  style:
+                                                      TextStyle(fontSize: 20),
+                                                )),
                                               ),
-                                              backgroundColor: Colors.transparent,
+                                              backgroundColor:
+                                                  Colors.transparent,
                                               elevation: 0.0,
-                                              duration: const Duration(seconds: 2),
-                                              behavior: SnackBarBehavior.floating,
+                                              duration:
+                                                  const Duration(seconds: 2),
+                                              behavior:
+                                                  SnackBarBehavior.floating,
                                             ));
                                           }
                                         } catch (e) {
@@ -325,7 +526,7 @@ class _FetchDataState extends State<FetchData> {
                                 color: const Color.fromRGBO(70, 130, 180, 0.9),
                                 border: Border.all(
                                   color:
-                                  const Color.fromRGBO(70, 130, 180, 0.9),
+                                      const Color.fromRGBO(70, 130, 180, 0.9),
                                 ),
                                 borderRadius: BorderRadius.circular(15),
                               ),
@@ -333,32 +534,37 @@ class _FetchDataState extends State<FetchData> {
                                 title: Text(
                                   data['Recipient Name'],
                                   style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 18,
+                                    color: Colors.white,
+                                    fontSize: 18,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 subtitle: Text(
                                   data['Alternate Recipient'],
                                   style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                leading: Text(data['SN'].toString(),
+                                leading: Text(
+                                  data['SN'].toString(),
                                   style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 20),),
-                                trailing: Text(data['Account Number'].toString().substring(data['Account Number'].toString().length - 5),
+                                      color: Colors.white, fontSize: 20),
+                                ),
+                                trailing: Text(
+                                  data['Account Number'].toString().substring(
+                                      data['Account Number'].toString().length -
+                                          5),
                                   style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15),),
-                                onTap: (){
+                                      color: Colors.white, fontSize: 15),
+                                ),
+                                onTap: () {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => ClientInfo(data: data),
+                                      builder: (context) =>
+                                          ClientInfo(data: data),
                                     ),
                                   );
                                 },
@@ -377,4 +583,6 @@ class _FetchDataState extends State<FetchData> {
       ),
     );
   }
+
+
 }

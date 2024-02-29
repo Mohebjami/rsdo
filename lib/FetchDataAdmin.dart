@@ -37,8 +37,15 @@ class _FirebaseListViewState extends State<FirebaseListView> {
     });
   }
 
+  bool isNumeric(String str) {
+    return double.tryParse(str) != null;
+  }
+
+
   @override
   Widget build(BuildContext context) {
+    double fullScreenWidth = MediaQuery.of(context).size.width;
+    double fullScreenHeight = MediaQuery.of(context).size.height;
     return ScaffoldMessenger(
       key: _scaffoldMessengerKey,
       child: Scaffold(
@@ -184,29 +191,46 @@ class _FirebaseListViewState extends State<FirebaseListView> {
         ),
         body: Column(
           children: <Widget>[
-            // DropdownButton<String>(
-            //   value: dropdownValue,
-            //   icon: Icon(Icons.arrow_downward),
-            //   iconSize: 24,
-            //   elevation: 16,
-            //   style: TextStyle(color: Colors.deepPurple),
-            //   underline: Container(
-            //     height: 2,
-            //     color: Colors.deepPurpleAccent,
-            //   ),
-            //   onChanged: (newValue) {
-            //     setState(() {
-            //       dropdownValue = newValue!;
-            //     });
-            //   },
-            //   items: <String>['Household Name Code', 'Account Number']
-            //       .map<DropdownMenuItem<String>>((String value) {
-            //     return DropdownMenuItem<String>(
-            //       value: value,
-            //       child: Text(value),
-            //     );
-            //   }).toList(),
-            // ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                width: fullScreenWidth,
+                decoration: BoxDecoration(
+                    color: const Color.fromRGBO(70, 130, 180, 1),
+                    borderRadius: BorderRadius.circular(15.0)),
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      left: 8.0, right: 8.0, bottom: 5.0, top: 5.0),
+                  child: DropdownButton<String>(
+                    value: dropdownValue,
+                    focusColor: Colors.white,
+                    iconEnabledColor: Colors.white,
+                    isExpanded: true,
+                    icon: const Icon(Icons.arrow_downward),
+                    iconSize: 24,
+                    elevation: 16,
+                    style: const TextStyle(
+                        color: Colors.white), // Change color here
+                    dropdownColor: const Color.fromRGBO(70, 130, 180, 1),
+                    underline: Container(
+                      color: Colors.transparent,
+                    ),
+                    onChanged: (newValue) {
+                      setState(() {
+                        dropdownValue = newValue!;
+                      });
+                    },
+                    items: <String>['Household Name Code', 'Account Number']
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
@@ -235,10 +259,10 @@ class _FirebaseListViewState extends State<FirebaseListView> {
               child: StreamBuilder<QuerySnapshot>(
                 stream: _firestore
                     .collection('Clients')
-                    .where('Household Name Code', isEqualTo: _searchText)
-                    .snapshots(),
-                builder: (BuildContext context,
-                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                    .where(dropdownValue,
+                    isEqualTo: dropdownValue == 'Account Number' &&
+                        isNumeric(_searchText) ? int.parse(_searchText) : _searchText).snapshots(),
+                builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.hasError) {
                     return const Text('Something went wrong');
                   }

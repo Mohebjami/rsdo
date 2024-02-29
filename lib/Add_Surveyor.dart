@@ -12,7 +12,7 @@ class _Add_SarverState extends State<Add_Sarver> {
   TextEditingController user = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
-
+  String imageUrl='';
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -64,7 +64,7 @@ class _Add_SarverState extends State<Add_Sarver> {
                         decoration: InputDecoration(
                           fillColor: const Color(0xff4c505b),
                           filled: true,
-                          hintText: 'Super Market',
+                          hintText: 'Distributor Name',
                           border: OutlineInputBorder(
                               borderSide: BorderSide.none,
                               borderRadius: BorderRadius.circular(10)),
@@ -81,7 +81,7 @@ class _Add_SarverState extends State<Add_Sarver> {
                         decoration: InputDecoration(
                           fillColor: const Color(0xff4c505b),
                           filled: true,
-                          hintText: 'Email',
+                          hintText: 'Super Market Name',
                           border: OutlineInputBorder(
                               borderSide: BorderSide.none,
                               borderRadius: BorderRadius.circular(10)),
@@ -137,6 +137,7 @@ class _Add_SarverState extends State<Add_Sarver> {
                           )
                         ],
                       ),
+
                     ],
                   ),
                 ),
@@ -152,9 +153,13 @@ class _Add_SarverState extends State<Add_Sarver> {
       String emailText = email.text;
       String passwordText = password.text;
 
-      // Check if the fields are empty or contain certain symbols
-      if (userText.isEmpty ||emailText.isEmpty ||passwordText.isEmpty ||userText.contains(RegExp(r'[/\\"|]')) ||emailText.contains(RegExp(r'[/\\"|]')) ||passwordText.contains(RegExp(r'[/\\"|]')))
-      {
+// Check if the fields are empty or contain certain symbols
+      if (userText.isEmpty ||
+          emailText.isEmpty ||
+          passwordText.isEmpty ||
+          userText.contains(RegExp(r'[/\\"|]')) ||
+          emailText.contains(RegExp(r'[/\\"|]')) ||
+          passwordText.contains(RegExp(r'[/\\"|]'))) {
         return showDialog(
             context: context,
             builder: (BuildContext context) {
@@ -169,7 +174,8 @@ class _Add_SarverState extends State<Add_Sarver> {
                   height: 35,
                 ),
                 iconColor: Colors.red,
-                content: const Text('You cant ues from this Signs ( /\\"| ) or empty',
+                content: const Text(
+                    'You cant ues from this Signs ( /\\"| ) or empty',
                     style: TextStyle(color: Colors.red)),
                 actions: <Widget>[
                   TextButton(
@@ -181,19 +187,17 @@ class _Add_SarverState extends State<Add_Sarver> {
                 ],
               );
             });
-      }
-      else {
-        CollectionReference collRef = FirebaseFirestore.instance.collection('Surveyor');
+      } else {
+        CollectionReference collRef =
+            FirebaseFirestore.instance.collection('Surveyor');
         collRef.add({
-          'Surveyor': userText,
-          'Email': emailText,
+          'DistributorName': userText,
+          'NSuperMarket': emailText,
           'Password': passwordText,
         });
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text('Successfully added'),
-          backgroundColor:
-          Color.fromRGBO(47, 47, 94, 1),
+          backgroundColor: Color.fromRGBO(47, 47, 94, 1),
           showCloseIcon: true,
           duration: Duration(seconds: 2),
         ));

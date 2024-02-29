@@ -46,6 +46,9 @@ dependencies:
   internet_connection_checker: ^1.0.0+1
   permission_handler: ^11.3.0
   flutter_document_picker: ^5.2.3
+  firebase_storage: ^11.6.7
+  image_picker: ^1.0.7
+  firebase_app_check: ^0.2.1+15
 
 
 
@@ -98,7 +101,6 @@ flutter:
    - assets/user.png
    - assets/test.jpg
    - assets/project.jpg
-   - assets/shop.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
