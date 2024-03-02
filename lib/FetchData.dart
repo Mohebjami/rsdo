@@ -50,10 +50,12 @@ class _FetchDataState extends State<FetchData> {
 
       showDialog(
         context: context,
-        barrierDismissible: false, // Prevents the dialog from closing when tapping outside
+        barrierDismissible:
+            false, // Prevents the dialog from closing when tapping outside
         builder: (BuildContext context) {
           return WillPopScope(
-            onWillPop: () async => false, // Prevents the back button from being pressed
+            onWillPop: () async =>
+                false, // Prevents the back button from being pressed
             child: AlertDialog(
               title: const Text('Update Status'),
               content: const Text('Update successful'),
@@ -64,7 +66,7 @@ class _FetchDataState extends State<FetchData> {
                     Navigator.of(context).pop();
                     Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(builder: (context) => LoginPage()),
-                          (Route<dynamic> route) => false,
+                      (Route<dynamic> route) => false,
                     );
                   },
                 ),
@@ -73,8 +75,6 @@ class _FetchDataState extends State<FetchData> {
           );
         },
       );
-
-
     } catch (e) {
       print(e);
     }
@@ -350,8 +350,12 @@ class _FetchDataState extends State<FetchData> {
                     .collection('Clients')
                     .where(dropdownValue,
                         isEqualTo: dropdownValue == 'Account Number' &&
-                            isNumeric(_searchText) ? int.parse(_searchText) : _searchText).snapshots(),
-                builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                                isNumeric(_searchText)
+                            ? int.parse(_searchText)
+                            : _searchText)
+                    .snapshots(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.hasError) {
                     return const Text('Something went wrong');
                   }
@@ -583,6 +587,4 @@ class _FetchDataState extends State<FetchData> {
       ),
     );
   }
-
-
 }

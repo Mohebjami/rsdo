@@ -1,5 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:rsdo/FetchData.dart';
 
@@ -163,7 +163,7 @@ class _SarvearState extends State<Sarvear> {
                           if (data['Email'] == email.text && data['Password'] == password.text) {
                             setState(() {
                               isCorrect = true;
-                              test_data = data['DistributorName'];
+                              test_data = data['Surveyor'];
                             });
                             Navigator.pushReplacement(context,
                               MaterialPageRoute(
