@@ -38,7 +38,6 @@ void main() async {
       'Projects': (context) => const Projects(),
       'SubProject': (context) => const SubProject(),
       'welcome': (context) => const LoginPage(),
-      'export': (context) => const Controller(),
       'show': (context) =>  const FetchDataAdmin(),
       'FetchPaidData': (context) =>  const FetchPadiData(),
       'Surveyor': (context) => const Add_Sarver(),

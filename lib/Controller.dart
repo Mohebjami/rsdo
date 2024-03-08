@@ -5,8 +5,9 @@ import 'package:file_picker/file_picker.dart';
 import 'package:csv/csv.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart' hide Column, Row;
 import 'package:flutter/material.dart';
-
-
+import 'package:universal_html/html.dart' as html;
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:universal_platform/universal_platform.dart';
 
 class Controller extends StatefulWidget {
   const Controller({super.key});
@@ -383,10 +384,8 @@ class _ControllerState extends State<Controller> {
                         ),
                         const Text("Report"),
                         ElevatedButton(
-                          onPressed: () async{
-
+                          onPressed: () async {
                             createExcel();
-
                           },
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
@@ -1147,60 +1146,63 @@ class _ControllerState extends State<Controller> {
   }
 
   Future createExcel() async {
-      Map<String, dynamic> data;
-      final QuerySnapshot snapshot =
-      await FirebaseFirestore.instance.collection('Paid').get();
-      int i = 0;
-      int excelRow = 2;
-      final Workbook workbook = Workbook();
-      final Worksheet sheet = workbook.worksheets[0];
-      sheet.getRangeByName('A1').setText('S/N');
-      sheet.getRangeByName('B1').setText('Household ID');
-      sheet.getRangeByName('C1').setText('Household Name Code');
-      sheet.getRangeByName('D1').setText('Recipient First Name');
-      sheet.getRangeByName('E1').setText('Recipient Last Name');
-      sheet.getRangeByName('F1').setText('Father Name');
-      sheet.getRangeByName('G1').setText('Recipient Gender');
-      sheet.getRangeByName('H1').setText('Recipient Document List');
-      sheet.getRangeByName('I1').setText('Mobile Number');
-      sheet.getRangeByName('J1').setText('Recipient Mobile Number');
-      sheet.getRangeByName('K1').setText('Tazkira Number');
-      sheet.getRangeByName('L1').setText('Alternate Recipient');
-      sheet.getRangeByName('M1').setText('Account Number');
-      sheet.getRangeByName('N1').setText('Location');
-      sheet.getRangeByName('O1').setText('Address');
-      sheet.getRangeByName('P1').setText('province');
-      sheet.getRangeByName('Q1').setText('District');
-      sheet.getRangeByName('R1').setText('Amount');
-      sheet.getRangeByName('S1').setText('Store Name');
-      sheet.getRangeByName('T1').setText('Current time');
-      while (i < snapshot.docs.length) {
-        data = snapshot.docs[i].data() as Map<String, dynamic>;
-        sheet.getRangeByName('A$excelRow').setText(data['S/N'].toString());
-        sheet.getRangeByName('B$excelRow').setText(data['Household ID'].toString());
-        sheet.getRangeByName('C$excelRow').setText(data['Household Name Code']);
-        sheet.getRangeByName('D$excelRow').setText(data['Recipient Name']);
-        sheet.getRangeByName('E$excelRow').setText(data['Recipient Last Name']);
-        sheet.getRangeByName('F$excelRow').setText(data['Father Name']);
-        sheet.getRangeByName('G$excelRow').setText(data['Recipient Gender']);
-        sheet.getRangeByName('H$excelRow').setText(data['Recipient Document List'].toString());
-        sheet.getRangeByName('I$excelRow').setText(data['Phone Number'].toString());
-        sheet.getRangeByName('J$excelRow').setText(data['Mobile Number'].toString());
-        sheet.getRangeByName('K$excelRow').setText(data['Tazkira Number'].toString());
-        sheet.getRangeByName('L$excelRow').setText(data['Alternate Recipient']);
-        sheet.getRangeByName('M$excelRow').setText(data['Account Number'].toString());
-        sheet.getRangeByName('N$excelRow').setText(data['Location']);
-        sheet.getRangeByName('O$excelRow').setText(data['Address'].toString());
-        sheet.getRangeByName('P$excelRow').setText(data['province']);
-        sheet.getRangeByName('Q$excelRow').setText(data['District']);
-        sheet.getRangeByName('R$excelRow').setText(data['Amount'].toString());
-        sheet.getRangeByName('S$excelRow').setText(data['Store Name']);
-        sheet.getRangeByName('T$excelRow').setText(data['Current time']);
-        i++;
-        excelRow++;
-      }
-      final List<int> bytes = workbook.saveAsStream();
-      workbook.dispose();
+    Map<String, dynamic> data;
+    final QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('Paid').get();
+    int i = 0;
+    int excelRow = 2;
+    final Workbook workbook = Workbook();
+    final Worksheet sheet = workbook.worksheets[0];
+    sheet.getRangeByName('A1').setText('S/N');
+    sheet.getRangeByName('B1').setText('Household ID');
+    sheet.getRangeByName('C1').setText('Household Name Code');
+    sheet.getRangeByName('D1').setText('Recipient First Name');
+    sheet.getRangeByName('E1').setText('Recipient Last Name');
+    sheet.getRangeByName('F1').setText('Father Name');
+    sheet.getRangeByName('G1').setText('Recipient Gender');
+    sheet.getRangeByName('H1').setText('Recipient Document List');
+    sheet.getRangeByName('I1').setText('Mobile Number');
+    sheet.getRangeByName('J1').setText('Recipient Mobile Number');
+    sheet.getRangeByName('K1').setText('Tazkira Number');
+    sheet.getRangeByName('L1').setText('Alternate Recipient');
+    sheet.getRangeByName('M1').setText('Account Number');
+    sheet.getRangeByName('N1').setText('Location');
+    sheet.getRangeByName('O1').setText('Address');
+    sheet.getRangeByName('P1').setText('province');
+    sheet.getRangeByName('Q1').setText('District');
+    sheet.getRangeByName('R1').setText('Amount');
+    sheet.getRangeByName('S1').setText('Store Name');
+    sheet.getRangeByName('T1').setText('Current time');
+    sheet.getRangeByName('U1').setText('Cposition');
+    while (i < snapshot.docs.length) {
+      data = snapshot.docs[i].data() as Map<String, dynamic>;
+      sheet.getRangeByName('A$excelRow').setText(data['S/N'].toString());
+      sheet.getRangeByName('B$excelRow').setText(data['Household ID'].toString());
+      sheet.getRangeByName('C$excelRow').setText(data['Household Name Code']);
+      sheet.getRangeByName('D$excelRow').setText(data['Recipient Name']);
+      sheet.getRangeByName('E$excelRow').setText(data['Recipient Last Name']);
+      sheet.getRangeByName('F$excelRow').setText(data['Father Name']);
+      sheet.getRangeByName('G$excelRow').setText(data['Recipient Gender']);
+      sheet.getRangeByName('H$excelRow').setText(data['Recipient Document List'].toString());
+      sheet.getRangeByName('I$excelRow').setText(data['Phone Number'].toString());
+      sheet.getRangeByName('J$excelRow').setText(data['Mobile Number'].toString());
+      sheet.getRangeByName('K$excelRow').setText(data['Tazkira Number'].toString());
+      sheet.getRangeByName('L$excelRow').setText(data['Alternate Recipient']);
+      sheet.getRangeByName('M$excelRow').setText(data['Account Number'].toString());
+      sheet.getRangeByName('N$excelRow').setText(data['Location']);
+      sheet.getRangeByName('O$excelRow').setText(data['Address'].toString());
+      sheet.getRangeByName('P$excelRow').setText(data['province']);
+      sheet.getRangeByName('Q$excelRow').setText(data['District']);
+      sheet.getRangeByName('R$excelRow').setText(data['Amount'].toString());
+      sheet.getRangeByName('S$excelRow').setText(data['Store Name']);
+      sheet.getRangeByName('T$excelRow').setText(data['Current time']);
+      sheet.getRangeByName('U$excelRow').setText(data['Cposition']);
+      i++;
+      excelRow++;
+    }
+    final List<int> bytes = workbook.saveAsStream();
+    workbook.dispose();
+
+    if (UniversalPlatform.isAndroid) {
       var path = await AndroidPathProvider.downloadsPath;
       final String fileName = '$path/Report.xlsx';
       final File file = File(fileName);
@@ -1237,6 +1239,15 @@ class _ControllerState extends State<Controller> {
               ],
             );
           }));
+    }
+    else if (kIsWeb) {
+      final blob = html.Blob([bytes]);
+      final url = html.Url.createObjectUrlFromBlob(blob);
+      final anchor = html.AnchorElement(href: url)
+        ..setAttribute("download", "Report.xlsx")
+        ..click();
+      html.Url.revokeObjectUrl(url);
+    }
 
   }
 

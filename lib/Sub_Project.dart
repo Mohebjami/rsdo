@@ -56,7 +56,7 @@ class _SubProjectState extends State<SubProject> {
                       child: Text(
                         'Value Voucher',
                         style: TextStyle(
-                            fontSize: 30,
+                            fontSize: 25,
                             color: Colors.white,
                             fontFamily: "LilitaOne"),
                       ),
@@ -92,9 +92,9 @@ class _SubProjectState extends State<SubProject> {
                     child: const Padding(
                       padding: EdgeInsets.all(10.0),
                       child: Text(
-                        'Cash',
+                        'Direct Cash',
                         style: TextStyle(
-                            fontSize: 30,
+                            fontSize: 25,
                             color: Colors.white,
                             fontFamily: "LilitaOne"),
                       ),
@@ -130,9 +130,9 @@ class _SubProjectState extends State<SubProject> {
                     child: const Padding(
                       padding: EdgeInsets.all(10.0),
                       child: Text(
-                        'Food',
+                        'Food Distribution',
                         style: TextStyle(
-                            fontSize: 30,
+                            fontSize: 25,
                             color: Colors.white,
                             fontFamily: "LilitaOne"),
                       ),
@@ -168,47 +168,9 @@ class _SubProjectState extends State<SubProject> {
                     child: const Padding(
                       padding: EdgeInsets.all(10.0),
                       child: Text(
-                        'Comudety vocher',
+                        'Commodity Voucher',
                         style: TextStyle(
-                            fontSize: 30,
-                            color: Colors.white,
-                            fontFamily: "LilitaOne"),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  width: 300,
-                  height: 70,
-                  decoration: const BoxDecoration(
-                    color: Colors.transparent,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Color.fromRGBO(50, 41, 36, 0.4),
-                        blurRadius: 15,
-                        spreadRadius: 10,
-                        offset: Offset(1, 1), // moves the shadow up
-                      ),
-                    ],
-                  ),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.transparent,
-                      shadowColor: Colors.black,
-                      elevation: 5,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          side: const BorderSide(color: Colors.white30)),
-                    ),
-                    onPressed: () {},
-                    child: Container(
-                      width: 120,
-                      height: 50,
-                      alignment: Alignment.center,
-                      child: const Text(
-                        'Button',
-                        style: TextStyle(
-                            fontSize: 30,
+                            fontSize: 25,
                             color: Colors.white,
                             fontFamily: "LilitaOne"),
                       ),

@@ -53,7 +53,7 @@ class _ProjectsState extends State<Projects> {
                     child: const Padding(
                       padding: EdgeInsets.all(10.0),
                       child: Text(
-                        'WFP',
+                        'GFD(WFP)',
                         style: TextStyle(fontSize: 30, color: Colors.white, fontFamily: "LilitaOne"),
                       ),
                     ),
@@ -125,7 +125,7 @@ class _ProjectsState extends State<Projects> {
                     child: const Padding(
                       padding: EdgeInsets.all(10.0),
                       child: Text(
-                        '124/22',
+                        'AFG 124/22',
                         style: TextStyle(fontSize: 30, color: Colors.white, fontFamily: "LilitaOne"),
                       ),
                     ),
@@ -161,48 +161,13 @@ class _ProjectsState extends State<Projects> {
                     child: const Padding(
                       padding: EdgeInsets.all(10.0),
                       child: Text(
-                        '118/TWET',
+                        '118/TVET',
                         style: TextStyle(fontSize: 30, color: Colors.white, fontFamily: "LilitaOne"),
                       ),
                     ),
                   ),
                 ),
-                Container(
-                  width: 300,
-                  height: 70,
-                  decoration: const BoxDecoration(
-                    color: Colors.transparent,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Color.fromRGBO(50, 41, 36, 0.4),
-                        blurRadius: 15,
-                        spreadRadius: 10,
-                        offset: Offset(1, 1), // moves the shadow up
-                      ),
-                    ],
-                  ),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.transparent,
-                      shadowColor: Colors.black,
-                      elevation: 5,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          side: const BorderSide(color: Colors.white30)
-                      ),
-                    ),
-                    onPressed: () {},
-                    child: Container(
-                      width: 270,
-                      height: 50,
-                      alignment: Alignment.center,
-                      child: const Text(
-                        'Protract Defender',
-                        style: TextStyle(fontSize: 30, color: Colors.white, fontFamily: "LilitaOne"),
-                      ),
-                    ),
-                  ),
-                ),
+
               ],
             ),
           ),

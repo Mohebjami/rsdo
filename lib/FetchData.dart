@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:rsdo/ClientInfo.dart';
 import 'package:rsdo/WelcomePage.dart';
@@ -16,11 +18,13 @@ class _FetchDataState extends State<FetchData> {
   final TextEditingController _textController = TextEditingController();
   final TextEditingController SM_Name = TextEditingController();
   final TextEditingController email = TextEditingController();
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final GlobalKey<ScaffoldMessengerState> _scaffoldMessengerKey =
       GlobalKey<ScaffoldMessengerState>();
 
   String dropdownValue = 'Household Name Code';
+  List<String> _superMarketNames = ['Market 1', 'Market 2', 'Market 3']; // Add your market names here
+  String? _selectedMarket;
+
 
   String _searchText = '';
 
@@ -37,14 +41,11 @@ class _FetchDataState extends State<FetchData> {
   }
 
   void updateSurveyor(String surveyorValue, String newData) async {
+
     try {
-      await _firestore
-          .collection('Surveyor')
-          .where('Surveyor', isEqualTo: surveyorValue)
-          .get()
-          .then((querySnapshot) {
+      await _firestore.collection('Surveyor').where('NSuperMarket', isEqualTo: surveyorValue).get().then((querySnapshot) {
         querySnapshot.docs.forEach((document) {
-          document.reference.update({'Surveyor': newData});
+          document.reference.update({'NSuperMarket': newData});
         });
       });
 
@@ -65,7 +66,7 @@ class _FetchDataState extends State<FetchData> {
                   onPressed: () {
                     Navigator.of(context).pop();
                     Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(builder: (context) => LoginPage()),
+                      MaterialPageRoute(builder: (context) => const LoginPage()),
                       (Route<dynamic> route) => false,
                     );
                   },
@@ -114,8 +115,36 @@ class _FetchDataState extends State<FetchData> {
                                     MainAxisAlignment.spaceAround,
                                 children: [
                                   StreamBuilder(
-                                    stream: FirebaseFirestore.instance
-                                        .collection('Paid')
+                                    stream: FirebaseFirestore.instance.collection('Paid').where('Store Name', isEqualTo: '${widget.data}').snapshots(),
+                                    builder: (BuildContext context,
+                                        AsyncSnapshot<QuerySnapshot> snapshot) {
+                                      if (snapshot.hasError) {
+                                        return const Text(
+                                            'Something went wrong');
+                                      }
+                                      if (snapshot.connectionState ==
+                                          ConnectionState.waiting) {
+                                        return const Text("Loading");
+                                      }
+                                      int? docLength = snapshot.data?.docs
+                                          .length; // Assigning length to a variable
+                                      // Printing the length
+                                      return Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 15.0),
+                                        child: Text(
+                                          '$docLength',
+                                          style: const TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 25),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                  StreamBuilder(
+                                    stream: FirebaseFirestore.instance.collection('Paid').where('Store Name', isEqualTo: '${widget.data}') // Replace 'Your Store Name' with the actual store name
+                                        .where('Recipient Gender',
+                                        isEqualTo: 'Female')
                                         .snapshots(),
                                     builder: (BuildContext context,
                                         AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -143,41 +172,9 @@ class _FetchDataState extends State<FetchData> {
                                     },
                                   ),
                                   StreamBuilder(
-                                    stream: FirebaseFirestore.instance
-                                        .collection('Paid')
+                                    stream: FirebaseFirestore.instance.collection('Paid').where('Store Name', isEqualTo: '${widget.data}') // Replace 'Your Store Name' with the actual store name
                                         .where('Recipient Gender',
-                                            isEqualTo: 'Female')
-                                        .snapshots(),
-                                    builder: (BuildContext context,
-                                        AsyncSnapshot<QuerySnapshot> snapshot) {
-                                      if (snapshot.hasError) {
-                                        return const Text(
-                                            'Something went wrong');
-                                      }
-                                      if (snapshot.connectionState ==
-                                          ConnectionState.waiting) {
-                                        return const Text("Loading");
-                                      }
-                                      int? docLength = snapshot.data?.docs
-                                          .length; // Assigning length to a variable
-                                      // Printing the length
-                                      return Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 15.0),
-                                        child: Text(
-                                          '$docLength',
-                                          style: const TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 25),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                  StreamBuilder(
-                                    stream: FirebaseFirestore.instance
-                                        .collection('Paid')
-                                        .where('Recipient Gender',
-                                            isEqualTo: 'Male')
+                                        isEqualTo: 'Male')
                                         .snapshots(),
                                     builder: (BuildContext context,
                                         AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -230,50 +227,106 @@ class _FetchDataState extends State<FetchData> {
             IconButton(
                 onPressed: () {
                   showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        content: SizedBox(
-                          width: double.maxFinite,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              const Text(
-                                "Update",
-                                style: TextStyle(
-                                    fontSize: 25, fontFamily: 'LilitaOne'),
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              TextField(
-                                controller: email,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                ),
-                                decoration: const InputDecoration(
-                                  fillColor: Color.fromRGBO(70, 130, 180, 0.9),
-                                  filled: true,
-                                  hintText: "Super Market Name",
-                                  hintStyle: TextStyle(color: Colors.white),
-                                  border: OutlineInputBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(15.0)),
-                                    borderSide: BorderSide.none,
+                      context: context,
+                      builder: (BuildContext context) {
+                        return StatefulBuilder(
+                            builder: (BuildContext context, StateSetter setState) {
+                              return Material(
+                                type: MaterialType.transparency,
+                                child: Center( // Add this
+                                  child: Padding( // Add this
+                                    padding: const EdgeInsets.all(20.0), // Add this
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          color: Colors.white, // Change this
+                                          borderRadius: BorderRadius.circular(15.0)
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(20.0), // Add this
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min, // Add this
+                                          children: [
+                                            const Text(
+                                              "Update",
+                                              style: TextStyle(
+                                                  fontSize: 25, fontFamily: 'LilitaOne'
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              height: 20,
+                                            ),
+                                            Container(
+                                              width: fullScreenWidth,
+                                              decoration: BoxDecoration(
+                                                  color: const Color.fromRGBO(70, 130, 180, 1),
+                                                  borderRadius: BorderRadius.circular(15.0)
+                                              ),
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 5.0, top: 5.0),
+                                                child: DropdownButton<String>(
+                                                  value: _selectedMarket,
+                                                  hint: const Text("Please select a market" , style: TextStyle(color: Colors.white),),
+                                                  focusColor: Colors.white,
+                                                  iconEnabledColor: Colors.white,
+                                                  isExpanded: true,
+                                                  icon: const Icon(Icons.arrow_downward),
+                                                  iconSize: 24,
+                                                  elevation: 16,
+                                                  style: const TextStyle(color: Colors.white),
+                                                  dropdownColor: const Color.fromRGBO(70, 130, 180, 1),
+                                                  underline: Container(
+                                                    color: Colors.transparent,
+                                                  ),
+                                                  onChanged: (String? newValue) {
+                                                    setState(() {
+                                                      _selectedMarket = newValue;
+                                                    });
+                                                  },
+                                                  items: _superMarketNames.map<DropdownMenuItem<String>>((String value) {
+                                                    return DropdownMenuItem<String>(
+                                                      value: value,
+                                                      child: Text(value),
+                                                    );
+                                                  }).toList(),
+                                                ),
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              height: 5,
+                                            ),
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(10),
+                                                color: Colors.black,
+                                              ),
+                                              width: fullScreenWidth,
+                                              child: ElevatedButton(
+                                                style: const ButtonStyle(
+                                                  backgroundColor: MaterialStatePropertyAll(
+                                                      Color(0x000000ff)
+                                                  ),
+                                                ),
+                                                onPressed: (){
+                                                  print(_selectedMarket.toString());
+                                                  var test = _selectedMarket.toString();
+                                                  updateSurveyor(widget.data, test);
+                                                },
+                                                child: const Text("Save", style: TextStyle(color: Colors.white ,fontSize: 20)),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                 ),
-                                onSubmitted: (value) {
-                                  updateSurveyor(widget.data, value);
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
+                              );
+                            }
+                        );
+                      }
                   );
+
+
                 },
                 icon: const Icon(Icons.account_circle))
           ],
@@ -455,7 +508,7 @@ class _FetchDataState extends State<FetchData> {
                                                   height: 90,
                                                   decoration:
                                                       const BoxDecoration(
-                                                    color: Colors.red,
+                                                    color: Colors.green,
                                                     borderRadius:
                                                         BorderRadius.all(
                                                             Radius.circular(

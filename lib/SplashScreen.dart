@@ -52,7 +52,7 @@ class _SplachScreenState extends State<SplachScreen> {
                 top: 10,
               ),
               child: Text(
-                "Develop by Moheb Jami",
+                "Develop by IT Department \n (Moheb Jami)",
                 style: TextStyle(
                     color: Color.fromRGBO(47, 47, 94, 1), fontSize: 15),
               ),

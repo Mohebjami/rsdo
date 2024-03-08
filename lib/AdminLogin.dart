@@ -22,6 +22,7 @@ class _AdminLoginState extends State<AdminLogin> {
   @override
   Widget build(BuildContext context) {
     return Stack(
+      fit: StackFit.expand,
       children: [
         Center(
           child: Container(
@@ -114,37 +115,37 @@ class _AdminLoginState extends State<AdminLogin> {
                               );
                             });
                       });
-                      try {
-                        hasInternet =
-                        await InternetConnectionChecker().hasConnection;
-                      } catch (_) {
-                        // Handle exception
-                        AlertDialog(
-                          title: const Text(
-                            'No Internet',
-                            style: TextStyle(color: Colors.red),
-                          ),
-                          icon: const Image(
-                            image: AssetImage("assets/no-wifi.png"),
-                            width: 35,
-                            height: 35,
-                          ),
-                          iconColor: Colors.red,
-                          content: const Text(
-                              'Problem is on Internet connection',
-                              style: TextStyle(color: Colors.red)),
-                          actions: <Widget>[
-                            TextButton(
-                              child: const Text('Done'),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                          ],
-                        );
-                      }
+                      // try {
+                      //   hasInternet =
+                      //   await InternetConnectionChecker().hasConnection;
+                      // } catch (_) {
+                      //   // Handle exception
+                      //   AlertDialog(
+                      //     title: const Text(
+                      //       'No Internet',
+                      //       style: TextStyle(color: Colors.red),
+                      //     ),
+                      //     icon: const Image(
+                      //       image: AssetImage("assets/no-wifi.png"),
+                      //       width: 35,
+                      //       height: 35,
+                      //     ),
+                      //     iconColor: Colors.red,
+                      //     content: const Text(
+                      //         'Problem is on Internet connection',
+                      //         style: TextStyle(color: Colors.red)),
+                      //     actions: <Widget>[
+                      //       TextButton(
+                      //         child: const Text('Done'),
+                      //         onPressed: () {
+                      //           Navigator.of(context).pop();
+                      //         },
+                      //       ),
+                      //     ],
+                      //   );
+                      // }
                       Navigator.of(context).pop();
-                      if (hasInternet) {
+                      //if (hasInternet) {
                         var data;
                         int i = 0;
                         press++;
@@ -200,35 +201,35 @@ class _AdminLoginState extends State<AdminLogin> {
                             ));
                           });
                         }
-                      } else {
-                        return showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: const Text(
-                                  'No Internet',
-                                  style: TextStyle(color: Colors.red),
-                                ),
-                                icon: const Image(
-                                  image: AssetImage("assets/no-wifi.png"),
-                                  width: 35,
-                                  height: 35,
-                                ),
-                                iconColor: Colors.red,
-                                content: const Text(
-                                    'Problem is on Internet connection',
-                                    style: TextStyle(color: Colors.red)),
-                                actions: <Widget>[
-                                  TextButton(
-                                    child: const Text('Done'),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                ],
-                              );
-                            });
-                      }
+                      // } else {
+                      //   return showDialog(
+                      //       context: context,
+                      //       builder: (BuildContext context) {
+                      //         return AlertDialog(
+                      //           title: const Text(
+                      //             'No Internet',
+                      //             style: TextStyle(color: Colors.red),
+                      //           ),
+                      //           icon: const Image(
+                      //             image: AssetImage("assets/no-wifi.png"),
+                      //             width: 35,
+                      //             height: 35,
+                      //           ),
+                      //           iconColor: Colors.red,
+                      //           content: const Text(
+                      //               'Problem is on Internet connection',
+                      //               style: TextStyle(color: Colors.red)),
+                      //           actions: <Widget>[
+                      //             TextButton(
+                      //               child: const Text('Done'),
+                      //               onPressed: () {
+                      //                 Navigator.of(context).pop();
+                      //               },
+                      //             ),
+                      //           ],
+                      //         );
+                      //       });
+                      // }
                     },
                     style: ButtonStyle(
                       backgroundColor: const MaterialStatePropertyAll(

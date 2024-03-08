@@ -2,8 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:rsdo/ClientInfo.dart';
 import 'package:intl/intl.dart';
+import 'package:rsdo/DisReport.dart';
 
 class FetchDataAdmin extends StatelessWidget {
   const FetchDataAdmin({super.key});
@@ -42,10 +45,26 @@ class _FirebaseListViewState extends State<FirebaseListView> {
   }
 
 
+  //  void checkPermission() async {
+  //    final status = await Permission.location.request();
+  //    if (status.isGranted) {
+  //      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("OK")));
+  //      position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+  //      Cposition =  [position.latitude, position.longitude];
+  //    } else {
+  //      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("NO")));
+  //    }
+  //
+  // }
+
+
+
+
+
   @override
   Widget build(BuildContext context) {
     double fullScreenWidth = MediaQuery.of(context).size.width;
-    double fullScreenHeight = MediaQuery.of(context).size.height;
+    // double fullScreenHeight = MediaQuery.of(context).size.height;
     return ScaffoldMessenger(
       key: _scaffoldMessengerKey,
       child: Scaffold(
@@ -64,118 +83,117 @@ class _FirebaseListViewState extends State<FirebaseListView> {
                       content: SizedBox(
                         width: double.maxFinite,
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.only(left: 0.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  StreamBuilder(
-                                    stream: FirebaseFirestore.instance
-                                        .collection('Paid')
-                                        .snapshots(),
-                                    builder: (BuildContext context,
-                                        AsyncSnapshot<QuerySnapshot> snapshot) {
-                                      if (snapshot.hasError) {
-                                        return const Text(
-                                            'Something went wrong');
-                                      }
-                                      if (snapshot.connectionState ==
-                                          ConnectionState.waiting) {
-                                        return const Text("Loading");
-                                      }
-                                      int? docLength = snapshot.data?.docs
-                                          .length; // Assigning length to a variable
-                                      // Printing the length
-                                      return Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 15.0),
-                                        child: Text(
-                                          '$docLength',
-                                          style: const TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 25),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                  StreamBuilder(
-                                    stream: FirebaseFirestore.instance
-                                        .collection('Paid')
-                                        .where('Recipient Gender',
-                                            isEqualTo: 'Female')
-                                        .snapshots(),
-                                    builder: (BuildContext context,
-                                        AsyncSnapshot<QuerySnapshot> snapshot) {
-                                      if (snapshot.hasError) {
-                                        return const Text(
-                                            'Something went wrong');
-                                      }
-                                      if (snapshot.connectionState ==
-                                          ConnectionState.waiting) {
-                                        return const Text("Loading");
-                                      }
-                                      int? docLength = snapshot.data?.docs
-                                          .length; // Assigning length to a variable
-                                      // Printing the length
-                                      return Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 15.0),
-                                        child: Text(
-                                          '$docLength',
-                                          style: const TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 25),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                  StreamBuilder(
-                                    stream: FirebaseFirestore.instance
-                                        .collection('Paid')
-                                        .where('Recipient Gender',
-                                            isEqualTo: 'Male')
-                                        .snapshots(),
-                                    builder: (BuildContext context,
-                                        AsyncSnapshot<QuerySnapshot> snapshot) {
-                                      if (snapshot.hasError) {
-                                        return const Text(
-                                            'Something went wrong');
-                                      }
-                                      if (snapshot.connectionState ==
-                                          ConnectionState.waiting) {
-                                        return const Text("Loading");
-                                      }
-                                      int? docLength = snapshot.data?.docs
-                                          .length; // Assigning length to a variable
-                                      // Printing the length
-                                      return Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 15.0),
-                                        child: Text(
-                                          '$docLength',
-                                          style: const TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 25),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text("Total "),
-                                Text("Female"),
-                                Text("Male  "),
+                                const SizedBox(height: 20),
+                                Column(
+                                  children: [
+                                    const SizedBox(height: 20),
+                                    StreamBuilder(
+                                      stream: FirebaseFirestore.instance
+                                          .collection('Paid')
+                                          .snapshots(),
+                                      builder: (BuildContext context,
+                                          AsyncSnapshot<QuerySnapshot> snapshot) {
+                                        if (snapshot.hasError) {
+                                          return const Text(
+                                              'Something went wrong');
+                                        }
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return const Text("Loading");
+                                        }
+                                        int? docLength = snapshot.data?.docs
+                                            .length; // Assigning length to a variable
+                                        // Printing the length
+                                        return Text(
+                                          '$docLength',
+                                          style: const TextStyle(
+                                              color: Colors.black,
+                                          fontSize: 25),
+                                        );
+                                      },
+                                    ),
+                                    const Text("Total"),
+                                  ],
+                                ),
+                                const SizedBox(width: 30,),
+                                Column(
+                                  children: [
+                                    const SizedBox(height: 20),
+                                    StreamBuilder(
+                                      stream: FirebaseFirestore.instance
+                                          .collection('Paid')
+                                          .where('Recipient Gender',
+                                              isEqualTo: 'Female')
+                                          .snapshots(),
+                                      builder: (BuildContext context,
+                                          AsyncSnapshot<QuerySnapshot> snapshot) {
+                                        if (snapshot.hasError) {
+                                          return const Text(
+                                              'Something went wrong');
+                                        }
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return const Text("Loading");
+                                        }
+                                        int? docLength = snapshot.data?.docs
+                                            .length; // Assigning length to a variable
+                                        // Printing the length
+                                        return Text(
+                                          '$docLength',
+                                          style: const TextStyle(
+                                              color: Colors.black,fontSize: 25),
+                                        );
+                                      },
+                                    ),
+                                    const Text("Female"),
+                                  ],
+                                ),
+                                const SizedBox(width: 30,),
+                                Column(
+                                  children: [
+                                    const SizedBox(height: 20),
+                                    StreamBuilder(
+                                      stream: FirebaseFirestore.instance.collection('Paid').where('Recipient Gender', isEqualTo: 'Male')
+                                          .snapshots(),
+                                      builder: (BuildContext context,
+                                          AsyncSnapshot<QuerySnapshot> snapshot) {
+                                        if (snapshot.hasError) {
+                                          return const Text(
+                                              'Something went wrong');
+                                        }
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return const Text("Loading");
+                                        }
+                                        int? docLength = snapshot.data?.docs
+                                            .length; // Assigning length to a variable
+                                        // Printing the length
+                                        return Text(
+                                          '$docLength',
+                                          style: const TextStyle(
+                                              color: Colors.black,fontSize: 25),
+                                        );
+                                      },
+                                    ),
+                                    const Text("Male"),
+                                  ],
+                                ),
                               ],
                             ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            TextButton(onPressed: (){
+                              Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(builder: (context) => const DisReport()),
+                              );
+                            }, child: const Text("See more", style: TextStyle(color:  Color.fromRGBO(70, 130, 180, 1),fontSize: 15),))
                           ],
                         ),
                       ),
@@ -257,11 +275,9 @@ class _FirebaseListViewState extends State<FirebaseListView> {
             ),
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
-                stream: _firestore
-                    .collection('Clients')
+                stream: _firestore.collection('Clients')
                     .where(dropdownValue,
-                    isEqualTo: dropdownValue == 'Account Number' &&
-                        isNumeric(_searchText) ? int.parse(_searchText) : _searchText).snapshots(),
+                        isEqualTo: dropdownValue == 'Account Number' && isNumeric(_searchText) ? int.parse(_searchText) : _searchText).snapshots(),
                 builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.hasError) {
                     return const Text('Something went wrong');
@@ -272,12 +288,8 @@ class _FirebaseListViewState extends State<FirebaseListView> {
                     );
                   }
                   return ListView(
-                    children:
-                        snapshot.data!.docs.map((DocumentSnapshot document) {
-                      Map<String, dynamic> data =
-                          document.data() as Map<String, dynamic>;
-                      CollectionReference paid =
-                          FirebaseFirestore.instance.collection('Paid');
+                    children: snapshot.data!.docs.map((DocumentSnapshot document) {
+                      Map<String, dynamic> data = document.data() as Map<String, dynamic>;CollectionReference paid = FirebaseFirestore.instance.collection('Paid');
                       var sn = data['SN'];
                       var householdId = data['Household ID'];
                       var householdNameCode = data['Household Name Code'];
@@ -311,23 +323,26 @@ class _FirebaseListViewState extends State<FirebaseListView> {
                                   children: [
                                     SlidableAction(
                                         borderRadius: BorderRadius.circular(15),
-                                        backgroundColor: Colors.red,
+                                        backgroundColor: Colors.green,
                                         icon: Icons.check,
                                         label: 'Paid',
                                         onPressed: (context) async {
+                                          // checkPermission();
+                                          // print("------------");
+                                          // print(Cposition);
+                                          late var Cposition;
+                                          final status = await Permission.location.request();
+                                          if (status.isGranted) {
+                                            Position  position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+                                            Cposition =  [position.latitude, position.longitude];
+                                          } else {
+                                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("NO")));
+                                          }
                                           try {
-                                            // Check if the data already exists in the 'Paid' collection
-                                            var querySnapshot =
-                                                await FirebaseFirestore.instance
-                                                    .collection('Paid')
-                                                    .where('Household ID',
-                                                        isEqualTo: householdId)
-                                                    .get();
-
-                                            // var NDate = DateTime.now();
-
-                                            // If the data does not exist, add it to the 'Paid' collection
+                                            var querySnapshot = await FirebaseFirestore.instance.collection('Paid').where('Household ID', isEqualTo: householdId).get();
                                             if (querySnapshot.docs.isEmpty) {
+                                            print("-----------------------------");
+                                              print(Cposition);
                                               await paid.add({
                                                 'S/N': sn,
                                                 'Household ID': householdId,
@@ -353,7 +368,8 @@ class _FirebaseListViewState extends State<FirebaseListView> {
                                                 'District': District,
                                                 'Amount': Amount,
                                                 'Store Name': ss,
-                                                'Current time': DateFormat('yyyy-MM-dd').format(DateTime.now()),
+                                                'Current time': DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now()),
+                                                'Cposition': Cposition.toString(),
                                               }).then((value) {
                                                 _scaffoldMessengerKey
                                                     .currentState
@@ -365,7 +381,7 @@ class _FirebaseListViewState extends State<FirebaseListView> {
                                                     height: 90,
                                                     decoration:
                                                         const BoxDecoration(
-                                                      color: Colors.red,
+                                                      color: Colors.green,
                                                       borderRadius:
                                                           BorderRadius.all(
                                                               Radius.circular(
@@ -466,7 +482,7 @@ class _FirebaseListViewState extends State<FirebaseListView> {
                                     style: const TextStyle(
                                         color:
                                             Color.fromRGBO(230, 240, 255, 0.9),
-                                        fontSize: 20,
+                                        fontSize: 13,
                                         fontWeight: FontWeight.bold),
                                   ),
                                   trailing: Text(
