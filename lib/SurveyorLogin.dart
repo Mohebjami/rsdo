@@ -14,14 +14,51 @@ class Sarvear extends StatefulWidget {
 class _SarvearState extends State<Sarvear> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
-  String myEmail = "moheb@moheb.com";
-  String pass = "1moheb@296";
+  List<String> _superMarketNames = [
+    'Arg',
+    'Zaitoon',
+    'Rafa',
+    'Sohail',
+    'Rafa',
+    'Safa',
+    'Mohandes Zada',
+    'Popal',
+    'Almas',
+    'Arzan Qimat',
+    'Roze-Herat',
+    'Siyawshani',
+    'Ansar',
+    'Amini',
+    'Anjeer',
+    'Salar',
+    'Korosh'
+  ]; // Add your market names here
+  String? _selectedMarket;
   late var test_data;
   bool hasInternet = false;
   bool isCorrect = false;
   int press = 0;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  void updateSurveyor(String surveyorValue, String newData) async {
+    try {
+      await _firestore
+          .collection('Surveyor')
+          .where('NSuperMarket', isEqualTo: surveyorValue)
+          .get()
+          .then((querySnapshot) {
+        querySnapshot.docs.forEach((document) {
+          document.reference.update({'NSuperMarket': newData});
+        });
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    double fullScreenWidth = MediaQuery.of(context).size.width;
     return Stack(
       fit: StackFit.expand,
       children: [
@@ -58,6 +95,46 @@ class _SarvearState extends State<Sarvear> {
             ),
             child: Column(
               children: [
+                Container(
+                  width: fullScreenWidth,
+                  decoration: BoxDecoration(
+                      color: const Color.fromRGBO(70, 130, 180, 1),
+                      borderRadius: BorderRadius.circular(15.0)),
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        left: 8.0, right: 8.0, bottom: 5.0, top: 5.0),
+                    child: DropdownButton<String>(
+                      value: _selectedMarket,
+                      hint: const Text(
+                        "Please select a market",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      focusColor: Colors.white,
+                      iconEnabledColor: Colors.white,
+                      isExpanded: true,
+                      icon: const Icon(Icons.arrow_downward),
+                      iconSize: 24,
+                      elevation: 16,
+                      style: const TextStyle(color: Colors.white),
+                      dropdownColor: const Color.fromRGBO(70, 130, 180, 1),
+                      underline: Container(
+                        color: Colors.transparent,
+                      ),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          _selectedMarket = newValue;
+                        });
+                      },
+                      items: _superMarketNames
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ),
                 const SizedBox(
                   height: 40,
                 ),
@@ -66,7 +143,7 @@ class _SarvearState extends State<Sarvear> {
                   child: TextField(
                     controller: email,
                     style:
-                    const TextStyle(color: Color.fromRGBO(44, 62, 82, 1)),
+                        const TextStyle(color: Color.fromRGBO(44, 62, 82, 1)),
                     decoration: InputDecoration(
                       fillColor: const Color.fromRGBO(234, 235, 237, 1),
                       filled: true,
@@ -85,7 +162,7 @@ class _SarvearState extends State<Sarvear> {
                   child: TextField(
                     controller: password,
                     style:
-                    const TextStyle(color: Color.fromRGBO(44, 62, 82, 1)),
+                        const TextStyle(color: Color.fromRGBO(44, 62, 82, 1)),
                     obscureText: true,
                     decoration: InputDecoration(
                         fillColor: const Color.fromRGBO(234, 235, 237, 1),
@@ -138,18 +215,35 @@ class _SarvearState extends State<Sarvear> {
                       while (i < snapshot.docs.length) {
                         data = snapshot.docs[i].data() as Map<String, dynamic>;
                         if (data['DistributorName'] == email.text && data['Password'] == password.text) {
+                          // Update 'NSuperMarket' with the selected market from the dropdown
+                          await FirebaseFirestore.instance
+                              .collection('Surveyor')
+                              .doc(snapshot.docs[i].id)
+                              .update({
+                            'NSuperMarket': _selectedMarket,
+                          });
                           setState(() {
                             isCorrect = true;
                             test_data = data['NSuperMarket'];
                           });
-                          Navigator.pushReplacement(context,
-                            MaterialPageRoute(
-                              builder: (context) => FetchData(data: test_data),
-                            ),
-                          );
+                          // Check if _selectedMarket is not null before navigating
+                          if (_selectedMarket != null) {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    FetchData(data: _selectedMarket),
+                              ),
+                            );
+                          }
+                          else{
+                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please select a Super Market")));
+                          }
                         }
                         i++;
                       }
+
+
                       email.clear();
                       password.clear();
 

@@ -40,46 +40,7 @@ class _FetchDataState extends State<FetchData> {
     return double.tryParse(str) != null;
   }
 
-  void updateSurveyor(String surveyorValue, String newData) async {
 
-    try {
-      await _firestore.collection('Surveyor').where('NSuperMarket', isEqualTo: surveyorValue).get().then((querySnapshot) {
-        querySnapshot.docs.forEach((document) {
-          document.reference.update({'NSuperMarket': newData});
-        });
-      });
-
-      showDialog(
-        context: context,
-        barrierDismissible:
-            false, // Prevents the dialog from closing when tapping outside
-        builder: (BuildContext context) {
-          return WillPopScope(
-            onWillPop: () async =>
-                false, // Prevents the back button from being pressed
-            child: AlertDialog(
-              title: const Text('Update Status'),
-              content: const Text('Update successful'),
-              actions: <Widget>[
-                TextButton(
-                  child: const Text('OK'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(builder: (context) => const LoginPage()),
-                      (Route<dynamic> route) => false,
-                    );
-                  },
-                ),
-              ],
-            ),
-          );
-        },
-      );
-    } catch (e) {
-      print(e);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -307,9 +268,9 @@ class _FetchDataState extends State<FetchData> {
                                                   ),
                                                 ),
                                                 onPressed: (){
-                                                  print(_selectedMarket.toString());
-                                                  var test = _selectedMarket.toString();
-                                                  updateSurveyor(widget.data, test);
+                                                  // print(_selectedMarket.toString());
+                                                  // var test = _selectedMarket.toString();
+                                                  // updateSurveyor(widget.data, test);
                                                 },
                                                 child: const Text("Save", style: TextStyle(color: Colors.white ,fontSize: 20)),
                                               ),

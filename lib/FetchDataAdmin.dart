@@ -45,21 +45,6 @@ class _FirebaseListViewState extends State<FirebaseListView> {
   }
 
 
-  //  void checkPermission() async {
-  //    final status = await Permission.location.request();
-  //    if (status.isGranted) {
-  //      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("OK")));
-  //      position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-  //      Cposition =  [position.latitude, position.longitude];
-  //    } else {
-  //      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("NO")));
-  //    }
-  //
-  // }
-
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -327,22 +312,21 @@ class _FirebaseListViewState extends State<FirebaseListView> {
                                         icon: Icons.check,
                                         label: 'Paid',
                                         onPressed: (context) async {
-                                          // checkPermission();
-                                          // print("------------");
-                                          // print(Cposition);
-                                          late var Cposition;
-                                          final status = await Permission.location.request();
-                                          if (status.isGranted) {
-                                            Position  position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-                                            Cposition =  [position.latitude, position.longitude];
-                                          } else {
-                                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("NO")));
-                                          }
+                                          // late var Cposition;
+                                          // final status = await Permission.location.request();
+                                          // if (status.isGranted) {
+                                          //   Position  position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+                                          //   Cposition =  [position.latitude, position.longitude];
+                                          // } else {
+                                          //   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("NO")));
+                                          //  while(!status.isGranted)
+                                          //    {
+                                          //      await Permission.location.request();
+                                          //    }
+                                          // }
                                           try {
                                             var querySnapshot = await FirebaseFirestore.instance.collection('Paid').where('Household ID', isEqualTo: householdId).get();
                                             if (querySnapshot.docs.isEmpty) {
-                                            print("-----------------------------");
-                                              print(Cposition);
                                               await paid.add({
                                                 'S/N': sn,
                                                 'Household ID': householdId,
@@ -369,7 +353,7 @@ class _FirebaseListViewState extends State<FirebaseListView> {
                                                 'Amount': Amount,
                                                 'Store Name': ss,
                                                 'Current time': DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now()),
-                                                'Cposition': Cposition.toString(),
+                                                // 'Cposition': Cposition.toString(),
                                               }).then((value) {
                                                 _scaffoldMessengerKey
                                                     .currentState

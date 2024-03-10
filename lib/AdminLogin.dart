@@ -172,7 +172,7 @@ class _AdminLoginState extends State<AdminLogin> {
                               isCorrect = true;
                             });
                             Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(builder: (context) => Controller()),
+                              MaterialPageRoute(builder: (context) => const Controller()),
                             );
                           }
                           i++;

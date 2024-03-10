@@ -1172,7 +1172,7 @@ class _ControllerState extends State<Controller> {
     sheet.getRangeByName('R1').setText('Amount');
     sheet.getRangeByName('S1').setText('Store Name');
     sheet.getRangeByName('T1').setText('Current time');
-    sheet.getRangeByName('U1').setText('Cposition');
+    // sheet.getRangeByName('U1').setText('Cposition');
     while (i < snapshot.docs.length) {
       data = snapshot.docs[i].data() as Map<String, dynamic>;
       sheet.getRangeByName('A$excelRow').setText(data['S/N'].toString());
@@ -1195,7 +1195,7 @@ class _ControllerState extends State<Controller> {
       sheet.getRangeByName('R$excelRow').setText(data['Amount'].toString());
       sheet.getRangeByName('S$excelRow').setText(data['Store Name']);
       sheet.getRangeByName('T$excelRow').setText(data['Current time']);
-      sheet.getRangeByName('U$excelRow').setText(data['Cposition']);
+      // sheet.getRangeByName('U$excelRow').setText(data['Cposition']);
       i++;
       excelRow++;
     }
