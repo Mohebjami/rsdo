@@ -19,7 +19,6 @@ class _SarvearState extends State<Sarvear> {
     'Zaitoon',
     'Rafa',
     'Sohail',
-    'Rafa',
     'Safa',
     'Mohandes Zada',
     'Popal',

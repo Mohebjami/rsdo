@@ -182,93 +182,87 @@ class _ControllerState extends State<Controller> {
                               int counter = 0; // Initialize the counter
                               final file = File(result.files.single.path!);
                               final contents = await file.readAsString();
-                              try {
-                                final List<List<dynamic>> rowsAsListOfValues =
-                                    const CsvToListConverter()
-                                        .convert(contents);
-                                FirebaseFirestore.instance;
-                                final firestoreInstance =
-                                    FirebaseFirestore.instance;
-                                for (final row in rowsAsListOfValues) {
-                                  await firestoreInstance
-                                      .collection("Clients")
-                                      .doc()
-                                      .set({
-                                    'SN': row[0],
-                                    'Household ID': row[1],
-                                    'Household Name Code': row[2],
-                                    'Recipient Name': row[3],
-                                    'Recipient Last Name': row[4],
-                                    'Father Name': row[5],
-                                    'Recipient Gender': row[6],
-                                    'Recipient Document List': row[7],
-                                    'Phone Number': row[8],
-                                    'Mobile Number': row[9],
-                                    'Tazkira Number': row[10],
-                                    'Alternate Recipient': row[11],
-                                    'Account Number': row[12],
-                                    'Location': row[13],
-                                    'Address': row[14],
-                                    'province': row[15],
-                                    'District': row[16],
-                                    'Amount': row[17],
-                                    // Add more fields as needed
-                                  });
-                                  counter++; // Increment the counter after each insertion
-                                  setState(() {
-                                    showDialog(
-                                        context: context,
-                                        builder: (context) {
-                                          return Container(
-                                            height: 200,
-                                            width: 200,
-                                            decoration: const BoxDecoration(
-                                              color: Colors.white,
-                                            ),
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: <Widget>[
-                                                const CircularProgressIndicator(
-                                                  color: Colors.white,
-                                                  backgroundColor: Colors.grey,
-                                                ),
-                                                Text(
-                                                  'Inserted: $counter',
-                                                  style: const TextStyle(
-                                                      color: Colors.black),
-                                                ), // Display the counter
-                                              ],
-                                            ),
-                                          );
-                                        });
-                                  });
-                                }
+          try {
+            final List<List<dynamic>> rowsAsListOfValues =
+                const CsvToListConverter().convert(contents);
+            FirebaseFirestore.instance;
+            final firestoreInstance = FirebaseFirestore.instance;
+            for (final row in rowsAsListOfValues) {
+              await firestoreInstance.collection("Clients").doc().set({
+                'SN': row[0],
+                'Household ID': row[1],
+                'Household Name Code': row[2],
+                'Recipient Name': row[3],
+                'Recipient Last Name': row[4],
+                'Father Name': row[5],
+                'Recipient Gender': row[6],
+                'Recipient Document List': row[7],
+                'Phone Number': row[8],
+                'Mobile Number': row[9],
+                // 'Tazkira Number': row[10],
+                'Alternate Recipient': row[10],
+                'Account Number': row[11],
+                'Location': row[12],
+                'Address': row[13],
+                'province': row[14],
+                'District': row[15],
+                'Amount': row[16],
+                // Add more fields as needed
+              });
+              counter++; // Increment the counter after each insertion
+              setState(() {
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return Container(
+                        height: 200,
+                        width: 200,
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            const CircularProgressIndicator(
+                              color: Colors.white,
+                              backgroundColor: Colors.grey,
+                            ),
+                            Text(
+                              'Inserted: $counter',
+                              style: const TextStyle(
+                                  color: Colors.black),
+                            ), // Display the counter
+                          ],
+                        ),
+                      );
+                    });
+              });
+            }
 
-                                Navigator.pop(context);
-                                setState(() {
-                                  showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return AlertDialog(
-                                          title: const Text('Inserted'),
-                                          content: const Text(
-                                              'All data inserted successfully'),
-                                          actions: <Widget>[
-                                            TextButton(
-                                              child: const Text('Done'),
-                                              onPressed: () {
-                                                setState(() {
-                                                  shouldAbsorb = true;
-                                                });
-                                                Navigator.of(context).pop();
-                                              },
-                                            ),
-                                          ],
-                                        );
-                                      });
-                                });
-                              } catch (err) {
+            Navigator.pop(context);
+            setState(() {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text('Inserted'),
+                      content: const Text(
+                          'All data inserted successfully'),
+                      actions: <Widget>[
+                        TextButton(
+                          child: const Text('Done'),
+                          onPressed: () {
+                            setState(() {
+                              shouldAbsorb = true;
+                            });
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    );
+                  });
+            });
+          } catch (err) {
                                 AlertDialog(
                                   title: const Text('Error'),
                                   content: const Text('There is some error'),

@@ -32,7 +32,7 @@ class _DisReportState extends State<DisReport> {
     }
   }
 
-  List<String> _superMarketNames = ['Arg', 'Zaitoon','Rafa', 'Sohail','Rafa', 'Safa', 'Mohandes Zada','Popal', 'Almas', 'Arzan Qimat', 'Roze-Herat', 'Siyawshani','Ansar', 'Amini', 'Anjeer', 'Salar','Korosh'];
+  List<String> _superMarketNames = ['Arg', 'Zaitoon','Rafa', 'Sohail','Safa', 'Mohandes Zada','Popal', 'Almas', 'Arzan Qimat', 'Roze-Herat', 'Siyawshani','Ansar', 'Amini', 'Anjeer', 'Salar','Korosh'];
 
   @override
   Widget build(BuildContext context) {
