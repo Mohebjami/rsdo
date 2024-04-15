@@ -30,28 +30,32 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_spinkit: ^5.2.0
-  cloud_firestore: ^4.9.3
-  firebase_database: ^10.2.7
-  file_picker: ^5.1.0
-  csv: ^5.0.0
-  excel: 2.1.0
-  overlay_support: ^2.1.0
-  cupertino_icons: ^1.0.2
-  flutter_slidable: ^3.0.0
-  android_path_provider: ^0.3.0
+  flutter_spinkit:
+  cloud_firestore:
+  firebase_database:
+  file_picker:
+  csv:
+  excel:
+  overlay_support:
+  cupertino_icons:
+  flutter_slidable:
+  android_path_provider:
   syncfusion_flutter_xlsio:
   path_provider:
   firebase_core:
-  internet_connection_checker: ^1.0.0+1
-  permission_handler: ^11.3.0
-  flutter_document_picker: ^5.2.3
-  firebase_storage: ^11.6.7
-  image_picker: ^1.0.7
-  firebase_app_check: ^0.2.1+15
-  geolocator: ^11.0.0
-  universal_html: ^2.2.4
-  universal_platform: ^1.0.0+1
+  internet_connection_checker:
+  permission_handler:
+  flutter_document_picker:
+  firebase_storage:
+  image_picker:
+  firebase_app_check:
+  geolocator:
+  universal_html:
+  universal_platform:
+  countup:
+  loading_animation_widget: ^1.2.1
+  url_launcher: ^6.2.6
+
 
 
 
@@ -83,27 +87,9 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-   - assets/logo.png
-   - assets/welcome.jpg
-   - assets/database.png
-   - assets/admin.png
-   - assets/henrique.jpg
-   - assets/upload.png
-   - assets/database-table.png
-   - assets/admin.png
-   - assets/Client.png
-   - assets/trash.png
-   - assets/download.png
-   - assets/no-wifi.png
-   - assets/Clinet.png
-   - assets/senddata.png
-   - assets/paid.png
-   - assets/analytics.png
-   - assets/surveyr.png
-   - assets/recycle-bin.png
-   - assets/user.png
-   - assets/test.jpg
-   - assets/project.jpg
+   - assets/
+   - assets/icon/
+
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -128,6 +114,13 @@ flutter:
          - asset: fonts/LibreBaskerville-Regular.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
+     - family: BAHNSCHRIFT
+       fonts:
+         - asset: fonts/BAHNSCHRIFT.TTF
+
+     - family: ANTQUAB
+       fonts:
+         - asset: fonts/ANTQUAB.TTF
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

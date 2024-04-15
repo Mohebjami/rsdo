@@ -7,51 +7,253 @@ class ClientInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // double fullScreenHeight = MediaQuery.of(context).size.height;
+    double fullScreenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Client Info'),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(100.0),
+        child: AppBar(
+          title: const Padding(
+            padding: EdgeInsets.only(top: 30.0),
+            child: Text("Beneficiaries Information", style: TextStyle(color: Colors.white, fontSize: 25, fontFamily: "BAHNSCHRIFT"),
+            ),
+          ),
+          leading: Padding(
+            padding: const EdgeInsets.only(top: 20.0),
+            child: IconButton(
+              icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ),
+          centerTitle: true,
+          backgroundColor: const Color.fromRGBO(45, 47, 98, 1),
+          foregroundColor: Colors.white,
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: ListView(
           children: <Widget>[
-            Center(
-              child: CircleAvatar(
-                radius:70,
-                child: Text('${data['Recipient Name']}',),
-              ),
-            ),
-            const SizedBox(height: 15,),
-            Container(
-              decoration: BoxDecoration(border: Border.all(width: 0.5 ,color: Colors.grey)),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('SN: ${data['SN']}'),
-
-                    const SizedBox(height: 5,),
-                    Text('Father Name: ${data['Father Name']}'),
-                    const SizedBox(height: 5,),
-                    Text('Recipient Document List: ${data['Recipient Document List']}'),
-                    const SizedBox(height: 5,),
-                    Text('Account Number: ${data['Account Number']}'),
-                    const SizedBox(height: 5,),
-                    Text('Household Name Code: ${data['Household Name Code']}'),
-                    const SizedBox(height: 5,),
-                    Text('Alternate Recipient: ${data['Alternate Recipient']}'),
-                    const SizedBox(height: 5,),
-                    Text('Mobile Number: ${data['Mobile Number']}'),
-                    const SizedBox(height: 5,),
-                    Text('Tazkira Number: ${data['Tazkira Number']}'),
-                  ],
+              Container(
+                width: fullScreenWidth,
+                height: 80,
+                decoration: const BoxDecoration(
+                  color:  Color.fromRGBO(252,163,19,1),
+                  borderRadius: BorderRadius.all(Radius.circular(25)),
                 ),
+                child: Center(child: Text('${data['Recipient Name']} ${data['Recipient Last Name']}',style: const TextStyle(color: Colors.white, fontSize: 23,fontFamily: 'LilitaOne'),)),
               ),
+            const SizedBox(
+                height: 30,
+              ),
+            Stack(
+              children: [
+               Container(
+                width: fullScreenWidth,
+                height: 60,
+                decoration: BoxDecoration(
+                  border: Border.all(color: const Color.fromRGBO(125, 178, 220, 1),),
+                  borderRadius: const BorderRadius.all(Radius.circular(30)),
+                ),
+                child: const Center(child: Text('Father Name',style: TextStyle(color: Color.fromRGBO(45, 47, 98, 1), fontSize: 23,fontFamily: 'LilitaOne'),)),
+              ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 48.0),
+                  child: Container(
+                    width: fullScreenWidth,
+                    height: 60,
+                    decoration: const BoxDecoration(
+                      color:  Color.fromRGBO(125, 178, 220, 1),
+                      borderRadius: BorderRadius.all(Radius.circular(30)),
+                    ),
+                    child: Center(child: Text('${data['Father Name']}',style: const TextStyle(color: Color.fromRGBO(45, 47, 98, 1), fontSize: 23,fontFamily: 'LilitaOne'),)),
+                  ),
+                ),
+             ]
             ),
-
-            // Add more fields as needed
+            const SizedBox(
+              height: 30,
+            ),
+            Stack(
+                children: [
+                  Container(
+                    width: fullScreenWidth,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: const Color.fromRGBO(125, 178, 220, 1),),
+                      borderRadius: const BorderRadius.all(Radius.circular(30)),
+                    ),
+                    child: const Center(child: Text('Recipient Mobile Number',style: TextStyle(color: Color.fromRGBO(45, 47, 98, 1), fontSize: 23,fontFamily: 'LilitaOne'),)),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 48.0),
+                    child: Container(
+                      width: fullScreenWidth,
+                      height: 60,
+                      decoration: const BoxDecoration(
+                        color:  Color.fromRGBO(125, 178, 220, 1),
+                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                      ),
+                      child: Center(child: Text('${data['Mobile Number']}',style: const TextStyle(color: Color.fromRGBO(45, 47, 98, 1), fontSize: 23,fontFamily: 'LilitaOne'),)),
+                    ),
+                  ),
+                ]
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            Stack(
+                children: [
+                  Container(
+                    width: fullScreenWidth,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: const Color.fromRGBO(125, 178, 220, 1),),
+                      borderRadius: const BorderRadius.all(Radius.circular(30)),
+                    ),
+                    child: const Center(child: Text('Household Name Code',style: TextStyle(color: Color.fromRGBO(45, 47, 98, 1), fontSize: 23,fontFamily: 'LilitaOne'),)),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 48.0),
+                    child: Container(
+                      width: fullScreenWidth,
+                      height: 60,
+                      decoration: const BoxDecoration(
+                        color:  Color.fromRGBO(125, 178, 220, 1),
+                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                      ),
+                      child: FittedBox(
+                        fit: BoxFit.contain,
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Center(child: Text('${data['Household Name Code']}',style: const TextStyle(color: Color.fromRGBO(45, 47, 98, 1), fontSize: 23,fontFamily: 'LilitaOne'),)),
+                          ),
+                      ),
+                    ),
+                  ),
+                ]
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            Stack(
+                children: [
+                  Container(
+                    width: fullScreenWidth,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: const Color.fromRGBO(125, 178, 220, 1),),
+                      borderRadius: const BorderRadius.all(Radius.circular(30)),
+                    ),
+                    child: const Center(child: Text('Alternate Recipient',style: TextStyle(color: Color.fromRGBO(45, 47, 98, 1), fontSize: 23,fontFamily: 'LilitaOne'),)),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 48.0),
+                    child: Container(
+                      width: fullScreenWidth,
+                      height: 60,
+                      decoration: const BoxDecoration(
+                        color:  Color.fromRGBO(125, 178, 220, 1),
+                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                      ),
+                      child: Center(child: Text('${data['Alternate Recipient'] == null || data['Alternate Recipient'] == '' ? 'It does not alternate' : data['Alternate Recipient']}',style: const TextStyle(color: Color.fromRGBO(45, 47, 98, 1), fontSize: 23,fontFamily: 'LilitaOne'),)),
+                    ),
+                  ),
+                ]
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            Stack(
+                children: [
+                  Container(
+                    width: fullScreenWidth,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: const Color.fromRGBO(125, 178, 220, 1),),
+                      borderRadius: const BorderRadius.all(Radius.circular(30)),
+                    ),
+                    child: const Center(child: Text('Account Number',style: TextStyle(color: Color.fromRGBO(45, 47, 98, 1), fontSize: 23,fontFamily: 'LilitaOne'),)),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 48.0),
+                    child: Container(
+                      width: fullScreenWidth,
+                      height: 60,
+                      decoration: const BoxDecoration(
+                        color:  Color.fromRGBO(125, 178, 220, 1),
+                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                      ),
+                      child: Center(child: Text('${data['Account Number']}',style: const TextStyle(color: Color.fromRGBO(45, 47, 98, 1), fontSize: 23,fontFamily: 'LilitaOne'),)),
+                    ),
+                  ),
+                ]
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            Stack(
+                children: [
+                  Container(
+                    width: fullScreenWidth,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: const Color.fromRGBO(125, 178, 220, 1),),
+                      borderRadius: const BorderRadius.all(Radius.circular(30)),
+                    ),
+                    child: const Center(child: Text('Household ID',style: TextStyle(color: Color.fromRGBO(45, 47, 98, 1), fontSize: 23,fontFamily: 'LilitaOne'),)),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 48.0),
+                    child: Container(
+                      width: fullScreenWidth,
+                      height: 60,
+                      decoration: const BoxDecoration(
+                        color:  Color.fromRGBO(125, 178, 220, 1),
+                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                      ),
+                      child: Center(child: Text('${data['Household ID']}',style: const TextStyle(color: Color.fromRGBO(45, 47, 98, 1), fontSize: 23,fontFamily: 'LilitaOne'),)),
+                    ),
+                  ),
+                ]
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            Stack(
+                children: [
+                  Container(
+                    width: fullScreenWidth,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: const Color.fromRGBO(125, 178, 220, 1),),
+                      borderRadius: const BorderRadius.all(Radius.circular(30)),
+                    ),
+                    child: const Center(child: Text('Recipient Document List',style: TextStyle(color: Color.fromRGBO(45, 47, 98, 1), fontSize: 23,fontFamily: 'LilitaOne'),)),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 48.0),
+                    child: Container(
+                      width: fullScreenWidth,
+                      height: 120,
+                      decoration: const BoxDecoration(
+                        color:  Color.fromRGBO(125, 178, 220, 1),
+                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                      ),
+                      child: FittedBox(
+                        fit: BoxFit.contain,
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Center(child: Text(data['Recipient Document List'].toString().replaceAll(',', '\n'),style: const TextStyle(color: Color.fromRGBO(45, 47, 98, 1), fontSize: 23,fontFamily: 'LilitaOne'),)),
+                        ),
+                      ),
+                    ),
+                  ),
+                ]
+            ),
+            const SizedBox(
+              height: 50,
+            ),
           ],
         ),
       ),

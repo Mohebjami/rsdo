@@ -95,7 +95,7 @@ class _SarvearState extends State<Sarvear> {
             child: Column(
               children: [
                 Container(
-                  width: fullScreenWidth,
+                  width: 330,
                   decoration: BoxDecoration(
                       color: const Color.fromRGBO(70, 130, 180, 1),
                       borderRadius: BorderRadius.circular(15.0)),
@@ -146,7 +146,7 @@ class _SarvearState extends State<Sarvear> {
                     decoration: InputDecoration(
                       fillColor: const Color.fromRGBO(234, 235, 237, 1),
                       filled: true,
-                      hintText: 'Email',
+                      hintText: 'User Name',
                       border: OutlineInputBorder(
                           borderSide: BorderSide.none,
                           borderRadius: BorderRadius.circular(10)),

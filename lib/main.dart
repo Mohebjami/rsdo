@@ -6,7 +6,7 @@ import 'package:rsdo/Add_Surveyor.dart';
 import 'package:rsdo/Controller.dart';
 import 'package:rsdo/FetchDataAdmin.dart';
 import 'package:rsdo/FetchPaidData.dart';
-import 'package:rsdo/Projects.dart';
+import 'package:rsdo/projects.dart';
 import 'package:rsdo/SplashScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:rsdo/Sub_Project.dart';
