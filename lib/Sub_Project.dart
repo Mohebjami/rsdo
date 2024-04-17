@@ -9,7 +9,7 @@ class SubProject extends StatefulWidget {
 }
 
 class _SubProjectState extends State<SubProject> {
-  final Uri _urlR1 = Uri.parse('https://rsdo.af/about-us/');
+  final Uri _url = Uri.parse('https://rsdo.af/the-fourth-round-of-the-emergency-food-distribution-project-wfp/');
   @override
   Widget build(BuildContext context) {
     double fullScreenWidth = MediaQuery.of(context).size.width;
@@ -46,7 +46,7 @@ class _SubProjectState extends State<SubProject> {
             image: DecorationImage(
                 image: AssetImage('assets/test.jpg'), fit: BoxFit.cover)),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
               width: 250,
@@ -115,7 +115,7 @@ class _SubProjectState extends State<SubProject> {
                         topRight:  Radius.circular(25),),),
                   ),
                   onPressed: () {
-                    Navigator.pushNamed(context, 'welcome');
+                    _handlePaymentSuccess();
                   },
                   child: const Padding(
                     padding: EdgeInsets.all(10.0),
@@ -159,7 +159,7 @@ class _SubProjectState extends State<SubProject> {
                         topRight:  Radius.circular(25),),),
                   ),
                   onPressed: () {
-                    Navigator.pushNamed(context, 'welcome');
+                    _handlePaymentSuccess();
                   },
                   child: const Padding(
                     padding: EdgeInsets.all(10.0),
@@ -202,7 +202,7 @@ class _SubProjectState extends State<SubProject> {
                         topRight:  Radius.circular(25),),),
                   ),
                   onPressed: () {
-                    Navigator.pushNamed(context, 'welcome');
+                    _handlePaymentSuccess();
                   },
                   child: const Padding(
                     padding: EdgeInsets.all(10.0),
@@ -231,7 +231,7 @@ class _SubProjectState extends State<SubProject> {
               ),
               child: MaterialButton(
                 onPressed: (){
-                  Navigator.pushNamed(context, 'SubProject');
+                  _launchUrlR1();
                 },
                 child: const Text(
                   "Read More",
@@ -252,8 +252,71 @@ class _SubProjectState extends State<SubProject> {
     );
   }
   Future<void> _launchUrlR1() async {
-    if (!await launchUrl(_urlR1)) {
-      throw Exception('Could not launch $_urlR1');
+    if (!await launchUrl(_url)) {
+      throw Exception('Could not launch $_url');
+    }
+  }
+
+  void _showDialogSuccess(BuildContext parentContext) {
+    showDialog(
+      context: parentContext,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.transparent,
+          content: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                height: 350,
+                width: 350,
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                    image: DecorationImage(
+                      image: AssetImage("assets/wat.png"),
+                      fit: BoxFit.contain,
+                      colorFilter: ColorFilter.mode(
+                        Color.fromRGBO(34, 177, 76, 0),
+                        BlendMode.srcOver,
+                      ),
+                    )),
+              ),
+              Container(
+                width: 350,
+                color: Colors.white,
+                child: Column(
+                  children: [
+                    const SizedBox(height: 20),
+                    const Text('Coming Soon.',
+                        style: TextStyle(fontSize: 20)),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green[800],
+                      ),
+                      child: const Text('CONTINUE',
+                          style: TextStyle(color: Colors.white)),
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _handlePaymentSuccess() async {
+    try {
+      _showDialogSuccess(context); // Use the captured context here
+    } catch (error) {
+      print('Failed to add document: $error');
     }
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rsdo/Drawer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Projects extends StatefulWidget {
@@ -8,9 +9,9 @@ class Projects extends StatefulWidget {
 }
 
 class _ProjectsState extends State<Projects> {
-  final Uri _url = Uri.parse('https://rsdo.af/about-us/');
-  final Uri _urlR1 = Uri.parse('https://rsdo.af/about-us/');
-  final Uri _urlR2 = Uri.parse('https://rsdo.af/about-us/');
+
+  final Uri _urlR1 = Uri.parse('https://rsdo.af/124-22-project-emergency-food-assistance-nfi-and-winterization-support-for-vulnerable-households-through-cash-and-non-cash-distributions-in-the-west-of-afghanistan/');
+  final Uri _urlR2 = Uri.parse('https://rsdo.af/federal-ministry-for-economic-cooperation-and-development-bmz/');
   final Uri _urlR3 = Uri.parse('https://rsdo.af/about-us/');
 
   @override
@@ -32,19 +33,31 @@ class _ProjectsState extends State<Projects> {
               ),
             ),
             centerTitle: true,
-            // leading: Padding(
-            //   padding: const EdgeInsets.only(top: 20.0),
-            //   child: IconButton(
-            //     icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-            //     onPressed: () => Navigator.of(context).pop(),
-            //   ),
-            // ),
+            leading: Builder(
+              builder: (BuildContext context) {
+                return Padding(
+                  padding: const EdgeInsets.only(top: 18.0),
+                  child: IconButton(
+                    icon: const ImageIcon(
+                      AssetImage("assets/icon/menu.png"),
+                      size: 24,
+                      color: Colors.white,
+                    ),
+                    onPressed: () {
+                      Scaffold.of(context).openDrawer();
+                    },
+                    tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+                  ),
+                );
+              },
+            ),
           ),
         ),
+        drawer: myDrawer(),
         body: Container(
           color: Colors.white,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Row(
                 children: [
@@ -85,7 +98,7 @@ class _ProjectsState extends State<Projects> {
                                   Navigator.pushNamed(context, 'SubProject');
                                 },
                                 child: const Text(
-                                  "Open",
+                                  "Click Here",
                                   style: TextStyle(
                                       color: Color.fromRGBO(45, 47, 98, 1),
                                       fontFamily: "BAHNSCHRIFT",
@@ -124,7 +137,7 @@ class _ProjectsState extends State<Projects> {
                 ],
               ),
               const SizedBox(
-                height: 20,
+                height: 30,
               ),
               Row(
                 children: [
@@ -161,7 +174,7 @@ class _ProjectsState extends State<Projects> {
                                 color: const Color.fromRGBO(252,163,19,1),
                               ),
                               child: MaterialButton(
-                                onPressed: _launchUrlR2,
+                                onPressed: _launchUrlR1,
                                 child: const Text(
                                   "Read More",
                                   style: TextStyle(
@@ -195,7 +208,7 @@ class _ProjectsState extends State<Projects> {
                 ],
               ),
               const SizedBox(
-                height: 20,
+                height: 30,
               ),
               Row(
                 children: [
@@ -232,7 +245,7 @@ class _ProjectsState extends State<Projects> {
                                 color: const Color.fromRGBO(252,163,19,1),
                               ),
                               child: MaterialButton(
-                                onPressed: _launchUrlR3,
+                                onPressed: _launchUrlR2,
                                 child: const Text(
                                   "Read More",
                                   style: TextStyle(
@@ -264,55 +277,28 @@ class _ProjectsState extends State<Projects> {
                   ),
                 ],
               ),
-              const SizedBox(
-                height: 40,
-              ),
-              Container(
-                width: fullScreenWidth,
-                height: 50,
-                color: const Color.fromRGBO(66,66,68, 0.1),
-                child: Center(
-                    child: GestureDetector(
-                      onTap: _launchUrl,
-                      child: const Text("About RSDO",
-                        style: TextStyle(
-                            color: Color.fromRGBO(45, 47, 98, 1),
-                            fontSize: 15, fontFamily: "BAHNSCHRIFT",
-                            fontWeight: FontWeight.bold,
-                         decoration: TextDecoration.underline,
 
-                      ),),
-                    ),
-                ),
-              )
             ],
           ),
         )
     );
   }
-  Future<void> _launchUrl() async {
-    if (!await launchUrl(_url)) {
-      throw Exception('Could not launch $_url');
-    }
-  }
 
   Future<void> _launchUrlR1() async {
-    if (!await launchUrl(_url)) {
+    if (!await launchUrl(_urlR1)) {
       throw Exception('Could not launch $_urlR1');
     }
   }
 
   Future<void> _launchUrlR2() async {
-    if (!await launchUrl(_url)) {
+    if (!await launchUrl(_urlR2)) {
       throw Exception('Could not launch $_urlR2');
     }
   }
 
   Future<void> _launchUrlR3() async {
-    if (!await launchUrl(_url)) {
+    if (!await launchUrl(_urlR3)) {
       throw Exception('Could not launch $_urlR3');
     }
   }
-
-
 }

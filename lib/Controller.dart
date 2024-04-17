@@ -270,8 +270,7 @@ class _ControllerState extends State<Controller> {
                               style: const ButtonStyle(
                                 backgroundColor:
                                     MaterialStatePropertyAll(
-                                        Color.fromRGBO(
-                                            13, 110, 253, 1)),
+                                        Color.fromRGBO(45, 47, 98, 1)),
                                 // overlayColor: MaterialStatePropertyAll(Color.fromRGBO(153, 217, 234, 0.2)),
                               ),
                               child: const Text('Cancel',
@@ -298,7 +297,7 @@ class _ControllerState extends State<Controller> {
                                 backgroundColor:
                                     MaterialStatePropertyAll(
                                         Color.fromRGBO(
-                                            13, 110, 253, 1)),
+                                            45, 47, 98, 1)),
                                 overlayColor: MaterialStatePropertyAll(
                                     Color.fromRGBO(153, 217, 234, 0.2)),
                               ),
@@ -340,7 +339,7 @@ class _ControllerState extends State<Controller> {
                                 backgroundColor:
                                     MaterialStatePropertyAll(
                                         Color.fromRGBO(
-                                            13, 110, 253, 1)),
+                                            45, 47, 98, 1)),
                                 // overlayColor: MaterialStatePropertyAll(Color.fromRGBO(153, 217, 234, 0.2)),
                               ),
                               child: const Text('Cancel',
@@ -357,7 +356,7 @@ class _ControllerState extends State<Controller> {
                                 backgroundColor:
                                     MaterialStatePropertyAll(
                                         Color.fromRGBO(
-                                            13, 110, 253, 1)),
+                                            45, 47, 98, 1)),
                                 overlayColor: MaterialStatePropertyAll(
                                     Color.fromRGBO(153, 217, 234, 0.2)),
                               ),
