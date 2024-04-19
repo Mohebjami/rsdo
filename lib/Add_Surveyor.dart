@@ -9,7 +9,6 @@ class Add_Sarver extends StatefulWidget {
 }
 
 class _Add_SarverState extends State<Add_Sarver> {
-  TextEditingController user = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   String imageUrl='';
@@ -56,20 +55,6 @@ class _Add_SarverState extends State<Add_Sarver> {
                   ),
                   child: Column(
                     children: [
-                      TextField(
-                        controller: user,
-                        style: const TextStyle(
-                          color: Colors.white,
-                        ),
-                        decoration: InputDecoration(
-                          fillColor: const Color(0xff4c505b),
-                          filled: true,
-                          hintText: 'Distributor Name',
-                          border: OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                              borderRadius: BorderRadius.circular(10)),
-                        ),
-                      ),
                       const SizedBox(
                         height: 30,
                       ),
@@ -81,7 +66,7 @@ class _Add_SarverState extends State<Add_Sarver> {
                         decoration: InputDecoration(
                           fillColor: const Color(0xff4c505b),
                           filled: true,
-                          hintText: 'Super Market Name',
+                          hintText: 'User name',
                           border: OutlineInputBorder(
                               borderSide: BorderSide.none,
                               borderRadius: BorderRadius.circular(10)),
@@ -125,7 +110,6 @@ class _Add_SarverState extends State<Add_Sarver> {
                               color: Colors.white,
                               onPressed: () {
                                 exportData();
-                                user.clear();
                                 email.clear();
                                 password.clear();
                               },
@@ -149,16 +133,11 @@ class _Add_SarverState extends State<Add_Sarver> {
 
   void exportData() async {
     try {
-      String userText = user.text;
       String emailText = email.text;
       String passwordText = password.text;
 
 // Check if the fields are empty or contain certain symbols
-      if (userText.isEmpty ||
-          emailText.isEmpty ||
-          passwordText.isEmpty ||
-          userText.contains(RegExp(r'[/\\"|]')) ||
-          emailText.contains(RegExp(r'[/\\"|]')) ||
+      if (emailText.isEmpty || passwordText.isEmpty || emailText.contains(RegExp(r'[/\\"|]')) ||
           passwordText.contains(RegExp(r'[/\\"|]'))) {
         return showDialog(
             context: context,
@@ -188,11 +167,9 @@ class _Add_SarverState extends State<Add_Sarver> {
               );
             });
       } else {
-        CollectionReference collRef =
-            FirebaseFirestore.instance.collection('Surveyor');
+        CollectionReference collRef = FirebaseFirestore.instance.collection('Surveyor');
         collRef.add({
-          'DistributorName': userText,
-          'NSuperMarket': emailText,
+          'User Name': emailText,
           'Password': passwordText,
         });
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(

@@ -96,9 +96,7 @@ class _FirebaseListViewState extends State<FirebaseListView> {
                                     children: [
                                       const SizedBox(height: 20),
                                       StreamBuilder(
-                                        stream: FirebaseFirestore.instance
-                                            .collection('Paid')
-                                            .snapshots(),
+                                        stream: FirebaseFirestore.instance.collection('Paid').snapshots(),
                                         builder: (BuildContext context,
                                             AsyncSnapshot<QuerySnapshot>
                                                 snapshot) {
@@ -110,16 +108,12 @@ class _FirebaseListViewState extends State<FirebaseListView> {
                                               ConnectionState.waiting) {
                                             return const Text("Loading");
                                           }
-                                          int? docLength =
-                                              snapshot.data?.docs.length;
+                                          int? docLength = snapshot.data?.docs.length;
                                           return Countup(
                                             begin: 0,
                                             end: docLength?.toDouble() ?? 0,
-                                            duration:
-                                                const Duration(seconds: 2),
-                                            style: const TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 25),
+                                            duration: const Duration(seconds: 2),
+                                            style: const TextStyle(color: Colors.black, fontSize: 25),
                                           );
                                         },
                                       ),

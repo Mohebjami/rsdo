@@ -1,3 +1,4 @@
+import 'package:countup/countup.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -100,15 +101,14 @@ class _FetchDataState extends State<FetchData> {
                                         int? docLength = snapshot.data?.docs
                                             .length; // Assigning length to a variable
                                         // Printing the length
-                                        return Padding(
-                                          padding:
-                                          const EdgeInsets.only(right: 15.0),
-                                          child: Text(
-                                            '$docLength',
-                                            style: const TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 25),
-                                          ),
+                                        return Countup(
+                                          begin: 0,
+                                          end: docLength?.toDouble() ?? 0,
+                                          duration:
+                                          const Duration(seconds: 2),
+                                          style: const TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 25),
                                         );
                                       },
                                     ),
@@ -127,26 +127,19 @@ class _FetchDataState extends State<FetchData> {
                                             ConnectionState.waiting) {
                                           return const Text("Loading");
                                         }
-                                        int? docLength = snapshot.data?.docs
-                                            .length; // Assigning length to a variable
+                                        int? docLength = snapshot.data?.docs.length; // Assigning length to a variable
                                         // Printing the length
-                                        return Padding(
-                                          padding:
-                                          const EdgeInsets.only(right: 15.0),
-                                          child: Text(
-                                            '$docLength',
-                                            style: const TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 25),
-                                          ),
+                                        return Countup(
+                                          begin: 0,
+                                          end: docLength?.toDouble() ?? 0,
+                                          duration: const Duration(seconds: 2),
+                                          style: const TextStyle(color: Colors.black, fontSize: 25),
                                         );
                                       },
                                     ),
                                     StreamBuilder(
                                       stream: FirebaseFirestore.instance.collection('Paid').where('Store Name', isEqualTo: '${widget.data}') // Replace 'Your Store Name' with the actual store name
-                                          .where('Recipient Gender',
-                                          isEqualTo: 'Male')
-                                          .snapshots(),
+                                          .where('Recipient Gender', isEqualTo: 'Male').snapshots(),
                                       builder: (BuildContext context,
                                           AsyncSnapshot<QuerySnapshot> snapshot) {
                                         if (snapshot.hasError) {
@@ -160,15 +153,14 @@ class _FetchDataState extends State<FetchData> {
                                         int? docLength = snapshot.data?.docs
                                             .length; // Assigning length to a variable
                                         // Printing the length
-                                        return Padding(
-                                          padding:
-                                          const EdgeInsets.only(right: 15.0),
-                                          child: Text(
-                                            '$docLength',
-                                            style: const TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 25),
-                                          ),
+                                        return Countup(
+                                          begin: 0,
+                                          end: docLength?.toDouble() ?? 0,
+                                          duration:
+                                          const Duration(seconds: 2),
+                                          style: const TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 25),
                                         );
                                       },
                                     ),

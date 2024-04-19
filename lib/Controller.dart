@@ -82,10 +82,7 @@ class _ControllerState extends State<Controller> {
                         final firestoreInstance =
                             FirebaseFirestore.instance;
                         for (final row in rowsAsListOfValues) {
-                          await firestoreInstance
-                              .collection("Clients")
-                              .doc()
-                              .set({
+                          await firestoreInstance.collection("Clients").doc().set({
                             'SN': row[0],
                             'Household ID': row[1],
                             'Household Name Code': row[2],
@@ -94,16 +91,16 @@ class _ControllerState extends State<Controller> {
                             'Father Name': row[5],
                             'Recipient Gender': row[6],
                             'Recipient Document List': row[7],
-                            'Phone Number': row[8],
-                            'Mobile Number': row[9],
-                            // 'Tazkira Number': row[10],
-                            'Alternate Recipient': row[10],
-                            'Account Number': row[11],
-                            'Location': row[12],
-                            'Address': row[13],
-                            'province': row[14],
-                            'District': row[15],
-                            'Amount': row[16],
+                            'Mobile Number': row[8],
+                            'Phone Number': row[9],
+                            'Tazkira Number': row[10],
+                            'Alternate Recipient': row[11],
+                            'Account Number': row[12],
+                            'Location': row[13],
+                            'Address': row[14],
+                            'province': row[15],
+                            'District': row[16],
+                            'Amount': row[17],
                             // Add more fields as needed
                           });
                           counter++; // Increment the counter after each insertion
@@ -273,24 +270,20 @@ class _ControllerState extends State<Controller> {
                                         Color.fromRGBO(45, 47, 98, 1)),
                                 // overlayColor: MaterialStatePropertyAll(Color.fromRGBO(153, 217, 234, 0.2)),
                               ),
-                              child: const Text('Cancel',
-                                  style:
-                                      TextStyle(color: Colors.white)),
+                              child: const Text('Cancel', style: TextStyle(color: Colors.white)),
                             ),
                             TextButton(
-                              onPressed: () {
-                                // Perform the action if the user confirms
+                              onPressed: () async{
                                 setState(() {
                                   showDialog(
                                       context: context,
                                       builder: (context) {
                                         return const Center(
-                                          child:
-                                              CircularProgressIndicator(),
+                                          child: CircularProgressIndicator(),
                                         );
                                       });
                                 });
-                                deleteAllDocuments();
+                                await deleteAllDocuments();
                                 Navigator.of(context).pop();
                               },
                               style: const ButtonStyle(
@@ -502,18 +495,12 @@ class _ControllerState extends State<Controller> {
       _isLoading = true;
     });
 
-    FirebaseFirestore.instance
-        .collection('Clients')
-        .get()
-        .then((snapshot) {
+    await FirebaseFirestore.instance.collection('Clients').get().then((snapshot) {
           for (DocumentSnapshot doc in snapshot.docs) {
             doc.reference.delete();
           }
         })
         .then((_) => setState(() {
-              // Set _isLoading to false when the deletion process ends
-              _isLoading = false;
-
               showDialog(
                   context: context,
                   builder: (BuildContext context) {
@@ -524,6 +511,9 @@ class _ControllerState extends State<Controller> {
                         TextButton(
                           child: const Text('Done'),
                           onPressed: () {
+                            setState(() {
+                              _isLoading = false;
+                            });
                             Navigator.of(context).pop();
                           },
                         ),
@@ -552,6 +542,7 @@ class _ControllerState extends State<Controller> {
                     );
                   });
             }));
+
 
     Navigator.of(context).pop();
   }

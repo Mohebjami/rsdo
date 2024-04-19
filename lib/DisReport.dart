@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_document_picker/flutter_document_picker.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class DisReport extends StatefulWidget {
@@ -56,7 +57,12 @@ class _DisReportState extends State<DisReport> {
                 return const Text('Something went wrong');
               }
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Text("Loading");
+                return Center(
+                  child: LoadingAnimationWidget.staggeredDotsWave(
+                    color: Colors.white,
+                    size: 100,
+                  )
+                );
               }
               final users =
                   snapshot.data?.docs.map((DocumentSnapshot document) {

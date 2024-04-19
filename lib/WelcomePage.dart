@@ -28,22 +28,23 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController password = TextEditingController();
   TextEditingController emailD = TextEditingController();
   TextEditingController passwordD = TextEditingController();
-  List<String> _superMarketNames = [
+  final List<String> _superMarketNames = [
     'Arg',
-    'Zaitoon',
-    'Rafa',
-    'Sohail',
-    'Safa',
-    'Mohandes Zada',
-    'Popal',
+    'Azimi'
     'Almas',
-    'Arzan Qimat',
-    'Roze-Herat',
-    'Siyawshani',
     'Ansar',
     'Amini',
     'Anjeer',
+    'Arzan Qimat',
+    'Mohandes Zada',
+    'Rafa',
+    'Roze-Herat',
+    'Sohail',
+    'Safa',
+    'Siyawshani',
     'Salar',
+    'Popal',
+    'Zaitoon',
     'Korosh'
   ]; // Add your market names here
   String? _selectedMarket;
