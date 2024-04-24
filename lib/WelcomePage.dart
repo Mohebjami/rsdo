@@ -30,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController passwordD = TextEditingController();
   final List<String> _superMarketNames = [
     'Arg',
-    'Azimi'
+    'Azimi',
     'Almas',
     'Ansar',
     'Amini',
@@ -44,8 +44,9 @@ class _LoginPageState extends State<LoginPage> {
     'Siyawshani',
     'Salar',
     'Popal',
+    'Korosh',
     'Zaitoon',
-    'Korosh'
+
   ]; // Add your market names here
   String? _selectedMarket;
   late var test_data;

@@ -399,30 +399,18 @@ class _ControllerState extends State<Controller> {
     while (i < snapshot.docs.length) {
       data = snapshot.docs[i].data() as Map<String, dynamic>;
       sheet.getRangeByName('A$excelRow').setText(data['S/N'].toString());
-      sheet
-          .getRangeByName('B$excelRow')
-          .setText(data['Household ID'].toString());
+      sheet.getRangeByName('B$excelRow').setText(data['Household ID'].toString());
       sheet.getRangeByName('C$excelRow').setText(data['Household Name Code']);
       sheet.getRangeByName('D$excelRow').setText(data['Recipient Name']);
-      sheet.getRangeByName('E$excelRow').setText(data['Recipient Last Name']);
+      sheet.getRangeByName('E$excelRow').setText(data['Recipient Last Name'].toString());
       sheet.getRangeByName('F$excelRow').setText(data['Father Name']);
       sheet.getRangeByName('G$excelRow').setText(data['Recipient Gender']);
-      sheet
-          .getRangeByName('H$excelRow')
-          .setText(data['Recipient Document List'].toString());
-      sheet
-          .getRangeByName('I$excelRow')
-          .setText(data['Phone Number'].toString());
-      sheet
-          .getRangeByName('J$excelRow')
-          .setText(data['Mobile Number'].toString());
-      sheet
-          .getRangeByName('K$excelRow')
-          .setText(data['Tazkira Number'].toString());
+      sheet.getRangeByName('H$excelRow').setText(data['Recipient Document List'].toString());
+      sheet.getRangeByName('I$excelRow').setText(data['Phone Number'].toString());
+      sheet.getRangeByName('J$excelRow').setText(data['Mobile Number'].toString());
+      sheet.getRangeByName('K$excelRow').setText(data['Tazkira Number'].toString());
       sheet.getRangeByName('L$excelRow').setText(data['Alternate Recipient']);
-      sheet
-          .getRangeByName('M$excelRow')
-          .setText(data['Account Number'].toString());
+      sheet.getRangeByName('M$excelRow').setText(data['Account Number'].toString());
       sheet.getRangeByName('N$excelRow').setText(data['Location']);
       sheet.getRangeByName('O$excelRow').setText(data['Address'].toString());
       sheet.getRangeByName('P$excelRow').setText(data['province']);
