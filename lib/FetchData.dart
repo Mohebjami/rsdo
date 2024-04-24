@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:rsdo/ClientInfo.dart';
-import 'package:rsdo/WelcomePage.dart';
+import 'package:intl/intl.dart';
 
 class FetchData extends StatefulWidget {
   final data;
@@ -194,6 +194,7 @@ class _FetchDataState extends State<FetchData> {
           ),
         ),
         body: Container(
+          width: fullScreenWidth,
           decoration: const BoxDecoration(
             image: DecorationImage(image: AssetImage("assets/searchback.png"),fit: BoxFit.cover)
           ),
@@ -268,133 +269,134 @@ class _FetchDataState extends State<FetchData> {
                 ),
               ),
               Expanded(
-                child: StreamBuilder<QuerySnapshot>(
-                  stream: _firestore
-                      .collection('Clients')
-                      .where(dropdownValue,
-                          isEqualTo: dropdownValue == 'Account Number' &&
-                                  isNumeric(_searchText)
-                              ? int.parse(_searchText)
-                              : _searchText)
-                      .snapshots(),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<QuerySnapshot> snapshot) {
-                    if (snapshot.hasError) {
-                      return const Text('Something went wrong');
-                    }
-          
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                    return ListView(
-                      children:
-                          snapshot.data!.docs.map((DocumentSnapshot document) {
-                        Map<String, dynamic> data =
-                            document.data() as Map<String, dynamic>;
-                        CollectionReference paid =
-                            FirebaseFirestore.instance.collection('Paid');
-                        var sn = data['SN'];
-                        var householdId = data['Household ID'];
-                        var householdNameCode = data['Household Name Code'];
-                        var recipientName = data['Recipient Name'];
-                        var recipientLastName = data['Recipient Last Name'];
-                        var fatherName = data['Father Name'];
-                        var recipientGender = data['Recipient Gender'];
-                        var recipientDocumentList =
-                            data['Recipient Document List'];
-                        var phoneNumber = data['Phone Number'];
-                        var mobileNumber = data['Mobile Number'];
-                        var tazkiraNumber = data['Tazkira Number'];
-                        var alternateRecipient = data['Alternate Recipient'];
-                        var accountNumber = data['Account Number'];
-                        var Location = data['Location'];
-                        var Address = data['Address'];
-                        var province = data['province'];
-                        var District = data['District'];
-                        var Amount = data['Amount'];
-                        var ss = "${widget.data}";
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: Slidable(
-                              closeOnScroll: true,
-                              startActionPane: ActionPane(
-                                  motion: const StretchMotion(),
-                                  children: [
-                                    SlidableAction(
-                                        borderRadius: BorderRadius.circular(15),
-                                        backgroundColor: const Color.fromRGBO(45, 47, 98, 1),
-                                        icon: Icons.check,
-                                        label: 'Paid',
-                                        onPressed: (context) async {
-                                          try {
-                                            // Check if the data already exists in the 'Paid' collection
-                                            var querySnapshot =
-                                                await FirebaseFirestore.instance
-                                                    .collection('Paid')
-                                                    .where('Household ID',
-                                                        isEqualTo: householdId)
-                                                    .get();
-                                            // If the data does not exist, add it to the 'Paid' collection
-                                            if (querySnapshot.docs.isEmpty) {
-                                              await paid.add({
-                                                'S/N': sn,
-                                                'Household ID': householdId,
-                                                'Household Name Code':
-                                                    householdNameCode,
-                                                'Recipient Name': recipientName,
-                                                'Recipient Last Name':
-                                                    recipientLastName,
-                                                'Father Name': fatherName,
-                                                'Recipient Gender':
-                                                    recipientGender,
-                                                'Recipient Document List':
-                                                    recipientDocumentList,
-                                                'Phone Number': phoneNumber,
-                                                'Mobile Number': mobileNumber,
-                                                'Tazkira Number': tazkiraNumber,
-                                                'Alternate Recipient':
-                                                    alternateRecipient,
-                                                'Account Number': accountNumber,
-                                                'Location': Location,
-                                                'Address': Address,
-                                                'province': province,
-                                                'District': District,
-                                                'Amount': Amount,
-                                                'Store Name': ss,
-                                              }).then((value) {
-                                                _handlePaymentSuccess();
-                                              }).catchError((error) {
-                                                if (mounted) {
-                                                  // Check if the widget is still in the tree
-                                                  ScaffoldMessenger.of(context)
-                                                      .showSnackBar(SnackBar(
-                                                    content: Text("$error"),
-                                                    backgroundColor:
-                                                        const Color.fromRGBO(
-                                                            47, 47, 94, 1),
-                                                    showCloseIcon: true,
-                                                    duration: const Duration(
-                                                        seconds: 2),
-                                                  ));
-                                                }
-                                              });
-                                            } else {
-                                              _handlePayment();
+                child: SizedBox(
+                  width: 360,
+                  child: StreamBuilder<QuerySnapshot>(
+                    stream: _firestore
+                        .collection('Clients')
+                        .where(dropdownValue,
+                            isEqualTo: dropdownValue == 'Account Number' &&
+                                    isNumeric(_searchText)
+                                ? int.parse(_searchText)
+                                : _searchText)
+                        .snapshots(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<QuerySnapshot> snapshot) {
+                      if (snapshot.hasError) {
+                        return const Text('Something went wrong');
+                      }
+
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                      return ListView(
+                        children:
+                            snapshot.data!.docs.map((DocumentSnapshot document) {
+                          Map<String, dynamic> data =
+                              document.data() as Map<String, dynamic>;
+                          CollectionReference paid =
+                              FirebaseFirestore.instance.collection('Paid');
+                          var sn = data['SN'];
+                          var householdId = data['Household ID'];
+                          var householdNameCode = data['Household Name Code'];
+                          var recipientName = data['Recipient Name'];
+                          var recipientLastName = data['Recipient Last Name'];
+                          var fatherName = data['Father Name'];
+                          var recipientGender = data['Recipient Gender'];
+                          var recipientDocumentList =
+                              data['Recipient Document List'];
+                          var phoneNumber = data['Phone Number'];
+                          var mobileNumber = data['Mobile Number'];
+                          var tazkiraNumber = data['Tazkira Number'];
+                          var alternateRecipient = data['Alternate Recipient'];
+                          var accountNumber = data['Account Number'];
+                          var Location = data['Location'];
+                          var Address = data['Address'];
+                          var province = data['province'];
+                          var District = data['District'];
+                          var Amount = data['Amount'];
+                          var ss = "${widget.data}";
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: Slidable(
+                                closeOnScroll: true,
+                                startActionPane: ActionPane(
+                                    motion: const StretchMotion(),
+                                    children: [
+                                      SlidableAction(
+                                          borderRadius: BorderRadius.circular(15),
+                                          backgroundColor: const Color.fromRGBO(45, 47, 98, 1),
+                                          icon: Icons.check,
+                                          label: 'Paid',
+                                          onPressed: (context) async {
+                                            try {
+                                              // Check if the data already exists in the 'Paid' collection
+                                              var querySnapshot =
+                                                  await FirebaseFirestore.instance
+                                                      .collection('Paid')
+                                                      .where('Household ID',
+                                                          isEqualTo: householdId)
+                                                      .get();
+                                              // If the data does not exist, add it to the 'Paid' collection
+                                              if (querySnapshot.docs.isEmpty) {
+                                                await paid.add({
+                                                  'S/N': sn,
+                                                  'Household ID': householdId,
+                                                  'Household Name Code':
+                                                      householdNameCode,
+                                                  'Recipient Name': recipientName,
+                                                  'Recipient Last Name':
+                                                      recipientLastName,
+                                                  'Father Name': fatherName,
+                                                  'Recipient Gender':
+                                                      recipientGender,
+                                                  'Recipient Document List':
+                                                      recipientDocumentList,
+                                                  'Phone Number': phoneNumber,
+                                                  'Mobile Number': mobileNumber,
+                                                  'Tazkira Number': tazkiraNumber,
+                                                  'Alternate Recipient':
+                                                      alternateRecipient,
+                                                  'Account Number': accountNumber,
+                                                  'Location': Location,
+                                                  'Address': Address,
+                                                  'province': province,
+                                                  'District': District,
+                                                  'Amount': Amount,
+                                                  'Store Name': ss,
+                                                  'Current time': DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now()),
+                                                }).then((value) {
+                                                  _handlePaymentSuccess();
+                                                }).catchError((error) {
+                                                  if (mounted) {
+                                                    // Check if the widget is still in the tree
+                                                    ScaffoldMessenger.of(context)
+                                                        .showSnackBar(SnackBar(
+                                                      content: Text("$error"),
+                                                      backgroundColor:
+                                                          const Color.fromRGBO(
+                                                              47, 47, 94, 1),
+                                                      showCloseIcon: true,
+                                                      duration: const Duration(
+                                                          seconds: 2),
+                                                    ));
+                                                  }
+                                                });
+                                              } else {
+                                                _handlePayment();
+                                              }
+                                            } catch (e) {
+                                              print('Failed to add document: $e');
                                             }
-                                          } catch (e) {
-                                            print('Failed to add document: $e');
-                                          }
-                                        })
-                                  ]),
-                              child: Center(
+                                          })
+                                    ]),
                                 child: Container(
-                                  width: 350,
                                   decoration: BoxDecoration(
                                     color: const Color.fromRGBO(196, 214, 230, 1),
                                     border: Border.all(
@@ -444,11 +446,11 @@ class _FetchDataState extends State<FetchData> {
                                 ),
                               ),
                             ),
-                          ),
-                        );
-                      }).toList(),
-                    );
-                  },
+                          );
+                        }).toList(),
+                      );
+                    },
+                  ),
                 ),
               ),
 

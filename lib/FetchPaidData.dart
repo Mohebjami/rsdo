@@ -99,65 +99,65 @@ class _FirebaseListViewState extends State<FirebaseListView> {
                 ),
               ),
               Expanded(
-                child: StreamBuilder<QuerySnapshot>(
-                  stream: _firestore.collection('Paid').where('Household Name Code', isEqualTo: _searchText).snapshots(),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<QuerySnapshot> snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                    if (snapshot.hasError) {
-                      return const Text('Something went wrong');
-                    }
-                    if (snapshot.data!.docs.isEmpty) {
-                      return const Text('Empty');
-                    }
-                    return ListView(
-                      children: snapshot.data!.docs.map((DocumentSnapshot document) {
-                        Map<String, dynamic> data = document.data() as Map<String, dynamic>;
-                        var householdId = data['Household ID'];
-                        if(data.isEmpty){
-                          return const Text('Something went wrong');
-                        }
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: Slidable(
-                              closeOnScroll: true,
-                              startActionPane: ActionPane(
-                                  motion: const StretchMotion(),
-                                  children: [
-                                    SlidableAction(
-                                        backgroundColor: Colors.red,
-                                        icon: Icons.delete_forever,
-                                        borderRadius: BorderRadius.circular(15),
-                                        label: 'Delete',
-                                        onPressed: (context) async {
-                                          try {
-                                            var querySnapshot = await FirebaseFirestore.instance.collection('Paid').where('Household ID', isEqualTo: householdId).get();
-                                            querySnapshot.docs.forEach((doc) async {
-                                              await FirebaseFirestore.instance.collection('Paid').doc(doc.id).delete();
-                                            });
-                                          } catch (e) {
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(const SnackBar(
-                                              content: Text(
-                                                  'Failed to add document'),
-                                              backgroundColor: Color.fromRGBO(47, 47, 94, 1),
-                                              showCloseIcon: true,
-                                              duration: Duration(seconds: 2),
-                                            ));
-                                          }
-                                        })
-                                  ]),
-                              child:Center(
-                                child: Container(
-                                  width: 330,
+                child: SizedBox(
+                  width: 360,
+                  child: StreamBuilder<QuerySnapshot>(
+                    stream: _firestore.collection('Paid').where('Household Name Code', isEqualTo: _searchText).snapshots(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<QuerySnapshot> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                      if (snapshot.hasError) {
+                        return const Text('Something went wrong');
+                      }
+                      if (snapshot.data!.docs.isEmpty) {
+                        return const Text('Empty');
+                      }
+                      return ListView(
+                        children: snapshot.data!.docs.map((DocumentSnapshot document) {
+                          Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+                          var householdId = data['Household ID'];
+                          if(data.isEmpty){
+                            return const Text('Something went wrong');
+                          }
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: Slidable(
+                                closeOnScroll: true,
+                                startActionPane: ActionPane(
+                                    motion: const StretchMotion(),
+                                    children: [
+                                      SlidableAction(
+                                          backgroundColor: Colors.red,
+                                          icon: Icons.delete_forever,
+                                          borderRadius: BorderRadius.circular(15),
+                                          label: 'Delete',
+                                          onPressed: (context) async {
+                                            try {
+                                              var querySnapshot = await FirebaseFirestore.instance.collection('Paid').where('Household ID', isEqualTo: householdId).get();
+                                              querySnapshot.docs.forEach((doc) async {
+                                                await FirebaseFirestore.instance.collection('Paid').doc(doc.id).delete();
+                                              });
+                                            } catch (e) {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(const SnackBar(
+                                                content: Text(
+                                                    'Failed to add document'),
+                                                backgroundColor: Color.fromRGBO(47, 47, 94, 1),
+                                                showCloseIcon: true,
+                                                duration: Duration(seconds: 2),
+                                              ));
+                                            }
+                                          })
+                                    ]),
+                                child:Container(
                                   decoration: BoxDecoration(
                                     color: const Color.fromRGBO(196, 214, 230, 1),
                                     border: Border.all(
@@ -203,12 +203,12 @@ class _FirebaseListViewState extends State<FirebaseListView> {
                                 ),
                               ),
                             ),
-                          ),
-                        );
-                      }
-                      ).toList(),
-                    );
-                  },
+                          );
+                        }
+                        ).toList(),
+                      );
+                    },
+                  ),
                 ),
               ),
             ],
